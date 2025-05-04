@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ProBoy | Portfolio</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: white;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+      font-size: 16px; /* Base font size */
+    }
+
+    /* Particle Background */
+    #particles-js {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+
+    /* Navigation Buttons - Fixed size */
+    .nav-buttons {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      display: flex;
+      gap: 0.8rem;
+      z-index: 100;
+    }
+
+    .nav-btn {
+      padding: 0.6rem 1.2rem;
+      border-radius: 2rem;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 0.9rem;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .signin-btn {
+      background: rgba(102, 126, 234, 0.3);
+      color: white;
+    }
+
+    .signup-btn {
+      background: rgba(255,255,255,0.1);
+      color: white;
+    }
+
+    /* Main Content - Using relative units */
+    .portfolio-container {
+      position: relative;
+      z-index: 1;
+      max-width: 75rem;
+      margin: 0 auto;
+      padding: 6rem 1.5rem 5rem;
+    }
+
+    .logo {
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      font-weight: 700;
+      background: linear-gradient(135deg, #667eea, #9f7aea);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    /* Profile Card - Fixed proportions */
+    .profile-card {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 1.5rem;
+      padding: 2.5rem;
+      width: 100%;
+      max-width: 50rem;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .profile-pic {
+      width: 9rem;
+      height: 9rem;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 0.25rem solid rgba(102, 126, 234, 0.5);
+      margin-bottom: 1.8rem;
+    }
+
+    .profile-card h1 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .profile-card p {
+      color: rgba(255,255,255,0.8);
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-bottom: 1.8rem;
+      max-width: 40rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Social Links - Fixed size */
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.2rem;
+      margin-top: 1.8rem;
+    }
+
+    .social-links a {
+      width: 2.8rem;
+      height: 2.8rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.1);
+      color: white;
+      font-size: 1.2rem;
+    }
+
+    /* Footer - Fixed proportions */
+    footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(15px);
+      padding: 1rem 0;
+      text-align: center;
+      z-index: 10;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .footer-link {
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      font-size: 0.85rem;
+    }
+
+    .copyright {
+      color: rgba(255,255,255,0.6);
+      font-size: 0.8rem;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .nav-buttons {
+        top: 1rem;
+        right: 1rem;
+      }
+      .profile-card {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Particle Background -->
+  <div id="particles-js"></div>
+
+  <!-- Navigation Buttons -->
+  <div class="nav-buttons">
+    <a href="signin.html" class="nav-btn signin-btn"><i class="fas fa-sign-in-alt"></i> Sign In</a>
+    <a href="signup.html" class="nav-btn signup-btn"><i class="fas fa-user-plus"></i> Sign Up</a>
+  </div>
+
+  <div class="portfolio-container">
+    <!-- Logo -->
+    <div class="logo">ProBoy</div>
+
+    <!-- Profile Card -->
+    <div class="profile-card">
+      <img src="profile.jpg" alt="ProBoy" class="profile-pic">
+      <h1>Shahan Ali</h1>
+      <p>Welcome to my digital space. I specialize in creating secure, high-performance web applications with cutting-edge technologies. With expertise in frontend development and cybersecurity, I build solutions that are both beautiful and bulletproof.</p>
+      
+      <div class="social-links">
+        <a href="#"><i class="fab fa-github"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-linkedin"></i></a>
+        <a href="#"><i class="fab fa-telegram"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-content">
+      <a href="#" class="footer-link">About</a>
+      <a href="#" class="footer-link">Services</a>
+      <a href="#" class="footer-link">Projects</a>
+      <a href="#" class="footer-link">Contact</a>
+    </div>
+    <div class="copyright">
+      мα∂є ву <b>ProBoy</b> &copy; <span id="currentYear"></span> | All rights reserved
+    </div>
+  </footer>
+
+  <!-- Particles.js for background -->
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  
+  <script>
+    // Initialize particle background
+    particlesJS("particles-js", {
+      "particles": {
+        "number": {
+          "value": 70,
+          "density": {
+            "enable": true,
+            "value_area": 800
+          }
+        },
+        "color": {
+          "value": ["#667eea", "#764ba2", "#6B46C1"]
+        },
+        "shape": {
+          "type": "circle"
+        },
+        "opacity": {
+          "value": 0.5,
+          "random": true
+        },
+        "size": {
+          "value": 3,
+          "random": true
+        },
+        "line_linked": {
+          "enable": true,
+          "distance": 150,
+          "color": "#667eea",
+          "opacity": 0.3,
+          "width": 1
+        },
+        "move": {
+          "enable": true,
+          "speed": 1.5,
+          "direction": "none",
+          "random": true,
+          "out_mode": "out"
+        }
+      },
+      "interactivity": {
+        "detect_on": "canvas",
+        "events": {
+          "onhover": {
+            "enable": true,
+            "mode": "grab"
+          },
+          "onclick": {
+            "enable": true,
+            "mode": "push"
+          }
+        }
+      },
+      "retina_detect": true
+    });
+
+    // Set current year in footer
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
