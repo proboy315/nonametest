@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ProBoy | Secure Sign In</title>
+  <title>ProBoy | Sign In</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600;700&display=swap');
@@ -159,7 +159,7 @@
       display: block;
     }
 
-    /* Loading Animation */
+    /* Faster Loading Animation */
     .loading {
       position: fixed;
       top: 0;
@@ -193,6 +193,20 @@
       to { transform: rotate(360deg); }
     }
 
+    .forgot-password {
+      display: block;
+      margin-top: 12px;
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      font-size: 13px;
+      transition: color 0.2s ease;
+    }
+
+    .forgot-password:hover {
+      color: #fff;
+      text-decoration: underline;
+    }
+
     /* Signup Link */
     .signup-link {
       margin-top: 20px;
@@ -209,6 +223,20 @@
     .signup-link a:hover {
       text-decoration: underline;
     }
+
+    /* Status indicators */
+    .status-indicator {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 8px;
+    }
+    
+    .online {
+      background-color: #2ed573;
+      box-shadow: 0 0 10px #2ed573;
+    }
   </style>
 </head>
 <body>
@@ -222,7 +250,7 @@
   </div>
 
   <div class="login-container">
-    <h2><i class="fas fa-lock"></i> Secure Sign In</h2>
+    <h2><i class="fas fa-lock"></i> Sign In</h2>
     <form id="loginForm">
       <div class="input-group">
         <i class="fas fa-user"></i>
@@ -235,11 +263,13 @@
       <button type="submit" class="btn">
         <i class="fas fa-sign-in-alt"></i> Sign In
       </button>
+      <a href="#" class="forgot-password">Forgot password?</a>
     </form>
     <div id="popup" class="popup"></div>
     
+    <!-- Added Signup Link -->
     <div class="signup-link">
-      Need encryption tools? <a href="encrypt_decrypt.html">Click Here</a>
+      Request Acount? Click <a href="Request.html">Here</a>
     </div>
   </div>
 
@@ -251,7 +281,7 @@
     particlesJS("particles-js", {
       "particles": {
         "number": {
-          "value": 60,
+          "value": 60,  // Reduced for better performance
           "density": {
             "enable": true,
             "value_area": 700
@@ -280,7 +310,7 @@
         },
         "move": {
           "enable": true,
-          "speed": 1.5,
+          "speed": 1.5,  // Slower movement
           "direction": "none",
           "random": true,
           "out_mode": "out"
@@ -306,25 +336,34 @@
     const popup = document.getElementById('popup');
     const loading = document.getElementById('loading');
 
-    // Same encryption function as in the tool
-    function encryptText(input) {
-      if (!input) return '';
-      
-      let result = '#';
-      const seed = 12345; // Must match the tool's seed
-      
-      for (let i = 0; i < input.length; i++) {
-        const charCode = input.charCodeAt(i);
-        const transformed = (charCode * (i + 1) + seed) % 36;
-        result += transformed.toString(36);
+    // Cache credentials after first fetch
+    let cachedCredentials = null;
+    let lastFetchTime = 0;
+    const CACHE_DURATION = 300000; // 5 minutes cache
+
+    // Path to your auth.txt file in GitHub repo
+    const authFileURL = 'https://raw.githubusercontent.com/proboy315/Source/refs/heads/main/Proboy%20vercel%20app/main/auth.txt';
+
+    // Prefetch credentials when page loads
+    window.addEventListener('load', () => {
+      fetchCredentials().then(creds => {
+        cachedCredentials = creds;
+        lastFetchTime = Date.now();
+      });
+    });
+
+    async function fetchCredentials() {
+      try {
+        const response = await fetch(authFileURL + '?t=' + Date.now()); // Cache busting
+        if (!response.ok) throw new Error('Network error');
+        const authText = await response.text();
+        return authText.split('\n')
+          .map(line => line.trim())
+          .filter(line => line && !line.startsWith('#') && line.includes(':'));
+      } catch (error) {
+        console.error('Failed to fetch credentials:', error);
+        return [];
       }
-      
-      // Add fixed suffix for consistent length
-      while (result.length < 8) {
-        result += Math.floor(Math.random() * 10);
-      }
-      
-      return result;
     }
 
     form.addEventListener('submit', async function(event) {
@@ -333,47 +372,65 @@
       const password = document.getElementById('password').value.trim();
 
       if (!username || !password) {
-        showMessage('Please enter both username and password', 'error');
+        showError('Please enter both username and password');
         return;
       }
 
       loading.style.display = 'flex';
       
       try {
-        // Encrypt the entered credentials
-        const encryptedUsername = encryptText(username);
-        const encryptedPassword = encryptText(password);
-        const credentialToCheck = `${encryptedUsername}:${encryptedPassword}`;
-
-        // Fetch auth.txt
-        const response = await fetch('auth.txt');
-        if (!response.ok) throw new Error('Network error');
-        const authText = await response.text();
+        // Use cached credentials if recent, otherwise fetch fresh
+        const now = Date.now();
+        let credentials = cachedCredentials;
         
-        // Check if any line matches the encrypted credentials
-        const isValid = authText.split('\n').some(line => 
-          line.trim() === credentialToCheck
-        );
+        if (!credentials || now - lastFetchTime > CACHE_DURATION) {
+          credentials = await fetchCredentials();
+          cachedCredentials = credentials;
+          lastFetchTime = now;
+        }
+
+        // Check credentials
+        const credentialToCheck = `${username}:${password}`;
+        const isValid = credentials.some(cred => cred === credentialToCheck);
 
         if (isValid) {
-          showMessage('Login successful! Redirecting...', 'success');
+          showSuccess('Login successful! Redirecting...');
           setTimeout(() => {
             window.location.href = 'home.html';
-          }, 1000);
+          }, 1000); // Faster redirect
         } else {
           throw new Error('Invalid credentials');
         }
       } catch (error) {
-        showMessage('Invalid username or password', 'error');
+        showError('Invalid username or password');
       } finally {
         loading.style.display = 'none';
       }
     });
 
-    function showMessage(text, type) {
-      popup.textContent = text;
-      popup.className = 'popup ' + type;
+    function showSuccess(message) {
+      popup.innerHTML = `<span class="status-indicator online"></span><i class="fas fa-check-circle"></i> ${message}`;
+      popup.className = 'popup success';
     }
+
+    function showError(message) {
+      popup.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${message}`;
+      popup.className = 'popup error';
+      form.style.animation = 'shake 0.4s';
+      setTimeout(() => form.style.animation = '', 400);
+    }
+
+    // Add shake animation
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-8px); }
+        50% { transform: translateX(8px); }
+        75% { transform: translateX(-5px); }
+      }
+    `;
+    document.head.appendChild(style);
   </script>
 </body>
 </html>
