@@ -159,7 +159,7 @@
       display: block;
     }
 
-    /* Faster Loading Animation */
+    /* Loading Animation */
     .loading {
       position: fixed;
       top: 0;
@@ -193,20 +193,6 @@
       to { transform: rotate(360deg); }
     }
 
-    .forgot-password {
-      display: block;
-      margin-top: 12px;
-      color: rgba(255,255,255,0.7);
-      text-decoration: none;
-      font-size: 13px;
-      transition: color 0.2s ease;
-    }
-
-    .forgot-password:hover {
-      color: #fff;
-      text-decoration: underline;
-    }
-
     /* Signup Link */
     .signup-link {
       margin-top: 20px;
@@ -222,20 +208,6 @@
 
     .signup-link a:hover {
       text-decoration: underline;
-    }
-
-    /* Status indicators */
-    .status-indicator {
-      display: inline-block;
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      margin-right: 8px;
-    }
-    
-    .online {
-      background-color: #2ed573;
-      box-shadow: 0 0 10px #2ed573;
     }
   </style>
 </head>
@@ -266,10 +238,6 @@
     </form>
     <div id="popup" class="popup"></div>
     
-    <!-- Added Signup Link -->
-    <div class="signup-link">
-      Request Account? Click <a href="Request.html">Here</a>
-    </div>
     <div class="signup-link">
       Need encryption tools? <a href="encrypt_decrypt.html">Click Here</a>
     </div>
@@ -338,56 +306,25 @@
     const popup = document.getElementById('popup');
     const loading = document.getElementById('loading');
 
-    // Cache credentials after first fetch
-    let cachedCredentials = null;
-    let lastFetchTime = 0;
-    const CACHE_DURATION = 300000; // 5 minutes cache
-
-    // Path to your auth.txt file
-    const authFileURL = 'auth.txt';
-
-    // Advanced Encryption Algorithm
-    function encryptText(text) {
-      if (!text) return '';
+    // Same encryption function as in the tool
+    function encryptText(input) {
+      if (!input) return '';
       
-      // Generate a random salt
-      const salt = Math.random().toString(36).substring(2, 6);
-      
-      // Create a simple hash with salt
       let result = '#';
-      for (let i = 0; i < text.length; i++) {
-        const charCode = text.charCodeAt(i);
-        // Simple transformation with salt influence
-        const transformed = (charCode + salt.charCodeAt(i % salt.length)) % 36;
+      const seed = 12345; // Must match the tool's seed
+      
+      for (let i = 0; i < input.length; i++) {
+        const charCode = input.charCodeAt(i);
+        const transformed = (charCode * (i + 1) + seed) % 36;
         result += transformed.toString(36);
       }
       
-      // Add salt to the end
-      result += salt;
+      // Add fixed suffix for consistent length
+      while (result.length < 8) {
+        result += Math.floor(Math.random() * 10);
+      }
       
       return result;
-    }
-
-    // Prefetch credentials when page loads
-    window.addEventListener('load', () => {
-      fetchCredentials().then(creds => {
-        cachedCredentials = creds;
-        lastFetchTime = Date.now();
-      });
-    });
-
-    async function fetchCredentials() {
-      try {
-        const response = await fetch(authFileURL + '?t=' + Date.now()); // Cache busting
-        if (!response.ok) throw new Error('Network error');
-        const authText = await response.text();
-        return authText.split('\n')
-          .map(line => line.trim())
-          .filter(line => line && line.includes(':'));
-      } catch (error) {
-        console.error('Failed to fetch credentials:', error);
-        return [];
-      }
     }
 
     form.addEventListener('submit', async function(event) {
@@ -396,36 +333,30 @@
       const password = document.getElementById('password').value.trim();
 
       if (!username || !password) {
-        showError('Please enter both username and password');
+        showMessage('Please enter both username and password', 'error');
         return;
       }
 
       loading.style.display = 'flex';
       
       try {
-        // Use cached credentials if recent, otherwise fetch fresh
-        const now = Date.now();
-        let credentials = cachedCredentials;
-        
-        if (!credentials || now - lastFetchTime > CACHE_DURATION) {
-          credentials = await fetchCredentials();
-          cachedCredentials = credentials;
-          lastFetchTime = now;
-        }
-
         // Encrypt the entered credentials
         const encryptedUsername = encryptText(username);
         const encryptedPassword = encryptText(password);
-        const encryptedCredential = `${encryptedUsername}:${encryptedPassword}`;
+        const credentialToCheck = `${encryptedUsername}:${encryptedPassword}`;
 
-        // Check credentials
-        const isValid = credentials.some(cred => {
-          // Remove any whitespace and compare
-          return cred.trim() === encryptedCredential;
-        });
+        // Fetch auth.txt
+        const response = await fetch('auth.txt');
+        if (!response.ok) throw new Error('Network error');
+        const authText = await response.text();
+        
+        // Check if any line matches the encrypted credentials
+        const isValid = authText.split('\n').some(line => 
+          line.trim() === credentialToCheck
+        );
 
         if (isValid) {
-          showSuccess('Login successful! Redirecting...');
+          showMessage('Login successful! Redirecting...', 'success');
           setTimeout(() => {
             window.location.href = 'home.html';
           }, 1000);
@@ -433,35 +364,16 @@
           throw new Error('Invalid credentials');
         }
       } catch (error) {
-        showError('Invalid username or password');
+        showMessage('Invalid username or password', 'error');
       } finally {
         loading.style.display = 'none';
       }
     });
 
-    function showSuccess(message) {
-      popup.innerHTML = `<span class="status-indicator online"></span><i class="fas fa-check-circle"></i> ${message}`;
-      popup.className = 'popup success';
+    function showMessage(text, type) {
+      popup.textContent = text;
+      popup.className = 'popup ' + type;
     }
-
-    function showError(message) {
-      popup.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${message}`;
-      popup.className = 'popup error';
-      form.style.animation = 'shake 0.4s';
-      setTimeout(() => form.style.animation = '', 400);
-    }
-
-    // Add shake animation
-    const style = document.createElement('style');
-    style.textContent = `
-      @keyframes shake {
-        0%, 100% { transform: translateX(0); }
-        25% { transform: translateX(-8px); }
-        50% { transform: translateX(8px); }
-        75% { transform: translateX(-5px); }
-      }
-    `;
-    document.head.appendChild(style);
   </script>
 </body>
 </html>
