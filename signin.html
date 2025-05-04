@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ProBoy | Sign In</title>
+  <title>ProBoy | Secure Sign In</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600;700&display=swap');
@@ -250,7 +250,7 @@
   </div>
 
   <div class="login-container">
-    <h2><i class="fas fa-lock"></i> Sign In</h2>
+    <h2><i class="fas fa-lock"></i> Secure Sign In</h2>
     <form id="loginForm">
       <div class="input-group">
         <i class="fas fa-user"></i>
@@ -268,7 +268,10 @@
     
     <!-- Added Signup Link -->
     <div class="signup-link">
-      Request Acount? Click <a href="Request.html">Here</a>
+      Request Account? Click <a href="Request.html">Here</a>
+    </div>
+    <div class="signup-link">
+      Need encryption tools? <a href="encrypt_decrypt.html">Click Here</a>
     </div>
   </div>
 
@@ -280,7 +283,7 @@
     particlesJS("particles-js", {
       "particles": {
         "number": {
-          "value": 60,  // Reduced for better performance
+          "value": 60,
           "density": {
             "enable": true,
             "value_area": 700
@@ -309,7 +312,7 @@
         },
         "move": {
           "enable": true,
-          "speed": 1.5,  // Slower movement
+          "speed": 1.5,
           "direction": "none",
           "random": true,
           "out_mode": "out"
@@ -340,8 +343,30 @@
     let lastFetchTime = 0;
     const CACHE_DURATION = 300000; // 5 minutes cache
 
-    // Path to your auth.txt file in GitHub repo
-    const authFileURL = 'https://raw.githubusercontent.com/proboy315/Source/refs/heads/main/Proboy%20vercel%20app/main/auth.txt';
+    // Path to your auth.txt file
+    const authFileURL = 'auth.txt';
+
+    // Advanced Encryption Algorithm
+    function encryptText(text) {
+      if (!text) return '';
+      
+      // Generate a random salt
+      const salt = Math.random().toString(36).substring(2, 6);
+      
+      // Create a simple hash with salt
+      let result = '#';
+      for (let i = 0; i < text.length; i++) {
+        const charCode = text.charCodeAt(i);
+        // Simple transformation with salt influence
+        const transformed = (charCode + salt.charCodeAt(i % salt.length)) % 36;
+        result += transformed.toString(36);
+      }
+      
+      // Add salt to the end
+      result += salt;
+      
+      return result;
+    }
 
     // Prefetch credentials when page loads
     window.addEventListener('load', () => {
@@ -358,7 +383,7 @@
         const authText = await response.text();
         return authText.split('\n')
           .map(line => line.trim())
-          .filter(line => line && !line.startsWith('#') && line.includes(':'));
+          .filter(line => line && line.includes(':'));
       } catch (error) {
         console.error('Failed to fetch credentials:', error);
         return [];
@@ -388,15 +413,22 @@
           lastFetchTime = now;
         }
 
+        // Encrypt the entered credentials
+        const encryptedUsername = encryptText(username);
+        const encryptedPassword = encryptText(password);
+        const encryptedCredential = `${encryptedUsername}:${encryptedPassword}`;
+
         // Check credentials
-        const credentialToCheck = `${username}:${password}`;
-        const isValid = credentials.some(cred => cred === credentialToCheck);
+        const isValid = credentials.some(cred => {
+          // Remove any whitespace and compare
+          return cred.trim() === encryptedCredential;
+        });
 
         if (isValid) {
           showSuccess('Login successful! Redirecting...');
           setTimeout(() => {
             window.location.href = 'home.html';
-          }, 1000); // Faster redirect
+          }, 1000);
         } else {
           throw new Error('Invalid credentials');
         }
