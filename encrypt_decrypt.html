@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Secure Encryption/Decryption Tool</title>
+  <title>ProBoy | Encryption Tool</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600;700&display=swap');
-    
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
       font-family: 'Poppins', sans-serif;
     }
-    
+
     body {
       height: 100vh;
       width: 100%;
@@ -25,7 +25,7 @@
       overflow: hidden;
       position: relative;
     }
-    
+
     #particles-js {
       position: absolute;
       width: 100%;
@@ -35,7 +35,7 @@
       z-index: 0;
       background: transparent;
     }
-    
+
     .container {
       position: relative;
       z-index: 1;
@@ -44,13 +44,13 @@
       -webkit-backdrop-filter: blur(25px);
       border: 1px solid rgba(255, 255, 255, 0.15);
       border-radius: 25px;
-      padding: 30px;
+      padding: 40px 30px;
       width: 90%;
       max-width: 600px;
       text-align: center;
       box-shadow: 0 15px 50px rgba(0,0,0,0.3);
     }
-    
+
     h1 {
       color: #fff;
       margin-bottom: 25px;
@@ -58,13 +58,14 @@
       font-weight: 700;
       text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
     }
-    
+
     .tabs {
       display: flex;
+      justify-content: center;
       margin-bottom: 20px;
       border-bottom: 1px solid rgba(255,255,255,0.2);
     }
-    
+
     .tab {
       padding: 10px 20px;
       cursor: pointer;
@@ -72,40 +73,66 @@
       font-weight: 600;
       transition: all 0.3s ease;
     }
-    
+
     .tab.active {
       color: #667eea;
       border-bottom: 2px solid #667eea;
     }
-    
+
     .tab-content {
       display: none;
     }
-    
+
     .tab-content.active {
       display: block;
     }
-    
-    textarea, input {
+
+    .input-group {
+      position: relative;
+      margin-bottom: 15px;
+    }
+
+    .input-group i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255,255,255,0.7);
+      font-size: 16px;
+    }
+
+    input, textarea {
       width: 100%;
-      padding: 12px 15px;
-      margin: 10px 0;
+      padding: 12px 12px 12px 40px;
+      margin: 5px 0;
       border: none;
       border-radius: 10px;
       background: rgba(255,255,255,0.12);
       color: #fff;
       font-size: 15px;
       outline: none;
-      resize: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     }
-    
-    textarea::placeholder, input::placeholder {
+
+    textarea {
+      min-height: 100px;
+      padding-left: 15px;
+    }
+
+    input::placeholder, textarea::placeholder {
       color: rgba(255,255,255,0.6);
     }
-    
+
+    input:focus, textarea:focus {
+      background: rgba(255,255,255,0.2);
+      box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
+    }
+
     .btn {
-      padding: 12px 25px;
-      margin: 10px 5px;
+      width: 100%;
+      padding: 14px;
+      margin-top: 15px;
       border: none;
       border-radius: 10px;
       background: linear-gradient(135deg, #667eea, #764ba2);
@@ -116,18 +143,18 @@
       transition: all 0.3s ease;
       box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
     }
-    
+
     .btn:hover {
       transform: translateY(-2px);
       background: linear-gradient(135deg, #764ba2, #667eea);
       box-shadow: 0 12px 30px rgba(118, 75, 162, 0.5);
     }
-    
+
     .result-container {
       margin-top: 20px;
       position: relative;
     }
-    
+
     .copy-btn {
       position: absolute;
       right: 10px;
@@ -140,11 +167,11 @@
       cursor: pointer;
       transition: all 0.2s ease;
     }
-    
+
     .copy-btn:hover {
       background: rgba(255,255,255,0.2);
     }
-    
+
     .back-btn {
       display: block;
       margin-top: 20px;
@@ -152,9 +179,25 @@
       text-decoration: none;
       font-weight: 600;
     }
-    
+
     .back-btn:hover {
       text-decoration: underline;
+    }
+
+    .instructions {
+      margin-top: 20px;
+      color: rgba(255,255,255,0.7);
+      text-align: left;
+      font-size: 14px;
+    }
+
+    .instructions ol {
+      padding-left: 20px;
+      margin-top: 10px;
+    }
+
+    .instructions li {
+      margin-bottom: 8px;
     }
   </style>
 </head>
@@ -162,7 +205,7 @@
   <div id="particles-js"></div>
   
   <div class="container">
-    <h1><i class="fas fa-key"></i> Secure Encryption Tool</h1>
+    <h1><i class="fas fa-key"></i> ProBoy Encryption Tool</h1>
     
     <div class="tabs">
       <div class="tab active" onclick="switchTab('encrypt')">Encrypt</div>
@@ -170,25 +213,48 @@
     </div>
     
     <div id="encrypt-tab" class="tab-content active">
-      <h2>Encrypt Text</h2>
-      <textarea id="encrypt-input" placeholder="Enter text to encrypt..." rows="4"></textarea>
-      <button class="btn" onclick="encryptText()"><i class="fas fa-lock"></i> Encrypt</button>
+      <div class="input-group">
+        <i class="fas fa-lock"></i>
+        <input type="text" id="encrypt-input" placeholder="Enter text to encrypt">
+      </div>
+      <button class="btn" onclick="encryptText()">
+        <i class="fas fa-lock"></i> Encrypt
+      </button>
       
       <div class="result-container">
-        <textarea id="encrypt-output" placeholder="Encrypted result will appear here..." rows="4" readonly></textarea>
-        <button class="copy-btn" onclick="copyResult('encrypt-output')"><i class="fas fa-copy"></i> Copy</button>
+        <textarea id="encrypt-output" placeholder="Encrypted result will appear here" readonly></textarea>
+        <button class="copy-btn" onclick="copyResult('encrypt-output')">
+          <i class="fas fa-copy"></i> Copy
+        </button>
       </div>
     </div>
     
     <div id="decrypt-tab" class="tab-content">
-      <h2>Decrypt Text</h2>
-      <textarea id="decrypt-input" placeholder="Enter encrypted text to decrypt..." rows="4"></textarea>
-      <button class="btn" onclick="decryptText()"><i class="fas fa-unlock"></i> Decrypt</button>
+      <div class="input-group">
+        <i class="fas fa-unlock"></i>
+        <input type="text" id="decrypt-input" placeholder="Enter encrypted text to decrypt">
+      </div>
+      <button class="btn" onclick="decryptText()">
+        <i class="fas fa-unlock"></i> Decrypt
+      </button>
       
       <div class="result-container">
-        <textarea id="decrypt-output" placeholder="Decrypted result will appear here..." rows="4" readonly></textarea>
-        <button class="copy-btn" onclick="copyResult('decrypt-output')"><i class="fas fa-copy"></i> Copy</button>
+        <textarea id="decrypt-output" placeholder="Decrypted result will appear here" readonly></textarea>
+        <button class="copy-btn" onclick="copyResult('decrypt-output')">
+          <i class="fas fa-copy"></i> Copy
+        </button>
       </div>
+    </div>
+    
+    <div class="instructions">
+      <h3>How to use:</h3>
+      <ol>
+        <li>Enter username in encrypt tab and click Encrypt</li>
+        <li>Copy the result (format: #randomchars)</li>
+        <li>Repeat for password</li>
+        <li>In auth.txt, add line: #encrypted_username:#encrypted_password</li>
+        <li>Example: #n74l1m:#7nvbb7</li>
+      </ol>
     </div>
     
     <a href="signin.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Login</a>
@@ -252,20 +318,13 @@
     });
     
     function switchTab(tabName) {
-      // Hide all tabs
       document.querySelectorAll('.tab-content').forEach(tab => {
         tab.classList.remove('active');
       });
-      
-      // Deactivate all tab buttons
       document.querySelectorAll('.tab').forEach(tab => {
         tab.classList.remove('active');
       });
-      
-      // Show selected tab
       document.getElementById(tabName + '-tab').classList.add('active');
-      
-      // Activate selected tab button
       event.currentTarget.classList.add('active');
     }
     
@@ -276,20 +335,21 @@
         return;
       }
       
-      // Generate a random salt
-      const salt = Math.random().toString(36).substring(2, 6);
-      
-      // Create a simple hash with salt
+      // Fixed encryption algorithm
       let result = '#';
+      const seed = 12345; // Fixed seed for consistent output
+      
       for (let i = 0; i < input.length; i++) {
         const charCode = input.charCodeAt(i);
-        // Simple transformation with salt influence
-        const transformed = (charCode + salt.charCodeAt(i % salt.length)) % 36;
+        // Simple deterministic transformation
+        const transformed = (charCode * (i + 1) + seed) % 36;
         result += transformed.toString(36);
       }
       
-      // Add salt to the end
-      result += salt;
+      // Add fixed suffix for consistent length
+      while (result.length < 8) {
+        result += Math.floor(Math.random() * 10);
+      }
       
       document.getElementById('encrypt-output').value = result;
     }
@@ -297,22 +357,21 @@
     function decryptText() {
       const input = document.getElementById('decrypt-input').value.trim();
       if (!input || !input.startsWith('#')) {
-        alert('Please enter a valid encrypted text starting with #');
+        alert('Please enter valid encrypted text starting with #');
         return;
       }
       
       try {
-        // Extract salt (last 4 characters)
-        const salt = input.substring(input.length - 4);
+        // Remove # and fixed suffix
         const encryptedPart = input.substring(1, input.length - 4);
+        const seed = 12345;
         
         let result = '';
         for (let i = 0; i < encryptedPart.length; i++) {
           const char = encryptedPart[i];
-          // Convert back from base36
           const code = parseInt(char, 36);
           // Reverse the transformation
-          const originalCode = (code - salt.charCodeAt(i % salt.length) + 36) % 36;
+          const originalCode = (code - seed) / (i + 1);
           result += String.fromCharCode(originalCode);
         }
         
@@ -327,7 +386,6 @@
       output.select();
       document.execCommand('copy');
       
-      // Show temporary feedback
       const copyBtn = output.nextElementSibling;
       const originalText = copyBtn.innerHTML;
       copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
