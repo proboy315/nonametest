@@ -21,7 +21,7 @@
       min-height: 100vh;
       position: relative;
       overflow-x: hidden;
-      font-size: 16px; /* Base font size */
+      font-size: 16px;
     }
 
     /* Particle Background */
@@ -34,7 +34,7 @@
       z-index: 0;
     }
 
-    /* Navigation Buttons - Fixed size */
+    /* Navigation Buttons */
     .nav-buttons {
       position: fixed;
       top: 1.5rem;
@@ -52,6 +52,7 @@
       font-size: 0.9rem;
       backdrop-filter: blur(10px);
       border: 1px solid rgba(255,255,255,0.2);
+      transition: all 0.3s ease;
     }
 
     .signin-btn {
@@ -64,13 +65,21 @@
       color: white;
     }
 
-    /* Main Content - Using relative units */
+    .nav-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    /* Main Content */
     .portfolio-container {
       position: relative;
       z-index: 1;
-      max-width: 75rem;
+      max-width: 1200px;
       margin: 0 auto;
       padding: 6rem 1.5rem 5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     .logo {
@@ -84,64 +93,170 @@
       margin-bottom: 2.5rem;
     }
 
-    /* Profile Card - Fixed proportions */
+    /* Enhanced Profile Card */
     .profile-card {
       background: rgba(255, 255, 255, 0.08);
       backdrop-filter: blur(15px);
       border: 1px solid rgba(255, 255, 255, 0.15);
       border-radius: 1.5rem;
-      padding: 2.5rem;
       width: 100%;
-      max-width: 50rem;
+      max-width: 900px;
       margin: 0 auto;
+      display: flex;
+      overflow: hidden;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    }
+
+    .profile-img {
+      flex: 1;
+      min-height: 400px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .profile-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .profile-img:hover img {
+      transform: scale(1.05);
+    }
+
+    .info {
+      flex: 2;
+      padding: 2.5rem;
+      position: relative;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .logo-img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(102, 126, 234, 0.5);
+    }
+
+    .title {
+      color: #667eea;
+      font-size: 24px;
+      font-weight: bold;
+      line-height: 1.2;
+    }
+
+    .tagline {
+      font-size: 14px;
+      color: rgba(255,255,255,0.8);
+      margin-top: 5px;
+    }
+
+    .name {
+      font-size: 32px;
+      font-weight: bold;
+      margin: 15px 0 5px;
+      color: white;
+    }
+
+    .role {
+      font-size: 18px;
+      color: rgba(255,255,255,0.8);
+      margin-bottom: 25px;
+    }
+
+    .contact {
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    .contact i {
+      margin-right: 10px;
+      color: #667eea;
+      width: 20px;
       text-align: center;
     }
 
-    .profile-pic {
-      width: 9rem;
-      height: 9rem;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 0.25rem solid rgba(102, 126, 234, 0.5);
-      margin-bottom: 1.8rem;
-    }
-
-    .profile-card h1 {
-      font-size: 1.8rem;
-      margin-bottom: 1rem;
-    }
-
-    .profile-card p {
-      color: rgba(255,255,255,0.8);
-      font-size: 1rem;
-      line-height: 1.6;
-      margin-bottom: 1.8rem;
-      max-width: 40rem;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    /* Social Links - Fixed size */
-    .social-links {
-      display: flex;
-      justify-content: center;
-      gap: 1.2rem;
-      margin-top: 1.8rem;
-    }
-
-    .social-links a {
-      width: 2.8rem;
-      height: 2.8rem;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(255,255,255,0.1);
+    .contact a {
       color: white;
-      font-size: 1.2rem;
+      text-decoration: none;
+      transition: all 0.3s ease;
     }
 
-    /* Footer - Fixed proportions */
+    .contact a:hover {
+      color: #9f7aea;
+      text-decoration: underline;
+    }
+
+    .socials {
+      margin-top: 20px;
+      display: flex;
+      gap: 15px;
+    }
+
+    .socials a {
+      display: inline-flex;
+      align-items: center;
+      color: white;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .socials a:hover {
+      color: #9f7aea;
+    }
+
+    .socials i {
+      margin-right: 8px;
+      color: #667eea;
+    }
+
+    .signature-img {
+      position: absolute;
+      right: 20px;
+      bottom: 20px;
+      width: 120px;
+      height: auto;
+      transform: rotate(-20deg);
+      opacity: 0.9;
+      transition: all 0.3s ease;
+    }
+
+    .signature-img:hover {
+      transform: rotate(-20deg) scale(1.1);
+      opacity: 1;
+    }
+
+    /* Know More Button */
+    .know-more-btn {
+      display: inline-block;
+      margin-top: 25px;
+      padding: 10px 25px;
+      background: transparent;
+      border: 2px solid #667eea;
+      border-radius: 50px;
+      color: #667eea;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+
+    .know-more-btn:hover {
+      background: #667eea;
+      color: white;
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+    }
+
+    /* Footer */
     footer {
       position: fixed;
       bottom: 0;
@@ -158,12 +273,19 @@
       justify-content: center;
       gap: 1.5rem;
       margin-bottom: 0.8rem;
+      flex-wrap: wrap;
     }
 
     .footer-link {
       color: rgba(255,255,255,0.8);
       text-decoration: none;
       font-size: 0.85rem;
+      transition: all 0.3s ease;
+    }
+
+    .footer-link:hover {
+      color: #9f7aea;
+      text-decoration: underline;
     }
 
     .copyright {
@@ -177,8 +299,45 @@
         top: 1rem;
         right: 1rem;
       }
+      
       .profile-card {
+        flex-direction: column;
+      }
+      
+      .profile-img {
+        min-height: 300px;
+      }
+      
+      .info {
         padding: 1.5rem;
+      }
+      
+      .signature-img {
+        width: 80px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .logo-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      
+      .name {
+        font-size: 28px;
+      }
+      
+      .role {
+        font-size: 16px;
+      }
+      
+      .contact {
+        font-size: 14px;
+      }
+
+      .footer-content {
+        gap: 1rem;
       }
     }
   </style>
@@ -197,28 +356,49 @@
     <!-- Logo -->
     <div class="logo">ProBoy</div>
 
-    <!-- Profile Card -->
+    <!-- Enhanced Profile Card -->
     <div class="profile-card">
-      <img src="profile.jpg" alt="ProBoy" class="profile-pic">
-      <h1>Shahan Ali</h1>
-      <p>Welcome to my digital space. I specialize in creating secure, high-performance web applications with cutting-edge technologies. With expertise in frontend development and cybersecurity, I build solutions that are both beautiful and bulletproof.</p>
-      
-      <div class="social-links">
-        <a href="#"><i class="fab fa-github"></i></a>
-        <a href="#"><i class="fab fa-twitter"></i></a>
-        <a href="#"><i class="fab fa-instagram"></i></a>
-        <a href="#"><i class="fab fa-linkedin"></i></a>
-        <a href="#"><i class="fab fa-telegram"></i></a>
+      <div class="profile-img">
+        <img src="https://i.pinimg.com/736x/a2/9b/ec/a29becd95825d45156711291447e6000.jpg" alt="Profile Image">
+      </div>
+      <div class="info">
+        <div class="logo-container">
+          <img src="https://i.pinimg.com/736x/95/b7/0f/95b70f88fc50c57f9155eec82be68049.jpg" alt="Logo" class="logo-img">
+          <div>
+            <div class="title">ProBoy</div>
+            <div class="tagline">The Tech Enthusiast</div>
+          </div>
+        </div>
+        
+        <div class="name">Shahan Ali</div>
+        <div class="role">Tech Expert</div>
+        
+        <div class="contact">
+          <p><i class="fab fa-whatsapp"></i> <a href="https://wa.me/92326684315">+92 326 684315</a></p>
+          <p><i class="fas fa-envelope"></i> <a href="mailto:luciferkiller315@gmail.com">luciferkiller315@gmail.com</a></p>
+          <p><i class="fas fa-map-marker-alt"></i> <a href="#">Burewala, Vehari, Punjab, Pakistan</a></p>
+          <p><i class="fas fa-link"></i> <a href="https://proboy.vercel.app">proboy.vercel.app</a></p>
+        </div>
+        
+        <div class="socials">
+          <a href="https://www.tiktok.com/@itx_proboy"><i class="fab fa-tiktok"></i> @itx_proboy</a>
+          <a href="https://www.instagram.com/itx__proboy"><i class="fab fa-instagram"></i> @itx__proboy</a>
+        </div>
+        
+        <!-- Know More Button -->
+        <a href="about.html" class="know-more-btn">Know More About Me</a>
+        
+        <img class="signature-img" src="sign.svg" alt="Signature">
       </div>
     </div>
   </div>
 
   <footer>
     <div class="footer-content">
-      <a href="#" class="footer-link">About</a>
-      <a href="#" class="footer-link">Services</a>
-      <a href="#" class="footer-link">Projects</a>
-      <a href="#" class="footer-link">Contact</a>
+      <a href="about.html" class="footer-link">About</a>
+      <a href="photogallery.html" class="footer-link">Photo Gallery</a>
+      <a href="projects.html" class="footer-link">Projects</a>
+      <a href="contact.html" class="footer-link">Contact Us</a>
     </div>
     <div class="copyright">
       мα∂є ву <b>ProBoy</b> &copy; <span id="currentYear"></span> | All rights reserved
