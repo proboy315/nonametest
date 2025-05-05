@@ -248,6 +248,41 @@
       text-decoration: none;
       font-weight: 600;
     }
+    /* Navigation Buttons */
+    .nav-buttons {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      display: flex;
+      gap: 0.8rem;
+      z-index: 100;
+    }
+
+    .nav-btn {
+      padding: 0.6rem 1.2rem;
+      border-radius: 2rem;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 0.9rem;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+      transition: all 0.3s ease;
+    }
+
+    .signin-btn {
+      background: rgba(102, 126, 234, 0.3);
+      color: white;
+    }
+
+    .signup-btn {
+      background: rgba(255,255,255,0.1);
+      color: white;
+    }
+
+    .nav-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    } 
   </style>
 </head>
 <body>
@@ -259,6 +294,11 @@
       <h2><i class="fas fa-sim-card"></i> SIM Database</h2>
       <p>Search for SIM card information by phone number</p>
     </div>
+
+    <!-- Navigation Buttons -->
+  <div class="nav-buttons">
+      <a href="javascript:history.back()" class="nav-btn signup-btn"><i class="fas fa-arrow-left"></i> Back</a>
+</div>
 
     <form id="simForm" class="sim-form">
       <div class="input-group">
