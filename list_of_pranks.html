@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ProBoy | Premium Content</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Particle Background */
+    #particles-js {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+
+    /* Main Container */
+    .content-container {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 40px;
+      max-width: 500px;
+      width: 90%;
+    }
+
+    .warning-message {
+      background: rgba(255, 71, 87, 0.2);
+      border: 1px solid rgba(255, 71, 87, 0.3);
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 30px;
+      animation: fadeIn 1s ease;
+    }
+
+    .warning-message i {
+      color: #ff4757;
+      font-size: 2rem;
+      margin-bottom: 15px;
+    }
+
+    .warning-message h3 {
+      color: #ff4757;
+      margin-bottom: 10px;
+    }
+
+    .warning-message p {
+      color: rgba(255,255,255,0.7);
+      font-size: 0.9rem;
+    }
+
+    /* Premium Button */
+    .premium-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 15px 30px;
+      background: linear-gradient(135deg, #ff416c, #ff4b2b);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      cursor: pointer;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 25px rgba(255, 65, 108, 0.4);
+      z-index: 1;
+      margin-top: 20px;
+    }
+
+    .premium-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 35px rgba(255, 75, 43, 0.5);
+    }
+
+    .premium-button:active {
+      transform: translateY(0);
+    }
+
+    .premium-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: 0.5s;
+      z-index: -1;
+    }
+
+    .premium-button:hover::before {
+      left: 100%;
+    }
+
+    /* Footer */
+    footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+      padding: 15px 0;
+      text-align: center;
+      font-size: 14px;
+      z-index: 10;
+    }
+
+    footer a {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+  </style>
+</head>
+<body>
+  <!-- Particle Background -->
+  <div id="particles-js"></div>
+
+  <div class="content-container">
+    <div class="warning-message">
+      <i class="fas fa-exclamation-triangle"></i>
+      <h3>ADULT CONTENT WARNING</h3>
+      <p>This link contains explicit material intended for mature audiences only. You must be 18+ to proceed.</p>
+    </div>
+
+    <a href="https://proboy.vercel.app/surprise.html" class="premium-button pulse" target="_blank">
+      <i class="fas fa-lock-open"></i>
+      <span>ENTER ADULT CONTENT</span>
+    </a>
+  </div>
+
+  <footer>
+    мα∂є ву <a href="https://proboy.vercel.app" target="_blank"><b>ProBoy</b></a> &copy; <span id="currentYear"></span>
+  </footer>
+
+  <!-- Particles.js for background -->
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  
+  <script>
+    // Initialize particle background
+    particlesJS("particles-js", {
+      "particles": {
+        "number": {
+          "value": 60,
+          "density": {
+            "enable": true,
+            "value_area": 800
+          }
+        },
+        "color": {
+          "value": ["#ff416c", "#ff4b2b", "#6B46C1"]
+        },
+        "shape": {
+          "type": "circle"
+        },
+        "opacity": {
+          "value": 0.5,
+          "random": true
+        },
+        "size": {
+          "value": 3,
+          "random": true
+        },
+        "line_linked": {
+          "enable": true,
+          "distance": 150,
+          "color": "#ff416c",
+          "opacity": 0.3,
+          "width": 1
+        },
+        "move": {
+          "enable": true,
+          "speed": 1.5,
+          "direction": "none",
+          "random": true,
+          "out_mode": "out"
+        }
+      },
+      "interactivity": {
+        "detect_on": "canvas",
+        "events": {
+          "onhover": {
+            "enable": true,
+            "mode": "grab"
+          },
+          "onclick": {
+            "enable": true,
+            "mode": "push"
+          }
+        }
+      },
+      "retina_detect": true
+    });
+
+    // Set current year in footer
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+    // Age verification could be added here
+    function confirmAge() {
+      return confirm("Are you 18 years or older? This content is for adults only.");
+    }
+  </script>
+</body>
+</html>
