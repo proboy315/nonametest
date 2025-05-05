@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ProBoy | Premium Content</title>
+  <title>ProBoy | Prank Tools Collection</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600;700&display=swap');
@@ -19,11 +19,8 @@
       background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
       color: white;
       min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       position: relative;
-      overflow: hidden;
+      overflow-x: hidden;
     }
 
     /* Particle Background */
@@ -36,100 +33,185 @@
       z-index: 0;
     }
 
-    /* Main Container */
-    .content-container {
+    /* Header */
+    header {
+      text-align: center;
+      padding: 30px 0;
       position: relative;
       z-index: 1;
-      text-align: center;
-      padding: 40px;
-      max-width: 500px;
-      width: 90%;
     }
 
-    .warning-message {
-      background: rgba(255, 71, 87, 0.2);
-      border: 1px solid rgba(255, 71, 87, 0.3);
-      border-radius: 15px;
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      background: linear-gradient(to right, #ff416c, #ff4b2b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    header p {
+      color: rgba(255,255,255,0.7);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Prank Tools Container */
+    .prank-container {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+      margin: 0 auto;
       padding: 20px;
-      margin-bottom: 30px;
-      animation: fadeIn 1s ease;
+      display: flex;
+      justify-content: center;
     }
 
-    .warning-message i {
-      color: #ff4757;
-      font-size: 2rem;
+    .prank-tool {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 25px;
+      text-align: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255,255,255,0.1);
+      max-width: 400px;
+      width: 100%;
+    }
+
+    .prank-tool:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    .prank-tool i {
+      font-size: 2.5rem;
       margin-bottom: 15px;
+      background: linear-gradient(135deg, #ff416c, #ff4b2b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
-    .warning-message h3 {
-      color: #ff4757;
+    .prank-tool h3 {
       margin-bottom: 10px;
     }
 
-    .warning-message p {
+    .prank-tool p {
       color: rgba(255,255,255,0.7);
       font-size: 0.9rem;
+      margin-bottom: 15px;
     }
 
-    /* Premium Button */
-    .premium-button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 15px 30px;
+    .prank-btn {
+      display: inline-block;
+      padding: 10px 20px;
       background: linear-gradient(135deg, #ff416c, #ff4b2b);
       color: white;
       border: none;
-      border-radius: 12px;
-      font-weight: 700;
-      font-size: 1.1rem;
-      cursor: pointer;
+      border-radius: 8px;
+      font-weight: 600;
       text-decoration: none;
-      position: relative;
-      overflow: hidden;
       transition: all 0.3s ease;
-      box-shadow: 0 10px 25px rgba(255, 65, 108, 0.4);
-      z-index: 1;
-      margin-top: 20px;
+      cursor: pointer;
     }
 
-    .premium-button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 15px 35px rgba(255, 75, 43, 0.5);
+    .prank-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(255, 65, 108, 0.4);
     }
 
-    .premium-button:active {
-      transform: translateY(0);
-    }
-
-    .premium-button::before {
-      content: '';
-      position: absolute;
+    /* Popup Modal */
+    .modal {
+      display: none;
+      position: fixed;
       top: 0;
-      left: -100%;
+      left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-      transition: 0.5s;
-      z-index: -1;
+      background: rgba(0,0,0,0.8);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
     }
 
-    .premium-button:hover::before {
-      left: 100%;
+    .modal-content {
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      padding: 30px;
+      border-radius: 15px;
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      border: 1px solid rgba(255,255,255,0.1);
+      animation: fadeIn 0.3s ease;
+    }
+
+    .modal-content i {
+      font-size: 3rem;
+      color: #ff416c;
+      margin-bottom: 15px;
+    }
+
+    .modal-content h3 {
+      margin-bottom: 15px;
+      font-size: 1.5rem;
+    }
+
+    .modal-content p {
+      margin-bottom: 20px;
+      color: rgba(255,255,255,0.8);
+    }
+
+    .link-box {
+      background: rgba(0,0,0,0.3);
+      padding: 15px;
+      border-radius: 10px;
+      margin: 20px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .link-box a {
+      color: #667eea;
+      word-break: break-all;
+      text-align: left;
+      flex-grow: 1;
+    }
+
+    .copy-btn {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 8px;
+      margin-left: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .copy-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
+
+    .success-message {
+      color: #2ecc71;
+      font-weight: 600;
+      margin-top: 10px;
+      display: none;
     }
 
     /* Footer */
     footer {
-      position: fixed;
-      bottom: 0;
+      position: relative;
+      z-index: 1;
       width: 100%;
       background: rgba(0, 0, 0, 0.3);
       backdrop-filter: blur(10px);
       padding: 15px 0;
       text-align: center;
       font-size: 14px;
-      z-index: 10;
+      margin-top: 50px;
     }
 
     footer a {
@@ -144,14 +226,8 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
-    }
-
-    .pulse {
-      animation: pulse 2s infinite;
+    .fade-in {
+      animation: fadeIn 1s ease;
     }
   </style>
 </head>
@@ -159,17 +235,36 @@
   <!-- Particle Background -->
   <div id="particles-js"></div>
 
-  <div class="content-container">
-    <div class="warning-message">
-      <i class="fas fa-exclamation-triangle"></i>
-      <h3>ADULT CONTENT WARNING</h3>
-      <p>This link contains explicit material intended for mature audiences only. You must be 18+ to proceed.</p>
-    </div>
+  <header class="fade-in">
+    <h1>ProBoy Prank Tools</h1>
+    <p>Collection of hilarious pranks to trick your friends. Use responsibly!</p>
+  </header>
 
-    <a href="https://proboy.vercel.app/surprise.html" class="premium-button pulse" target="_blank">
-      <i class="fas fa-lock-open"></i>
-      <span>ENTER ADULT CONTENT</span>
-    </a>
+  <div class="prank-container">
+    <!-- Porn Sound Link Tool -->
+    <div class="prank-tool fade-in">
+      <i class="fas fa-volume-up"></i>
+      <h3>Porn Sound Link</h3>
+      <p>Send this link to your friends and surprise them with unexpected sounds when they open it!</p>
+      <button class="prank-btn" id="getLinkBtn">Get Link</button>
+    </div>
+  </div>
+
+  <!-- Popup Modal -->
+  <div class="modal" id="linkModal">
+    <div class="modal-content">
+      <i class="fas fa-magic"></i>
+      <h3>Copy & Send</h3>
+      <p>Check the magic when your friend opens this link!</p>
+      
+      <div class="link-box">
+        <a href="https://proboy.vercel.app/surprise.html" id="prankLink">https://proboy.vercel.app/surprise.html</a>
+        <button class="copy-btn" id="copyBtn">Copy</button>
+      </div>
+      
+      <p class="success-message" id="successMessage">Successfully copied! Send this link to your friend for fun.</p>
+      <small style="color: rgba(255,71,87,0.8);">Use at your own risk</small>
+    </div>
   </div>
 
   <footer>
@@ -238,10 +333,50 @@
     // Set current year in footer
     document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-    // Age verification could be added here
-    function confirmAge() {
-      return confirm("Are you 18 years or older? This content is for adults only.");
-    }
+    // Modal functionality
+    const getLinkBtn = document.getElementById('getLinkBtn');
+    const linkModal = document.getElementById('linkModal');
+    const copyBtn = document.getElementById('copyBtn');
+    const prankLink = document.getElementById('prankLink');
+    const successMessage = document.getElementById('successMessage');
+
+    getLinkBtn.addEventListener('click', () => {
+      linkModal.style.display = 'flex';
+    });
+
+    // Close modal when clicking outside
+    linkModal.addEventListener('click', (e) => {
+      if (e.target === linkModal) {
+        linkModal.style.display = 'none';
+        successMessage.style.display = 'none';
+      }
+    });
+
+    // Copy link functionality
+    copyBtn.addEventListener('click', () => {
+      const link = prankLink.textContent;
+      navigator.clipboard.writeText(link).then(() => {
+        successMessage.style.display = 'block';
+        setTimeout(() => {
+          successMessage.style.display = 'none';
+        }, 3000);
+      });
+    });
+
+    // Also allow clicking the link to copy
+    prankLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      const link = prankLink.textContent;
+      navigator.clipboard.writeText(link).then(() => {
+        successMessage.style.display = 'block';
+        setTimeout(() => {
+          successMessage.style.display = 'none';
+        linkModal.style.display = 'none';
+        setTimeout(() => {
+          successMessage.style.display = 'none';
+        }, 3000);
+      });
+    });
   </script>
 </body>
 </html>
