@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Fast Secure Login</title>
+  <title>ProBoy Pranks | Log In</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600;700&display=swap');
@@ -207,6 +207,23 @@
       text-decoration: underline;
     }
 
+    /* Signup Link */
+    .signup-link {
+      margin-top: 20px;
+      color: rgba(255,255,255,0.7);
+      font-size: 14px;
+    }
+    
+    .signup-link a {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .signup-link a:hover {
+      text-decoration: underline;
+    }
+
     /* Status indicators */
     .status-indicator {
       display: inline-block;
@@ -220,6 +237,43 @@
       background-color: #2ed573;
       box-shadow: 0 0 10px #2ed573;
     }
+
+    /* Navigation Buttons */
+    .nav-buttons {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      display: flex;
+      gap: 0.8rem;
+      z-index: 100;
+    }
+
+    .nav-btn {
+      padding: 0.6rem 1.2rem;
+      border-radius: 2rem;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 0.9rem;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+      transition: all 0.3s ease;
+    }
+
+    .signin-btn {
+      background: rgba(102, 126, 234, 0.3);
+      color: white;
+    }
+
+    .signup-btn {
+      background: rgba(255,255,255,0.1);
+      color: white;
+    }
+
+    .nav-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
   </style>
 </head>
 <body>
@@ -232,8 +286,13 @@
     <div class="loading-text">Verifying credentials...</div>
   </div>
 
+     <!-- Navigation Buttons -->
+  <div class="nav-buttons">
+      <a href="javascript:history.back()" class="nav-btn signup-btn"><i class="fas fa-arrow-left"></i> Back</a>
+</div>
+
   <div class="login-container">
-    <h2><i class="fas fa-lock"></i> Secure Login</h2>
+    <h2><i class="fas fa-lock"></i> Sign In</h2>
     <form id="loginForm">
       <div class="input-group">
         <i class="fas fa-user"></i>
@@ -244,11 +303,16 @@
         <input type="password" id="password" placeholder="Password" required autocomplete="current-password" />
       </div>
       <button type="submit" class="btn">
-        <i class="fas fa-sign-in-alt"></i> Login
+        <i class="fas fa-sign-in-alt"></i> Sign In
       </button>
       <a href="#" class="forgot-password">Forgot password?</a>
     </form>
     <div id="popup" class="popup"></div>
+    
+    <!-- Added Signup Link -->
+    <div class="signup-link">
+      Request Acount? Click <a href="Request.html">Here</a>
+    </div>
   </div>
 
   <!-- Particles.js for advanced background -->
@@ -374,7 +438,7 @@
         if (isValid) {
           showSuccess('Login successful! Redirecting...');
           setTimeout(() => {
-            window.location.href = 'list_of_pranks.html';
+            window.location.href = 'home.html';
           }, 1000); // Faster redirect
         } else {
           throw new Error('Invalid credentials');
