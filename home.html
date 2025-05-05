@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ProBoy | Dashboard</title>
+  <title>ProBoy | Premium Tools</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600;700&display=swap');
@@ -52,7 +52,9 @@
     .header h1 {
       font-size: 2.5rem;
       margin-bottom: 10px;
-      text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+      background: linear-gradient(to right, #ff416c, #ff4b2b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .header p {
@@ -86,37 +88,31 @@
       overflow: hidden;
     }
 
+    /* Netflix Card Special Styling */
+    .netflix-card {
+      border: 1px solid rgba(229, 9, 20, 0.3);
+    }
+    
+    .netflix-card:hover {
+      border-color: rgba(229, 9, 20, 0.6);
+    }
+
+    .netflix-icon {
+      color: #E50914 !important;
+      -webkit-text-fill-color: #E50914 !important;
+    }
+
     .tool-card:hover {
       transform: translateY(-5px);
       box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-      border-color: rgba(255, 255, 255, 0.2);
-    }
-
-    .tool-card::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(
-        45deg,
-        transparent,
-        rgba(255, 255, 255, 0.1),
-        transparent
-      );
-      transform: rotate(45deg);
-      transition: all 0.6s ease;
-    }
-
-    .tool-card:hover::before {
-      left: 100%;
     }
 
     .tool-icon {
       font-size: 2.5rem;
       margin-bottom: 15px;
-      color: #667eea;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .tool-card h3 {
@@ -130,45 +126,15 @@
       margin-bottom: 15px;
     }
 
-    /* Footer */
-    footer {
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      background: rgba(0, 0, 0, 0.3);
-      backdrop-filter: blur(10px);
-      padding: 15px 0;
-      text-align: center;
-      font-size: 0.9rem;
-      z-index: 10;
+    .tool-badge {
+      background: rgba(102, 126, 234, 0.2);
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      margin-top: 10px;
     }
 
-    footer a {
-      color: #667eea;
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    footer a:hover {
-      text-decoration: underline;
-    }
-
-    /* Animations */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .tool-card {
-      animation: fadeIn 0.5s ease forwards;
-      opacity: 0;
-    }
-
-    .tool-card:nth-child(1) { animation-delay: 0.2s; }
-    .tool-card:nth-child(2) { animation-delay: 0.4s; }
-    .tool-card:nth-child(3) { animation-delay: 0.6s; }
-
-/* Navigation Buttons */
+    /* Navigation Buttons */
     .nav-buttons {
       position: fixed;
       top: 1.5rem;
@@ -194,24 +160,47 @@
       color: white;
     }
 
-    .signup-btn {
-      background: rgba(255,255,255,0.1);
-      color: white;
+    /* Footer */
+    footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+      padding: 15px 0;
+      text-align: center;
+      font-size: 0.9rem;
+      z-index: 10;
     }
 
-    .nav-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    } 
-    
+    footer a {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .tool-card {
+      animation: fadeIn 0.5s ease forwards;
+      opacity: 0;
+    }
+
+    .tool-card:nth-child(1) { animation-delay: 0.2s; }
+    .tool-card:nth-child(2) { animation-delay: 0.4s; }
+    .tool-card:nth-child(3) { animation-delay: 0.6s; }
   </style>
 </head>
 <body>
 
-<!-- Navigation Buttons -->
+  <!-- Navigation Buttons -->
   <div class="nav-buttons">
-  <a href="index.html" class="nav-btn signin-btn">Main</a>
-</div>
+    <a href="index.html" class="nav-btn signin-btn">Main</a>
+  </div>
   
   <!-- Particle Background -->
   <div id="particles-js"></div>
@@ -241,12 +230,13 @@
         <div class="tool-badge">Click to Open</div>
       </a>
 
-      <a href="https://shadowspy.site/" class="tool-card" target="_blank">
+      <a href="netflix.html" class="tool-card netflix-card">
         <div class="tool-icon">
-          <i class="fas fa-user-secret"></i>
+          <i class="fab fa-netflix netflix-icon"></i>
         </div>
-        <h3>Shadow Tools</h3>
-        <p>Advanced utilities for security and privacy</p>
+    <img href="https://i.pinimg.com/736x/a2/9b/ec/a29becd95825d45156711291447e6000.jpg">
+        <h3>ProBoy Netflix</h3>
+        <p>Premium streaming experience with ProBoy</p>
         <div class="tool-badge">Click to Open</div>
       </a>
     </div>
