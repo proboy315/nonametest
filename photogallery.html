@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ProBoy | Photo Gallery</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: white;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Particle Background */
+    #particles-js {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+
+    /* Navigation Buttons */
+    .nav-buttons {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      display: flex;
+      gap: 0.8rem;
+      z-index: 100;
+    }
+
+    .nav-btn {
+      padding: 0.6rem 1.2rem;
+      border-radius: 2rem;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 0.9rem;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+      transition: all 0.3s ease;
+    }
+
+    .signin-btn {
+      background: rgba(102, 126, 234, 0.3);
+      color: white;
+    }
+
+    .signup-btn {
+      background: rgba(255,255,255,0.1);
+      color: white;
+    }
+
+    .nav-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    /* Gallery Container */
+    .gallery-container {
+      position: relative;
+      z-index: 1;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 6rem 1.5rem 5rem;
+    }
+
+    .gallery-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .gallery-header h1 {
+      font-size: 2.5rem;
+      background: linear-gradient(135deg, #667eea, #9f7aea);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 1rem;
+    }
+
+    .gallery-header p {
+      color: rgba(255,255,255,0.8);
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* Folder Tabs */
+    .folder-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .folder-tab {
+      padding: 10px 25px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 50px;
+      color: white;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255,255,255,0.1);
+      font-size: 0.9rem;
+    }
+
+    .folder-tab:hover, .folder-tab.active {
+      background: rgba(102, 126, 234, 0.3);
+      border-color: rgba(102, 126, 234, 0.5);
+    }
+
+    /* Photo Grid */
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 25px;
+    }
+
+    .photo-card {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: all 0.3s ease;
+    }
+
+    .photo-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+      border-color: rgba(102, 126, 234, 0.5);
+    }
+
+    .photo-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .photo-card:hover .photo-img {
+      transform: scale(1.05);
+    }
+
+    .photo-info {
+      padding: 15px;
+    }
+
+    .photo-info h3 {
+      color: #667eea;
+      margin-bottom: 8px;
+      font-size: 1.1rem;
+    }
+
+    .photo-info p {
+      color: rgba(255,255,255,0.7);
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+
+    /* Footer */
+    footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(15px);
+      padding: 1rem 0;
+      text-align: center;
+      z-index: 10;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-link {
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: all 0.3s ease;
+    }
+
+    .footer-link:hover {
+      color: #9f7aea;
+      text-decoration: underline;
+    }
+
+    .copyright {
+      color: rgba(255,255,255,0.6);
+      font-size: 0.8rem;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .gallery-container {
+        padding: 5rem 1rem 5rem;
+      }
+      
+      .photo-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      }
+      
+      .folder-tabs {
+        gap: 10px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .gallery-header h1 {
+        font-size: 2rem;
+      }
+      
+      .photo-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Particle Background -->
+  <div id="particles-js"></div>
+
+  <!-- Navigation Buttons -->
+  <div class="nav-buttons">
+    <a href="signin.html" class="nav-btn signin-btn"><i class="fas fa-sign-in-alt"></i> Sign In</a>
+    <a href="signup.html" class="nav-btn signup-btn"><i class="fas fa-user-plus"></i> Sign Up</a>
+  </div>
+
+  <div class="gallery-container">
+    <div class="gallery-header">
+      <h1>My Photo Gallery</h1>
+      <p>Explore my collection of memories and moments captured through my lens</p>
+    </div>
+
+    <!-- Folder Tabs -->
+    <div class="folder-tabs">
+      <a href="#" class="folder-tab active">All Photos</a>
+      <a href="#" class="folder-tab">Travel</a>
+      <a href="#" class="folder-tab">Friends</a>
+      <a href="#" class="folder-tab">Family</a>
+      <a href="#" class="folder-tab">Nature</a>
+      <a href="#" class="folder-tab">Events</a>
+    </div>
+
+    <!-- Photo Grid -->
+    <div class="photo-grid">
+      <!-- Photo 1 -->
+      <div class="photo-card">
+        <img src="https://i.pinimg.com/736x/a2/9b/ec/a29becd95825d45156711291447e6000.jpg" alt="Profile" class="photo-img">
+        <div class="photo-info">
+          <h3>Profile Photo</h3>
+          <p>My professional profile picture for social media</p>
+        </div>
+      </div>
+
+      <!-- Photo 2 -->
+      <div class="photo-card">
+        <img src="https://i.pinimg.com/736x/95/b7/0f/95b70f88fc50c57f9155eec82be68049.jpg" alt="Logo" class="photo-img">
+        <div class="photo-info">
+          <h3>Brand Logo</h3>
+          <p>The official logo of my personal brand</p>
+        </div>
+      </div>
+
+      <!-- Photo 3 -->
+      <div class="photo-card">
+        <img src="https://i.pinimg.com/736x/7d/49/85/7d49857abb297f0b5bcb1e22e2c077f2.jpg" alt="Signature" class="photo-img">
+        <div class="photo-info">
+          <h3>Digital Signature</h3>
+          <p>My personal signature for official documents</p>
+        </div>
+      </div>
+
+      <!-- Photo 4 -->
+      <div class="photo-card">
+        <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=500&q=80" alt="Mountains" class="photo-img">
+        <div class="photo-info">
+          <h3>Mountain Adventure</h3>
+          <p>Hiking trip to northern areas last summer</p>
+        </div>
+      </div>
+
+      <!-- Photo 5 -->
+      <div class="photo-card">
+        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=500&q=80" alt="Beach" class="photo-img">
+        <div class="photo-info">
+          <h3>Beach Sunset</h3>
+          <p>Beautiful evening at Karachi beach</p>
+        </div>
+      </div>
+
+      <!-- Photo 6 -->
+      <div class="photo-card">
+        <img src="https://images.unsplash.com/photo-1582560472683-74662f203275?auto=format&fit=crop&w=500&q=80" alt="Forest" class="photo-img">
+        <div class="photo-info">
+          <h3>Forest Walk</h3>
+          <p>Morning walk in Margalla Hills</p>
+        </div>
+      </div>
+
+      <!-- Photo 7 -->
+      <div class="photo-card">
+        <img src="https://images.unsplash.com/photo-1491553895911-0055eca6402d?auto=format&fit=crop&w=500&q=80" alt="City" class="photo-img">
+        <div class="photo-info">
+          <h3>City Lights</h3>
+          <p>Night view of Islamabad from trail 5</p>
+        </div>
+      </div>
+
+      <!-- Photo 8 -->
+      <div class="photo-card">
+        <img src="https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=500&q=80" alt="Food" class="photo-img">
+        <div class="photo-info">
+          <h3>Local Cuisine</h3>
+          <p>Traditional Pakistani food at street vendor</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-content">
+      <a href="about.html" class="footer-link">About</a>
+      <a href="photogallery.html" class="footer-link">Photo Gallery</a>
+      <a href="projects.html" class="footer-link">Projects</a>
+      <a href="contact.html" class="footer-link">Contact Us</a>
+    </div>
+    <div class="copyright">
+      мα∂є ву <b>ProBoy</b> &copy; <span id="currentYear"></span> | All rights reserved
+    </div>
+  </footer>
+
+  <!-- Particles.js for background -->
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  
+  <script>
+    // Initialize particle background
+    particlesJS("particles-js", {
+      "particles": {
+        "number": {
+          "value": 70,
+          "density": {
+            "enable": true,
+            "value_area": 800
+          }
+        },
+        "color": {
+          "value": ["#667eea", "#764ba2", "#6B46C1"]
+        },
+        "shape": {
+          "type": "circle"
+        },
+        "opacity": {
+          "value": 0.5,
+          "random": true
+        },
+        "size": {
+          "value": 3,
+          "random": true
+        },
+        "line_linked": {
+          "enable": true,
+          "distance": 150,
+          "color": "#667eea",
+          "opacity": 0.3,
+          "width": 1
+        },
+        "move": {
+          "enable": true,
+          "speed": 1.5,
+          "direction": "none",
+          "random": true,
+          "out_mode": "out"
+        }
+      },
+      "interactivity": {
+        "detect_on": "canvas",
+        "events": {
+          "onhover": {
+            "enable": true,
+            "mode": "grab"
+          },
+          "onclick": {
+            "enable": true,
+            "mode": "push"
+          }
+        }
+      },
+      "retina_detect": true
+    });
+
+    // Set current year in footer
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+    // Simple tab functionality
+    document.querySelectorAll('.folder-tab').forEach(tab => {
+      tab.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelector('.folder-tab.active').classList.remove('active');
+        this.classList.add('active');
+        // Here you would typically filter photos based on category
+      });
+    });
+  </script>
+</body>
+</html>
