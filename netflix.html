@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ProBoy | Embedded Content</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: white;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden; /* Prevent scrolling */
+    }
+    
+    /* Header Styles */
+    .header {
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0; /* Prevent header from shrinking */
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .logo h1 {
+      font-size: 1.2rem;
+      background: linear-gradient(to right, #ff416c, #ff4b2b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .controls {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .control-btn {
+      background: rgba(255,255,255,0.1);
+      border: none;
+      color: white;
+      width: 30px;
+      height: 30px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+    }
+    
+    /* Main Content Area */
+    .content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    
+    /* Iframe Container - THIS IS WHAT COVERS THE REST OF THE PAGE */
+    .iframe-container {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    #embedFrame {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    
+    /* Footer */
+    .footer {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 8px;
+      text-align: center;
+      font-size: 11px;
+      flex-shrink: 0; /* Prevent footer from shrinking */
+    }
+    
+    .footer a {
+      color: #667eea;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header Section -->
+  <header class="header">
+    <div class="logo">
+      <i class="fas fa-embed"></i>
+      <h1>ProBoy Embed</h1>
+    </div>
+    <div class="controls">
+      <button class="control-btn" title="Refresh" onclick="refreshFrame()">
+        <i class="fas fa-sync-alt"></i>
+      </button>
+      <button class="control-btn" title="Fullscreen" onclick="toggleFullscreen()">
+        <i class="fas fa-expand"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <div class="content">
+    <!-- 
+      ****************************************************
+      REPLACE THE URL BELOW WITH YOUR WEBSITE TO EMBED
+      Example: src="https://proboy.vercel.app"
+      ****************************************************
+    -->
+    <div class="iframe-container">
+      <iframe id="embedFrame" src="https://netfree2.cc/home" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <!-- Footer Section -->
+  <footer class="footer">
+    мα∂є ву <a href="https://proboy.vercel.app" target="_blank"><b>ProBoy</b></a> &copy; <span id="currentYear"></span>
+  </footer>
+
+  <script>
+    // Set current year in footer
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+    
+    // Get iframe element
+    const embedFrame = document.getElementById('embedFrame');
+    
+    // Refresh iframe
+    function refreshFrame() {
+      embedFrame.src = embedFrame.src;
+    }
+    
+    // Toggle fullscreen
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen()
+          .catch(err => console.error('Fullscreen error:', err));
+      } else {
+        document.exitFullscreen();
+      }
+    }
+    
+    // Automatically adjust iframe size when window resizes
+    window.addEventListener('resize', function() {
+      // This ensures the iframe maintains proper dimensions
+      const container = document.querySelector('.iframe-container');
+      container.style.height = `calc(100vh - ${document.querySelector('.header').offsetHeight + document.querySelector('.footer').offsetHeight}px)`;
+    });
+  </script>
+</body>
+</html>
