@@ -142,7 +142,6 @@
       text-align: center;
       box-shadow: 0 10px 30px rgba(0,0,0,0.5);
       border: 1px solid rgba(255,255,255,0.1);
-      animation: fadeIn 0.3s ease;
     }
 
     .modal-content i {
@@ -227,7 +226,7 @@
     }
 
     .fade-in {
-      animation: fadeIn 1s ease;
+      animation: fadeIn 0.5s ease;
     }
   </style>
 </head>
@@ -252,7 +251,7 @@
 
   <!-- Popup Modal -->
   <div class="modal" id="linkModal">
-    <div class="modal-content">
+    <div class="modal-content fade-in">
       <i class="fas fa-magic"></i>
       <h3>Copy & Send</h3>
       <p>Check the magic when your friend opens this link!</p>
@@ -334,47 +333,52 @@
     document.getElementById('currentYear').textContent = new Date().getFullYear();
 
     // Modal functionality
-    const getLinkBtn = document.getElementById('getLinkBtn');
-    const linkModal = document.getElementById('linkModal');
-    const copyBtn = document.getElementById('copyBtn');
-    const prankLink = document.getElementById('prankLink');
-    const successMessage = document.getElementById('successMessage');
+    document.addEventListener('DOMContentLoaded', function() {
+      const getLinkBtn = document.getElementById('getLinkBtn');
+      const linkModal = document.getElementById('linkModal');
+      const copyBtn = document.getElementById('copyBtn');
+      const prankLink = document.getElementById('prankLink');
+      const successMessage = document.getElementById('successMessage');
 
-    getLinkBtn.addEventListener('click', () => {
-      linkModal.style.display = 'flex';
-    });
-
-    // Close modal when clicking outside
-    linkModal.addEventListener('click', (e) => {
-      if (e.target === linkModal) {
-        linkModal.style.display = 'none';
-        successMessage.style.display = 'none';
-      }
-    });
-
-    // Copy link functionality
-    copyBtn.addEventListener('click', () => {
-      const link = prankLink.textContent;
-      navigator.clipboard.writeText(link).then(() => {
-        successMessage.style.display = 'block';
-        setTimeout(() => {
-          successMessage.style.display = 'none';
-        }, 3000);
+      // Show modal when Get Link button is clicked
+      getLinkBtn.addEventListener('click', function() {
+        linkModal.style.display = 'flex';
       });
-    });
 
-    // Also allow clicking the link to copy
-    prankLink.addEventListener('click', (e) => {
-      e.preventDefault();
-      const link = prankLink.textContent;
-      navigator.clipboard.writeText(link).then(() => {
-        successMessage.style.display = 'block';
-        setTimeout(() => {
+      // Close modal when clicking outside
+      linkModal.addEventListener('click', function(e) {
+        if (e.target === linkModal) {
+          linkModal.style.display = 'none';
           successMessage.style.display = 'none';
-        linkModal.style.display = 'none';
-        setTimeout(() => {
-          successMessage.style.display = 'none';
-        }, 3000);
+        }
+      });
+
+      // Copy link functionality
+      copyBtn.addEventListener('click', function() {
+        const link = prankLink.textContent;
+        navigator.clipboard.writeText(link).then(function() {
+          successMessage.style.display = 'block';
+          setTimeout(function() {
+            successMessage.style.display = 'none';
+          }, 3000);
+        }).catch(function(err) {
+          console.error('Could not copy text: ', err);
+        });
+      });
+
+      // Also allow clicking the link to copy
+      prankLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        const link = prankLink.textContent;
+        navigator.clipboard.writeText(link).then(function() {
+          successMessage.style.display = 'block';
+          setTimeout(function() {
+            linkModal.style.display = 'none';
+            successMessage.style.display = 'none';
+          }, 1000);
+        }).catch(function(err) {
+          console.error('Could not copy text: ', err);
+        });
       });
     });
   </script>
