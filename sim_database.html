@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ProBoy | SIM Database</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: white;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Particle Background */
+    #particles-js {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+
+    /* Main Container */
+    .sim-container {
+      position: relative;
+      z-index: 1;
+      max-width: 500px;
+      margin: 50px auto;
+      padding: 30px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+      animation: fadeIn 0.8s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .sim-header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .sim-header h2 {
+      font-size: 28px;
+      margin-bottom: 10px;
+      color: #667eea;
+      text-shadow: 0 0 15px rgba(102, 126, 234, 0.5);
+    }
+
+    .sim-header p {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 14px;
+    }
+
+    /* Form Styles */
+    .sim-form {
+      margin-bottom: 20px;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 15px;
+    }
+
+    .input-group i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255,255,255,0.7);
+      font-size: 16px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 14px 14px 14px 45px;
+      border: none;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.12);
+      color: white;
+      font-size: 15px;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .input-group input:focus {
+      background: rgba(255,255,255,0.2);
+      box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.5);
+    }
+
+    .input-group input::placeholder {
+      color: rgba(255,255,255,0.6);
+    }
+
+    .btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.5);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    /* Result Styles */
+    .result-container {
+      display: none;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 15px;
+      padding: 20px;
+      margin-top: 20px;
+      border: 1px solid rgba(102, 126, 234, 0.3);
+      animation: fadeIn 0.5s ease;
+    }
+
+    .result-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .result-header h3 {
+      color: #2ed573;
+      font-size: 18px;
+    }
+
+    .copy-btn {
+      background: rgba(46, 213, 115, 0.2);
+      color: #2ed573;
+      border: none;
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .copy-btn:hover {
+      background: rgba(46, 213, 115, 0.3);
+    }
+
+    .result-item {
+      margin: 12px 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .result-icon {
+      width: 30px;
+      color: #667eea;
+      font-size: 16px;
+    }
+
+    .result-text {
+      flex: 1;
+    }
+
+    .result-text strong {
+      color: #667eea;
+      margin-right: 5px;
+    }
+
+    .error-container {
+      display: none;
+      background: rgba(255, 71, 87, 0.2);
+      border-radius: 15px;
+      padding: 15px;
+      margin-top: 20px;
+      text-align: center;
+      border: 1px solid rgba(255, 71, 87, 0.3);
+      animation: fadeIn 0.5s ease;
+    }
+
+    .error-container i {
+      color: #ff4757;
+      margin-right: 8px;
+    }
+
+    .loading {
+      display: none;
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(255,255,255,0.1);
+      border-top-color: #667eea;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 10px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Footer */
+    footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+      padding: 12px 0;
+      text-align: center;
+      font-size: 14px;
+      z-index: 10;
+    }
+
+    footer a {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <!-- Particle Background -->
+  <div id="particles-js"></div>
+
+  <div class="sim-container">
+    <div class="sim-header">
+      <h2><i class="fas fa-sim-card"></i> SIM Database</h2>
+      <p>Search for SIM card information by phone number</p>
+    </div>
+
+    <form id="simForm" class="sim-form">
+      <div class="input-group">
+        <i class="fas fa-phone"></i>
+        <input type="text" id="phone" placeholder="Enter phone number (without 0 or +92)" required pattern="[0-9]{10,11}">
+      </div>
+      <button type="submit" class="btn">
+        <i class="fas fa-search"></i> Search
+      </button>
+    </form>
+
+    <div class="loading" id="loading">
+      <div class="loading-spinner"></div>
+      <p>Searching database...</p>
+    </div>
+
+    <div class="result-container" id="resultContainer">
+      <div class="result-header">
+        <h3><i class="fas fa-database"></i> DATA FOUND</h3>
+        <button class="copy-btn" id="copyBtn"><i class="fas fa-copy"></i> Copy</button>
+      </div>
+      <div class="result-items" id="resultItems"></div>
+    </div>
+
+    <div class="error-container" id="errorContainer">
+      <i class="fas fa-exclamation-circle"></i>
+      <span id="errorText">No data found for this number</span>
+    </div>
+  </div>
+
+  <footer>
+    мα∂є ву <a href="https://proboy.vercel.app" target="_blank"><b>ProBoy</b></a> &copy; <span id="currentYear"></span>
+  </footer>
+
+  <!-- Particles.js for background -->
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  
+  <script>
+    // Initialize particle background
+    particlesJS("particles-js", {
+      "particles": {
+        "number": {
+          "value": 60,
+          "density": {
+            "enable": true,
+            "value_area": 800
+          }
+        },
+        "color": {
+          "value": ["#667eea", "#764ba2", "#6B46C1"]
+        },
+        "shape": {
+          "type": "circle"
+        },
+        "opacity": {
+          "value": 0.5,
+          "random": true
+        },
+        "size": {
+          "value": 3,
+          "random": true
+        },
+        "line_linked": {
+          "enable": true,
+          "distance": 150,
+          "color": "#667eea",
+          "opacity": 0.3,
+          "width": 1
+        },
+        "move": {
+          "enable": true,
+          "speed": 1.5,
+          "direction": "none",
+          "random": true,
+          "out_mode": "out"
+        }
+      },
+      "interactivity": {
+        "detect_on": "canvas",
+        "events": {
+          "onhover": {
+            "enable": true,
+            "mode": "grab"
+          },
+          "onclick": {
+            "enable": true,
+            "mode": "push"
+          }
+        }
+      },
+      "retina_detect": true
+    });
+
+    // DOM Elements
+    const form = document.getElementById("simForm");
+    const phoneInput = document.getElementById("phone");
+    const loading = document.getElementById("loading");
+    const resultContainer = document.getElementById("resultContainer");
+    const resultItems = document.getElementById("resultItems");
+    const errorContainer = document.getElementById("errorContainer");
+    const errorText = document.getElementById("errorText");
+    const copyBtn = document.getElementById("copyBtn");
+
+    // Set current year in footer
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+    // Form submission
+    form.addEventListener("submit", async function(e) {
+      e.preventDefault();
+      
+      // Validate input
+      const phone = phoneInput.value.trim();
+      if (!phone.match(/^[0-9]{10,11}$/)) {
+        showError("Please enter a valid 10-11 digit phone number");
+        return;
+      }
+
+      // Show loading state
+      loading.style.display = "block";
+      resultContainer.style.display = "none";
+      errorContainer.style.display = "none";
+
+      try {
+        const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent('https://legendxdata.site/Api/simdata.php?phone=' + phone)}`;
+        const response = await fetch(proxyUrl);
+        
+        if (!response.ok) throw new Error("Network response was not ok");
+        
+        const data = await response.json();
+
+        if (data && data[0]) {
+          displayResults(data[0]);
+        } else {
+          showError("No data found for this number");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        showError("Error fetching data. Please try again later.");
+      } finally {
+        loading.style.display = "none";
+      }
+    });
+
+    // Display results
+    function displayResults(user) {
+      resultItems.innerHTML = `
+        <div class="result-item">
+          <div class="result-icon"><i class="fas fa-user"></i></div>
+          <div class="result-text"><strong>Name:</strong> ${user.Name || "Not available"}</div>
+        </div>
+        <div class="result-item">
+          <div class="result-icon"><i class="fas fa-phone"></i></div>
+          <div class="result-text"><strong>Mobile:</strong> ${user.Number || "Not available"}</div>
+        </div>
+        <div class="result-item">
+          <div class="result-icon"><i class="fas fa-id-card"></i></div>
+          <div class="result-text"><strong>CNIC:</strong> ${user.CNIC || "Not available"}</div>
+        </div>
+        <div class="result-item">
+          <div class="result-icon"><i class="fas fa-network-wired"></i></div>
+          <div class="result-text"><strong>Operator:</strong> ${user.Operator || "Not available"}</div>
+        </div>
+        <div class="result-item">
+          <div class="result-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <div class="result-text"><strong>Address:</strong> ${user.Address || "Not available"}</div>
+        </div>
+      `;
+      
+      resultContainer.style.display = "block";
+      errorContainer.style.display = "none";
+    }
+
+    // Show error
+    function showError(message) {
+      errorText.textContent = message;
+      errorContainer.style.display = "block";
+      resultContainer.style.display = "none";
+    }
+
+    // Copy results
+    copyBtn.addEventListener("click", function() {
+      const textToCopy = Array.from(document.querySelectorAll(".result-text"))
+        .map(el => el.textContent)
+        .join("\n");
+      
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        const originalText = copyBtn.innerHTML;
+        copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        setTimeout(() => {
+          copyBtn.innerHTML = originalText;
+        }, 2000);
+      });
+    });
+
+    // Input validation
+    phoneInput.addEventListener("input", function() {
+      this.value = this.value.replace(/[^0-9]/g, '');
+    });
+  </script>
+</body>
+</html>
