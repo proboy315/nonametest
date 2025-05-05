@@ -1,519 +1,478 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ProBoy Pranks | Log In</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600;700&display=swap');
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-    }
-
-    body {
-      height: 100vh;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-      overflow: hidden;
-      position: relative;
-    }
-
-    /* Advanced Particle Background */
-    #particles-js {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      z-index: 0;
-      background: transparent;
-    }
-
-    /* Login Container */
-    .login-container {
-      position: relative;
-      z-index: 1;
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 25px;
-      padding: 40px 30px;
-      width: 380px;
-      text-align: center;
-      box-shadow: 0 15px 50px rgba(0,0,0,0.3);
-      transform-style: preserve-3d;
-      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    .login-container:hover {
-      transform: rotateY(5deg) scale(1.02);
-      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-    }
-
-    .login-container h2 {
-      color: #fff;
-      margin-bottom: 25px;
-      font-size: 28px;
-      font-weight: 700;
-      text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
-    }
-
-    .input-group {
-      position: relative;
-      margin-bottom: 15px;
-    }
-
-    .input-group i {
-      position: absolute;
-      left: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: rgba(255,255,255,0.7);
-      font-size: 16px;
-    }
-
-    input {
-      width: 100%;
-      padding: 12px 12px 12px 40px;
-      margin: 5px 0;
-      border: none;
-      border-radius: 10px;
-      background: rgba(255,255,255,0.12);
-      color: #fff;
-      font-size: 15px;
-      outline: none;
-      transition: all 0.3s ease;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    }
-
-    input::placeholder {
-      color: rgba(255,255,255,0.6);
-    }
-
-    input:focus {
-      background: rgba(255,255,255,0.2);
-      box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
-    }
-
-    .btn {
-      width: 100%;
-      padding: 14px;
-      margin-top: 15px;
-      border: none;
-      border-radius: 10px;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: #fff;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
-      background: linear-gradient(135deg, #764ba2, #667eea);
-      box-shadow: 0 12px 30px rgba(118, 75, 162, 0.5);
-    }
-
-    .btn:active {
-      transform: translateY(0);
-    }
-
-    .popup {
-      margin-top: 15px;
-      padding: 12px;
-      border-radius: 10px;
-      font-weight: 600;
-      display: none;
-      animation: fadeIn 0.3s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(5px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .popup.success {
-      background-color: rgba(46, 213, 115, 0.2);
-      color: #2ed573;
-      border: 1px solid rgba(46, 213, 115, 0.3);
-      display: block;
-    }
-
-    .popup.error {
-      background-color: rgba(255, 71, 87, 0.2);
-      color: #ff4757;
-      border: 1px solid rgba(255, 71, 87, 0.3);
-      display: block;
-    }
-
-    /* Faster Loading Animation */
-    .loading {
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 100vh;
-      width: 100%;
-      background: rgba(0, 0, 0, 0.9);
-      z-index: 1000;
-      display: none;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-    }
-
-    .loading-spinner {
-      width: 50px;
-      height: 50px;
-      border: 4px solid rgba(255,255,255,0.1);
-      border-top-color: #667eea;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin-bottom: 15px;
-    }
-
-    .loading-text {
-      color: #fff;
-      font-size: 16px;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    .forgot-password {
-      display: block;
-      margin-top: 12px;
-      color: rgba(255,255,255,0.7);
-      text-decoration: none;
-      font-size: 13px;
-      transition: color 0.2s ease;
-    }
-
-    .forgot-password:hover {
-      color: #fff;
-      text-decoration: underline;
-    }
-
-    /* Signup Link */
-    .signup-link {
-      margin-top: 20px;
-      color: rgba(255,255,255,0.7);
-      font-size: 14px;
-    }
-    
-    .signup-link a {
-      color: #667eea;
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    .signup-link a:hover {
-      text-decoration: underline;
-    }
-
-    /* Status indicators */
-    .status-indicator {
-      display: inline-block;
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      margin-right: 8px;
-    }
-    
-    .online {
-      background-color: #2ed573;
-      box-shadow: 0 0 10px #2ed573;
-    }
-
-    /* Navigation Buttons */
-    .nav-buttons {
-      position: fixed;
-      top: 1.5rem;
-      right: 1.5rem;
-      display: flex;
-      gap: 0.8rem;
-      z-index: 100;
-    }
-
-    .nav-btn {
-      padding: 0.6rem 1.2rem;
-      border-radius: 2rem;
-      font-weight: 600;
-      text-decoration: none;
-      font-size: 0.9rem;
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,0.2);
-      transition: all 0.3s ease;
-    }
-
-    .signin-btn {
-      background: rgba(102, 126, 234, 0.3);
-      color: white;
-    }
-
-    .signup-btn {
-      background: rgba(255,255,255,0.1);
-      color: white;
-    }
-
-    .nav-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    }
-  
-  /* Navigation Buttons */
-    .nav-buttons {
-      position: fixed;
-      top: 1.5rem;
-      right: 1.5rem;
-      display: flex;
-      gap: 0.8rem;
-      z-index: 100;
-    }
-
-    .nav-btn {
-      padding: 0.6rem 1.2rem;
-      border-radius: 2rem;
-      font-weight: 600;
-      text-decoration: none;
-      font-size: 0.9rem;
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,0.2);
-      transition: all 0.3s ease;
-    }
-
-    .signin-btn {
-      background: rgba(102, 126, 234, 0.3);
-      color: white;
-    }
-
-    .signup-btn {
-      background: rgba(255,255,255,0.1);
-      color: white;
-    }
-
-    .nav-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    } 
-    
-  </style>
-</head>
-<body>
-
-  <!-- Advanced Particle Background -->
-  <div id="particles-js"></div>
-
-  <!-- Navigation Buttons -->
-  <div class="nav-buttons">
-      <a href="javascript:history.back()" class="nav-btn signup-btn"><i class="fas fa-arrow-left"></i> Logout</a>
-</div>
-  
-  <div class="loading" id="loading">
-    <div class="loading-spinner"></div>
-    <div class="loading-text">Verifying credentials...</div>
-  </div>
-
-     <!-- Navigation Buttons -->
-  <div class="nav-buttons">
-      <a href="javascript:history.back()" class="nav-btn signup-btn"><i class="fas fa-arrow-left"></i> Back</a>
-</div>
-
-  <div class="login-container">
-    <h2><i class="fas fa-lock"></i> Sign In</h2>
-    <form id="loginForm">
-      <div class="input-group">
-        <i class="fas fa-user"></i>
-        <input type="text" id="username" placeholder="Username" required autocomplete="username" />
-      </div>
-      <div class="input-group">
-        <i class="fas fa-key"></i>
-        <input type="password" id="password" placeholder="Password" required autocomplete="current-password" />
-      </div>
-      <button type="submit" class="btn">
-        <i class="fas fa-sign-in-alt"></i> Sign In
-      </button>
-      <a href="#" class="forgot-password">Forgot password?</a>
-    </form>
-    <div id="popup" class="popup"></div>
-    
-    <!-- Added Signup Link -->
-    <div class="signup-link">
-      Request Acount? Click <a href="Request.html">Here</a>
-    </div>
-  </div>
-
-  <!-- Particles.js for advanced background -->
-  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-
-  <script>
-    // Initialize particle background
-    particlesJS("particles-js", {
-      "particles": {
-        "number": {
-          "value": 60,  // Reduced for better performance
-          "density": {
-            "enable": true,
-            "value_area": 700
-          }
-        },
-        "color": {
-          "value": ["#667eea", "#764ba2", "#6B46C1"]
-        },
-        "shape": {
-          "type": "circle"
-        },
-        "opacity": {
-          "value": 0.5,
-          "random": true
-        },
-        "size": {
-          "value": 4,
-          "random": true
-        },
-        "line_linked": {
-          "enable": true,
-          "distance": 130,
-          "color": "#667eea",
-          "opacity": 0.3,
-          "width": 1
-        },
-        "move": {
-          "enable": true,
-          "speed": 1.5,  // Slower movement
-          "direction": "none",
-          "random": true,
-          "out_mode": "out"
-        }
-      },
-      "interactivity": {
-        "detect_on": "canvas",
-        "events": {
-          "onhover": {
-            "enable": true,
-            "mode": "grab"
-          },
-          "onclick": {
-            "enable": true,
-            "mode": "push"
-          }
-        }
-      },
-      "retina_detect": true
-    });
-
-    const form = document.getElementById('loginForm');
-    const popup = document.getElementById('popup');
-    const loading = document.getElementById('loading');
-
-    // Cache credentials after first fetch
-    let cachedCredentials = null;
-    let lastFetchTime = 0;
-    const CACHE_DURATION = 300000; // 5 minutes cache
-
-    // Path to your auth.txt file in GitHub repo
-    const authFileURL = 'https://raw.githubusercontent.com/proboy315/Source/refs/heads/main/Proboy%20vercel%20app/main/pranks_auth.txt';
-
-    // Prefetch credentials when page loads
-    window.addEventListener('load', () => {
-      fetchCredentials().then(creds => {
-        cachedCredentials = creds;
-        lastFetchTime = Date.now();
-      });
-    });
-
-    async function fetchCredentials() {
-      try {
-        const response = await fetch(authFileURL + '?t=' + Date.now()); // Cache busting
-        if (!response.ok) throw new Error('Network error');
-        const authText = await response.text();
-        return authText.split('\n')
-          .map(line => line.trim())
-          .filter(line => line && !line.startsWith('#') && line.includes(':'));
-      } catch (error) {
-        console.error('Failed to fetch credentials:', error);
-        return [];
-      }
-    }
-
-    form.addEventListener('submit', async function(event) {
-      event.preventDefault();
-      const username = document.getElementById('username').value.trim();
-      const password = document.getElementById('password').value.trim();
-
-      if (!username || !password) {
-        showError('Please enter both username and password');
-        return;
-      }
-
-      loading.style.display = 'flex';
-      
-      try {
-        // Use cached credentials if recent, otherwise fetch fresh
-        const now = Date.now();
-        let credentials = cachedCredentials;
-        
-        if (!credentials || now - lastFetchTime > CACHE_DURATION) {
-          credentials = await fetchCredentials();
-          cachedCredentials = credentials;
-          lastFetchTime = now;
-        }
-
-        // Check credentials
-        const credentialToCheck = `${username}:${password}`;
-        const isValid = credentials.some(cred => cred === credentialToCheck);
-
-        if (isValid) {
-          showSuccess('Login successful! Redirecting...');
-          setTimeout(() => {
-            window.location.href = 'list_of_pranks.html';
-          }, 1000); // Faster redirect
-        } else {
-          throw new Error('Invalid credentials');
-        }
-      } catch (error) {
-        showError('Invalid username or password');
-      } finally {
-        loading.style.display = 'none';
-      }
-    });
-
-    function showSuccess(message) {
-      popup.innerHTML = `<span class="status-indicator online"></span><i class="fas fa-check-circle"></i> ${message}`;
-      popup.className = 'popup success';
-    }
-
-    function showError(message) {
-      popup.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${message}`;
-      popup.className = 'popup error';
-      form.style.animation = 'shake 0.4s';
-      setTimeout(() => form.style.animation = '', 400);
-    }
-
-    // Add shake animation
-    const style = document.createElement('style');
-    style.textContent = `
-      @keyframes shake {
-        0%, 100% { transform: translateX(0); }
-        25% { transform: translateX(-8px); }
-        50% { transform: translateX(8px); }
-        75% { transform: translateX(-5px); }
-      }
-    `;
-    document.head.appendChild(style);
-  </script>
-</body>
-</html>
+ <html lang="en">
+ <head>
+   <meta charset="UTF-8" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <title>ProBoy Pranks | Log In</title>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+   <style>
+     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600;700&display=swap');
+ 
+     * {
+       margin: 0;
+       padding: 0;
+       box-sizing: border-box;
+       font-family: 'Poppins', sans-serif;
+     }
+ 
+     body {
+       height: 100vh;
+       width: 100%;
+       display: flex;
+       justify-content: center;
+       align-items: center;
+       background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+       overflow: hidden;
+       position: relative;
+     }
+ 
+     /* Advanced Particle Background */
+     #particles-js {
+       position: absolute;
+       width: 100%;
+       height: 100%;
+       top: 0;
+       left: 0;
+       z-index: 0;
+       background: transparent;
+     }
+ 
+     /* Login Container */
+     .login-container {
+       position: relative;
+       z-index: 1;
+       background: rgba(255, 255, 255, 0.08);
+       backdrop-filter: blur(25px);
+       -webkit-backdrop-filter: blur(25px);
+       border: 1px solid rgba(255, 255, 255, 0.15);
+       border-radius: 25px;
+       padding: 40px 30px;
+       width: 380px;
+       text-align: center;
+       box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+       transform-style: preserve-3d;
+       transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+     }
+ 
+     .login-container:hover {
+       transform: rotateY(5deg) scale(1.02);
+       box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+     }
+ 
+     .login-container h2 {
+       color: #fff;
+       margin-bottom: 25px;
+       font-size: 28px;
+       font-weight: 700;
+       text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+     }
+ 
+     .input-group {
+       position: relative;
+       margin-bottom: 15px;
+     }
+ 
+     .input-group i {
+       position: absolute;
+       left: 15px;
+       top: 50%;
+       transform: translateY(-50%);
+       color: rgba(255,255,255,0.7);
+       font-size: 16px;
+     }
+ 
+     input {
+       width: 100%;
+       padding: 12px 12px 12px 40px;
+       margin: 5px 0;
+       border: none;
+       border-radius: 10px;
+       background: rgba(255,255,255,0.12);
+       color: #fff;
+       font-size: 15px;
+       outline: none;
+       transition: all 0.3s ease;
+       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+     }
+ 
+     input::placeholder {
+       color: rgba(255,255,255,0.6);
+     }
+ 
+     input:focus {
+       background: rgba(255,255,255,0.2);
+       box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
+     }
+ 
+     .btn {
+       width: 100%;
+       padding: 14px;
+       margin-top: 15px;
+       border: none;
+       border-radius: 10px;
+       background: linear-gradient(135deg, #667eea, #764ba2);
+       color: #fff;
+       font-size: 16px;
+       font-weight: 600;
+       cursor: pointer;
+       transition: all 0.3s ease;
+       box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+       position: relative;
+       overflow: hidden;
+     }
+ 
+     .btn:hover {
+       transform: translateY(-2px);
+       background: linear-gradient(135deg, #764ba2, #667eea);
+       box-shadow: 0 12px 30px rgba(118, 75, 162, 0.5);
+     }
+ 
+     .btn:active {
+       transform: translateY(0);
+     }
+ 
+     .popup {
+       margin-top: 15px;
+       padding: 12px;
+       border-radius: 10px;
+       font-weight: 600;
+       display: none;
+       animation: fadeIn 0.3s ease;
+     }
+ 
+     @keyframes fadeIn {
+       from { opacity: 0; transform: translateY(5px); }
+       to { opacity: 1; transform: translateY(0); }
+     }
+ 
+     .popup.success {
+       background-color: rgba(46, 213, 115, 0.2);
+       color: #2ed573;
+       border: 1px solid rgba(46, 213, 115, 0.3);
+       display: block;
+     }
+ 
+     .popup.error {
+       background-color: rgba(255, 71, 87, 0.2);
+       color: #ff4757;
+       border: 1px solid rgba(255, 71, 87, 0.3);
+       display: block;
+     }
+ 
+     /* Faster Loading Animation */
+     .loading {
+       position: fixed;
+       top: 0;
+       left: 0;
+       height: 100vh;
+       width: 100%;
+       background: rgba(0, 0, 0, 0.9);
+       z-index: 1000;
+       display: none;
+       justify-content: center;
+       align-items: center;
+       flex-direction: column;
+     }
+ 
+     .loading-spinner {
+       width: 50px;
+       height: 50px;
+       border: 4px solid rgba(255,255,255,0.1);
+       border-top-color: #667eea;
+       border-radius: 50%;
+       animation: spin 0.8s linear infinite;
+       margin-bottom: 15px;
+     }
+ 
+     .loading-text {
+       color: #fff;
+       font-size: 16px;
+     }
+ 
+     @keyframes spin {
+       to { transform: rotate(360deg); }
+     }
+ 
+     .forgot-password {
+       display: block;
+       margin-top: 12px;
+       color: rgba(255,255,255,0.7);
+       text-decoration: none;
+       font-size: 13px;
+       transition: color 0.2s ease;
+     }
+ 
+     .forgot-password:hover {
+       color: #fff;
+       text-decoration: underline;
+     }
+ 
+     /* Signup Link */
+     .signup-link {
+       margin-top: 20px;
+       color: rgba(255,255,255,0.7);
+       font-size: 14px;
+     }
+ 
+     .signup-link a {
+       color: #667eea;
+       text-decoration: none;
+       font-weight: 600;
+     }
+ 
+     .signup-link a:hover {
+       text-decoration: underline;
+     }
+ 
+     /* Status indicators */
+     .status-indicator {
+       display: inline-block;
+       width: 10px;
+       height: 10px;
+       border-radius: 50%;
+       margin-right: 8px;
+     }
+ 
+     .online {
+       background-color: #2ed573;
+       box-shadow: 0 0 10px #2ed573;
+     }
+ 
+     /* Navigation Buttons */
+     .nav-buttons {
+       position: fixed;
+       top: 1.5rem;
+       right: 1.5rem;
+       display: flex;
+       gap: 0.8rem;
+       z-index: 100;
+     }
+ 
+     .nav-btn {
+       padding: 0.6rem 1.2rem;
+       border-radius: 2rem;
+       font-weight: 600;
+       text-decoration: none;
+       font-size: 0.9rem;
+       backdrop-filter: blur(10px);
+       border: 1px solid rgba(255,255,255,0.2);
+       transition: all 0.3s ease;
+     }
+ 
+     .signin-btn {
+       background: rgba(102, 126, 234, 0.3);
+       color: white;
+     }
+ 
+     .signup-btn {
+       background: rgba(255,255,255,0.1);
+       color: white;
+     }
+ 
+     .nav-btn:hover {
+       transform: translateY(-2px);
+       box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+     }
+ 
+   </style>
+ </head>
+ <body>
+ 
+   <!-- Advanced Particle Background -->
+   <div id="particles-js"></div>
+ 
+   <div class="loading" id="loading">
+     <div class="loading-spinner"></div>
+     <div class="loading-text">Verifying credentials...</div>
+   </div>
+ 
+      <!-- Navigation Buttons -->
+   <div class="nav-buttons">
+       <a href="javascript:history.back()" class="nav-btn signup-btn"><i class="fas fa-arrow-left"></i> Back</a>
+ </div>
+ 
+   <div class="login-container">
+     <h2><i class="fas fa-lock"></i> Sign In</h2>
+     <form id="loginForm">
+       <div class="input-group">
+         <i class="fas fa-user"></i>
+         <input type="text" id="username" placeholder="Username" required autocomplete="username" />
+       </div>
+       <div class="input-group">
+         <i class="fas fa-key"></i>
+         <input type="password" id="password" placeholder="Password" required autocomplete="current-password" />
+       </div>
+       <button type="submit" class="btn">
+         <i class="fas fa-sign-in-alt"></i> Sign In
+       </button>
+       <a href="#" class="forgot-password">Forgot password?</a>
+     </form>
+     <div id="popup" class="popup"></div>
+ 
+     <!-- Added Signup Link -->
+     <div class="signup-link">
+       Request Acount? Click <a href="Request.html">Here</a>
+     </div>
+   </div>
+ 
+   <!-- Particles.js for advanced background -->
+   <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+ 
+   <script>
+     // Initialize particle background
+     particlesJS("particles-js", {
+       "particles": {
+         "number": {
+           "value": 60,  // Reduced for better performance
+           "density": {
+             "enable": true,
+             "value_area": 700
+           }
+         },
+         "color": {
+           "value": ["#667eea", "#764ba2", "#6B46C1"]
+         },
+         "shape": {
+           "type": "circle"
+         },
+         "opacity": {
+           "value": 0.5,
+           "random": true
+         },
+         "size": {
+           "value": 4,
+           "random": true
+         },
+         "line_linked": {
+           "enable": true,
+           "distance": 130,
+           "color": "#667eea",
+           "opacity": 0.3,
+           "width": 1
+         },
+         "move": {
+           "enable": true,
+           "speed": 1.5,  // Slower movement
+           "direction": "none",
+           "random": true,
+           "out_mode": "out"
+         }
+       },
+       "interactivity": {
+         "detect_on": "canvas",
+         "events": {
+           "onhover": {
+             "enable": true,
+             "mode": "grab"
+           },
+           "onclick": {
+             "enable": true,
+             "mode": "push"
+           }
+         }
+       },
+       "retina_detect": true
+     });
+ 
+     const form = document.getElementById('loginForm');
+     const popup = document.getElementById('popup');
+     const loading = document.getElementById('loading');
+ 
+     // Cache credentials after first fetch
+     let cachedCredentials = null;
+     let lastFetchTime = 0;
+     const CACHE_DURATION = 300000; // 5 minutes cache
+ 
+     // Path to your auth.txt file in GitHub repo
+     const authFileURL = 'https://raw.githubusercontent.com/proboy315/Source/refs/heads/main/Proboy%20vercel%20app/main/pranks_auth.txt';
+ 
+     // Prefetch credentials when page loads
+     window.addEventListener('load', () => {
+       fetchCredentials().then(creds => {
+         cachedCredentials = creds;
+         lastFetchTime = Date.now();
+       });
+     });
+ 
+     async function fetchCredentials() {
+       try {
+         const response = await fetch(authFileURL + '?t=' + Date.now()); // Cache busting
+         if (!response.ok) throw new Error('Network error');
+         const authText = await response.text();
+         return authText.split('\n')
+           .map(line => line.trim())
+           .filter(line => line && !line.startsWith('#') && line.includes(':'));
+       } catch (error) {
+         console.error('Failed to fetch credentials:', error);
+         return [];
+       }
+     }
+ 
+     form.addEventListener('submit', async function(event) {
+       event.preventDefault();
+       const username = document.getElementById('username').value.trim();
+       const password = document.getElementById('password').value.trim();
+ 
+       if (!username || !password) {
+         showError('Please enter both username and password');
+         return;
+       }
+ 
+       loading.style.display = 'flex';
+ 
+       try {
+         // Use cached credentials if recent, otherwise fetch fresh
+         const now = Date.now();
+         let credentials = cachedCredentials;
+ 
+         if (!credentials || now - lastFetchTime > CACHE_DURATION) {
+           credentials = await fetchCredentials();
+           cachedCredentials = credentials;
+           lastFetchTime = now;
+         }
+ 
+         // Check credentials
+         const credentialToCheck = `${username}:${password}`;
+         const isValid = credentials.some(cred => cred === credentialToCheck);
+ 
+         if (isValid) {
+           showSuccess('Login successful! Redirecting...');
+           setTimeout(() => {
+             window.location.href = 'list_of_pranks.html';
+           }, 1000); // Faster redirect
+         } else {
+           throw new Error('Invalid credentials');
+         }
+       } catch (error) {
+         showError('Invalid username or password');
+       } finally {
+         loading.style.display = 'none';
+       }
+     });
+ 
+     function showSuccess(message) {
+       popup.innerHTML = `<span class="status-indicator online"></span><i class="fas fa-check-circle"></i> ${message}`;
+       popup.className = 'popup success';
+     }
+ 
+     function showError(message) {
+       popup.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${message}`;
+       popup.className = 'popup error';
+       form.style.animation = 'shake 0.4s';
+       setTimeout(() => form.style.animation = '', 400);
+     }
+ 
+     // Add shake animation
+     const style = document.createElement('style');
+     style.textContent = `
+       @keyframes shake {
+         0%, 100% { transform: translateX(0); }
+         25% { transform: translateX(-8px); }
+         50% { transform: translateX(8px); }
+         75% { transform: translateX(-5px); }
+       }
+     `;
+     document.head.appendChild(style);
+   </script>
+ </body>
+ </html>
