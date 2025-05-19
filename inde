@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 350px;
+            text-align: center;
+        }
+        
+        .logout-btn {
+            padding: 10px 20px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome, <span id="username"></span>!</h1>
+        <p>You have successfully logged in.</p>
+        <button class="logout-btn" id="logout">Logout</button>
+    </div>
+
+    <script>
+        // Display username
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (currentUser) {
+            document.getElementById('username').textContent = currentUser.username;
+        } else {
+            // Redirect to login if not logged in
+            window.location.href = 'index.html';
+        }
+        
+        // Handle logout
+        document.getElementById('logout').addEventListener('click', function() {
+            localStorage.removeItem('currentUser');
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+</html>
