@@ -1,382 +1,119 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>ProBoy | Request</title>
+  <title>ProBoy | Digital Portfolio</title>
   <link rel="icon" type="image/png" href="assets/icon.ico">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.2.96/css/materialdesignicons.min.css">
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700&display=swap');
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', 'Orbitron', sans-serif;
-    }
-
-    body {
-      background-color: #3D365C;
-      color: #ffffff;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* Coding Background */
-    .code-background {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-      overflow: hidden;
-    }
-
-    .code-line {
-      position: absolute;
-      font-family: 'Courier New', monospace;
-      font-size: 14px;
-      white-space: nowrap;
-      opacity: 0.15;
-      text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
-      animation: typing 10s linear infinite, fadeInOut 20s infinite;
-    }
-
-    @keyframes typing {
-      0% { transform: translateY(0); }
-      100% { transform: translateY(100vh); }
-    }
-
-    @keyframes fadeInOut {
-      0%, 100% { opacity: 0.1; }
-      50% { opacity: 0.3; }
-    }
-
-    /* Glass Overlay */
-    .glass-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(rgba(61, 54, 92, 0.85), rgba(61, 54, 92, 0.85));
-      z-index: 1;
-      pointer-events: none;
-    }
-
-    /* Request Container */
-    .request-container {
-      position: relative;
-      z-index: 2;
-      background: rgba(61, 54, 92, 0.7);
-      backdrop-filter: blur(15px);
-      border: 1px solid rgba(201, 87, 146, 0.4);
-      border-radius: 1.5rem;
-      padding: 2.5rem;
-      width: 90%;
-      max-width: 500px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-      transition: all 0.5s ease;
-    }
-
-    .request-container:hover {
-      box-shadow: 0 15px 40px rgba(248, 181, 95, 0.3);
-      border-color: #F8B55F;
-    }
-
-    .request-container::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(45deg, 
-        rgba(248, 181, 95, 0.1) 0%, 
-        rgba(201, 87, 146, 0.1) 50%, 
-        rgba(124, 69, 133, 0.1) 100%);
-      z-index: -1;
-      border-radius: 1.6rem;
-      animation: gradientBG 8s ease infinite;
-      background-size: 200% 200%;
-    }
-
-    @keyframes gradientBG {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    .request-header {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-
-    .request-header i {
-      font-size: 3rem;
-      background: linear-gradient(135deg, #F8B55F, #C95792);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      margin-bottom: 1rem;
-      text-shadow: 0 0 10px rgba(248, 181, 95, 0.5);
-    }
-
-    .request-header h2 {
-      font-size: 1.8rem;
-      background: linear-gradient(135deg, #F8B55F, #C95792);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      margin-bottom: 0.5rem;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      text-shadow: 0 0 10px rgba(248, 181, 95, 0.5);
-    }
-
-    .request-header p {
-      color: rgba(255, 255, 255, 0.8);
-      font-size: 0.9rem;
-      letter-spacing: 1px;
-    }
-
-    /* Form Styles */
-    .request-form {
-      margin-top: 1.5rem;
-    }
-
-    .input-group {
-      margin-bottom: 1.5rem;
-      position: relative;
-    }
-
-    .input-group label {
-      display: block;
-      margin-bottom: 0.5rem;
-      color: #F8B55F;
-      font-size: 0.9rem;
-      text-shadow: 0 0 5px rgba(248, 181, 95, 0.3);
-      letter-spacing: 1px;
-    }
-
-    .input-group input {
-      width: 100%;
-      padding: 12px 15px;
-      background: rgba(124, 69, 133, 0.2);
-      border: 1px solid rgba(201, 87, 146, 0.4);
-      border-radius: 10px;
-      color: #ffffff;
-      font-size: 1rem;
-      outline: none;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(5px);
-    }
-
-    .input-group input:focus {
-      border-color: #F8B55F;
-      box-shadow: 0 0 15px rgba(248, 181, 95, 0.3);
-      background: rgba(201, 87, 146, 0.3);
-    }
-
-    .input-group input::placeholder {
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 0.9rem;
-    }
-
-    .password-container {
-      position: relative;
-    }
-
-    .toggle-password {
-      position: absolute;
-      right: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: rgba(255, 255, 255, 0.7);
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .toggle-password:hover {
-      color: #C95792;
-      text-shadow: 0 0 10px rgba(201, 87, 146, 0.5);
-    }
-
-    .submit-btn {
-      width: 100%;
-      padding: 12px;
-      background: linear-gradient(45deg, #7C4585, #C95792);
-      border: none;
-      border-radius: 50px;
-      color: white;
-      font-weight: 600;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-      margin-top: 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
-
-    .submit-btn:hover {
-      background: linear-gradient(45deg, #C95792, #F8B55F);
-      transform: translateY(-3px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-      text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
-    }
-
-    .submit-btn::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-      transition: 0.5s;
-    }
-
-    .submit-btn:hover::before {
-      left: 100%;
-    }
-
-    .signin-link {
-      text-align: center;
-      margin-top: 1.5rem;
-      color: rgba(255, 255, 255, 0.7);
-      font-size: 0.9rem;
-    }
-
-    .signin-link a {
-      color: #C95792;
-      text-decoration: none;
-      font-weight: 600;
-      transition: all 0.3s ease;
-    }
-
-    .signin-link a:hover {
-      color: #F8B55F;
-      text-shadow: 0 0 10px rgba(248, 181, 95, 0.3);
-    }
-
-    .request-footer {
-      text-align: center;
-      margin-top: 1.5rem;
-      color: rgba(255, 255, 255, 0.7);
-      font-style: italic;
-      font-size: 0.85rem;
-    }
-
-    /* Footer */
-    footer {
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      background: rgba(61, 54, 92, 0.8);
-      backdrop-filter: blur(15px);
-      padding: 1rem 0;
-      text-align: center;
-      z-index: 10;
-      border-top: 1px solid rgba(201, 87, 146, 0.4);
-      box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.3);
-    }
-
-    .copyright {
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 0.8rem;
-      letter-spacing: 1px;
-    }
-
-    .copyright b {
-      background: linear-gradient(135deg, #F8B55F, #C95792);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      text-shadow: 0 0 10px rgba(248, 181, 95, 0.3);
-    }
-
-    /* Responsive adjustments */
-    @media (max-width: 480px) {
-      .request-container {
-        padding: 2rem 1.5rem;
-      }
-      
-      .request-header h2 {
-        font-size: 1.5rem;
-      }
-      
-      .request-header i {
-        font-size: 2.5rem;
-      }
-
-      .code-line {
-        font-size: 12px;
-      }
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
   <!-- Coding Background -->
   <div class="code-background" id="codeBackground"></div>
-  <div class="glass-overlay"></div>
+  
+  <!-- Navigation Buttons -->
+  <div class="nav-buttons">
+    <a href="#" id="accessBtn" class="nav-btn signin-btn"><i class="fas fa-sign-in-alt"></i> Enter</a>
+  </div>
 
-  <div class="request-container">
-    <div class="request-header">
-      <i class="fas fa-user-plus"></i>
-      <h2>PROBOY ACCOUNT REQUEST</h2>
-      <p>Fill the form to request access</p>
-    </div>
-
-    <form class="request-form" id="requestForm">
-      <div class="input-group">
-        <label for="fullname"><i class="mdi mdi-account-outline"></i> FULL NAME</label>
-        <input type="text" id="fullname" placeholder="Enter your full name" required>
+  <div class="portfolio-container">
+    <h1 class="logo">ProBoy</h1>
+    
+    <!-- Glass Profile Card -->
+    <div class="profile-card hover-grow" id="profileCard">
+      <div class="profile-img">
+        <img src="assets/My_Photo.jpg" alt="Profile Image" id="profilePhoto">
       </div>
-
-      <div class="input-group">
-        <label for="email"><i class="mdi mdi-email-outline"></i> EMAIL ADDRESS</label>
-        <input type="email" id="email" placeholder="Enter your email" required>
-      </div>
-
-      <div class="input-group">
-        <label for="phone"><i class="mdi mdi-phone"></i> PHONE NUMBER</label>
-        <input type="tel" id="phone" placeholder="Enter your phone number" required>
-      </div>
-
-      <div class="input-group">
-        <label for="password"><i class="mdi mdi-lock-outline"></i> PASSWORD</label>
-        <div class="password-container">
-          <input type="password" id="password" placeholder="Create a password" required>
-          <i class="fas fa-eye toggle-password" id="togglePassword"></i>
+      <div class="info">
+        <div class="logo-container">
+          <img src="assets/icon.ico" alt="Logo" class="logo-img hover-rotate">
+          <div>
+            <div class="title">ProBoy</div>
+            <div class="tagline">The Tech Enthusiast</div>
+          </div>
         </div>
+        
+        <div class="name">Shahan Ali</div>
+        <div class="role">Tech Expert</div>
+        
+        <div class="contact">
+          <p><i class="mdi mdi-cellphone"></i> <a href="https://wa.me/923261684315">+92 326 1684315</a></p>
+          <p><i class="mdi mdi-email"></i> <a href="mailto:luciferkiller315@gmail.com">luciferkiller315@gmail.com</a></p>
+          <p><i class="mdi mdi-map-marker"></i> <a href="https://maps.app.goo.gl/gi6HndSEMv5SPf8t9">Burewala, Vehari, Punjab, Pakistan</a></p>
+          <p><i class="mdi mdi-web"></i> <a href="https://proboy.vercel.app">proboy.vercel.app</a></p>
+        </div>
+        
+        <div class="socials">
+          <a href="https://www.tiktok.com/@itx_proboy"><i class="mdi mdi-tiktok"></i> @itx_proboy</a>
+          <a href="https://www.instagram.com/itx__proboy"><i class="mdi mdi-instagram"></i> @itx__proboy</a>
+        </div>
+        
+        <!-- Know More Button -->
+        <a href="about.html" class="know-more-btn">Access Full Profile <i class="fas fa-arrow-right"></i></a>
+        
+        <img class="signature-img" src="assets/sign.svg" alt="Signature">
       </div>
+    </div>
+  </div>
 
-      <button type="submit" class="submit-btn">
-        <i class="fas fa-paper-plane"></i> SEND REQUEST
-      </button>
+  <!-- Access Modal -->
+  <div class="modal-overlay" id="accessModal">
+    <div class="login-container">
+      <span class="close-modal" id="closeModal">&times;</span>
       
-      <div class="signin-link">
-        Already have an account? <a href="signin.html">Sign in</a>
+      <div class="loading" id="loading">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">ProBoy AUTHENTICATION IN PROGRESS</div>
       </div>
-    </form>
+      
+      <div class="login-header">
+        <h2>Proboy ACCESS</h2>
+        <p>Access My Digital World</p>
+      </div>
 
-    <div class="request-footer">
-      <p>Dear ProBoy sir, I want account 🥺</p>
+      <div class="auth-toggle">
+        <button class="auth-btn active" id="signInTab">Sign In</button>
+        <button class="auth-btn" id="signUpTab">Sign Up</button>
+      </div>
+
+      <!-- Sign In Form -->
+      <form class="login-form active" id="loginForm">
+        <div class="input-group">
+          <i class="fas fa-user"></i>
+          <input type="text" id="username" placeholder="Username" required autocomplete="username">
+        </div>
+        
+        <div class="input-group">
+          <i class="fas fa-key"></i>
+          <input type="password" id="password" placeholder="Password" required autocomplete="current-password">
+        </div>
+        
+        <button type="submit" class="btn">
+          <i class="fas fa-sign-in-alt"></i> Authenticate
+        </button>
+        
+        <div id="statusMessage" class="status-message"></div>
+      </form>
+
+      <!-- Sign Up Form -->
+      <form class="signup-form" id="signupForm">
+        <div class="input-group">
+          <i class="fas fa-user"></i>
+          <input type="text" id="fullname" placeholder="Full Name" required>
+        </div>
+        
+        <div class="input-group">
+          <i class="fas fa-key"></i>
+          <input type="password" id="newPassword" placeholder="Password" required>
+        </div>
+        
+        <button type="submit" class="btn">
+          <i class="fas fa-paper-plane"></i> Request Access
+        </button>
+      </form>
     </div>
   </div>
 
@@ -386,109 +123,6 @@
     </div>
   </footer>
 
-  <script>
-    // Set current year in footer
-    document.getElementById('currentYear').textContent = new Date().getFullYear();
-
-    // Create code background
-    function createCodeBackground() {
-      const codeBackground = document.getElementById('codeBackground');
-      const codeSnippets = [
-        "function handleRequest() { ... }",
-        "const user = new User(requestData);",
-        "if (user.authenticated) { grantAccess(); }",
-        "export default function AuthForm() { ... }",
-        "async function validateCredentials() { ... }",
-        "class AccountRequest { constructor() { ... } }",
-        "document.addEventListener('submit', processForm);",
-        "formData.map(field => validate(field));",
-        "const [user, setUser] = useState();",
-        "for(let i = 0; i < users.length; i++) { ... }",
-        "if (user.hasAccess) { ... } else { ... }",
-        "try { processRequest() } catch (error) { ... }",
-        "const response = await sendRequest(data);",
-        "console.log('Processing request...');",
-        "localStorage.setItem('tempUser', data);",
-        "window.addEventListener('load', initForm);",
-        "const authRegex = /pattern/;",
-        "const userData = { name: 'value' };",
-        "const requests = [req1, req2, req3];",
-        "const message = `Request from ${user}`;",
-        "function* processQueue() { yield nextRequest; }",
-        "const authPromise = new Promise();",
-        "const form = document.createElement('form');",
-        "form.classList.add('auth-form');",
-        "const user = JSON.parse(userData);",
-        "const requestDate = new Date();",
-        "Math.random().toString(36).substring(2);",
-        "setTimeout(() => { checkStatus() }, 1000);",
-        "setInterval(() => { pingServer() }, 5000);",
-        "requestAnimationFrame(updateUI);"
-      ];
-
-      // Create 50 code lines
-      for (let i = 0; i < 50; i++) {
-        const codeLine = document.createElement('div');
-        codeLine.className = 'code-line';
-        
-        // Randomly select a code snippet
-        const snippet = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
-        codeLine.textContent = snippet;
-        
-        // Random position and animation delay
-        const left = Math.random() * 100;
-        const delay = Math.random() * -20;
-        const duration = 10 + Math.random() * 20;
-        const color = `hsl(${Math.floor(Math.random() * 60) + 270}, 70%, 70%)`;
-        
-        codeLine.style.left = `${left}%`;
-        codeLine.style.animationDelay = `${delay}s`;
-        codeLine.style.animationDuration = `${duration}s`;
-        codeLine.style.color = color;
-        
-        codeBackground.appendChild(codeLine);
-      }
-    }
-
-    // Call the function to create code background
-    createCodeBackground();
-
-    // Toggle password visibility
-    const togglePassword = document.querySelector('#togglePassword');
-    const password = document.querySelector('#password');
-
-    togglePassword.addEventListener('click', function() {
-      const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-      password.setAttribute('type', type);
-      this.classList.toggle('fa-eye-slash');
-    });
-
-    // Form submission
-    document.getElementById('requestForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      // Get form values
-      const formData = {
-        fullname: document.getElementById('fullname').value,
-        email: document.getElementById('email').value,
-        phone: document.getElementById('phone').value,
-        password: document.getElementById('password').value
-      };
-      
-      // Create WhatsApp message
-      const message = `*Cyber Account Request*%0A%0A` +
-                     `*Name:* ${formData.fullname}%0A` +
-                     `*Email:* ${formData.email}%0A` +
-                     `*Phone:* ${formData.phone}%0A` +
-                     `*Password:* ${formData.password}%0A%0A` +
-                     `Dear ProBoy sir, I want account 🥺`;
-      
-      // Open WhatsApp with pre-filled message
-      window.location.href = `https://wa.me/923261684315?text=${message}`;
-      
-      // Reset form
-      this.reset();
-    });
-  </script>
+  <script src="assets/script.js"></script>
 </body>
 </html>
