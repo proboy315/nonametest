@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.2.96/css/materialdesignicons.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
@@ -17,6 +18,31 @@
   <!-- Navigation Buttons -->
   <div class="nav-buttons">
     <a href="#" id="accessBtn" class="nav-btn signin-btn"><i class="fas fa-sign-in-alt"></i> Enter</a>
+    <button id="themeToggle" class="nav-btn theme-btn"><i class="fas fa-moon"></i></button>
+    <button id="musicToggle" class="nav-btn music-btn"><i class="fas fa-music"></i></button>
+    <button id="languageToggle" class="nav-btn language-btn"><i class="fas fa-language"></i></button>
+  </div>
+
+  <!-- Audio Element for Background Music -->
+  <audio id="bgMusic" loop>
+    <source src="assets/background-music.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Notification Toast -->
+  <div id="notificationToast" class="toast">
+    <div class="toast-content">
+      <i class="toast-icon"></i>
+      <span class="toast-message"></span>
+    </div>
+    <div class="toast-progress"></div>
+  </div>
+
+  <!-- Quick Access Floating Menu -->
+  <div class="quick-access">
+    <button class="quick-btn" id="quickHome" title="Home"><i class="fas fa-home"></i></button>
+    <button class="quick-btn" id="quickAbout" title="About"><i class="fas fa-user"></i></button>
+    <button class="quick-btn" id="quickProjects" title="Projects"><i class="fas fa-code"></i></button>
+    <button class="quick-btn" id="quickContact" title="Contact"><i class="fas fa-envelope"></i></button>
   </div>
 
   <div class="portfolio-container">
@@ -26,6 +52,10 @@
     <div class="profile-card hover-grow" id="profileCard">
       <div class="profile-img">
         <img src="assets/My_Photo.jpg" alt="Profile Image" id="profilePhoto">
+        <div class="online-status" id="onlineStatus"></div>
+        <div class="profile-hover">
+          <button id="viewFullPhoto"><i class="fas fa-expand"></i> View Full</button>
+        </div>
       </div>
       <div class="info">
         <div class="logo-container">
@@ -40,21 +70,87 @@
         <div class="role">Tech Expert</div>
         
         <div class="contact">
-          <p><i class="mdi mdi-cellphone"></i> <a href="https://wa.me/923261684315">+92 326 1684315</a></p>
-          <p><i class="mdi mdi-email"></i> <a href="mailto:luciferkiller315@gmail.com">luciferkiller315@gmail.com</a></p>
-          <p><i class="mdi mdi-map-marker"></i> <a href="https://maps.app.goo.gl/gi6HndSEMv5SPf8t9">Burewala, Vehari, Punjab, Pakistan</a></p>
-          <p><i class="mdi mdi-web"></i> <a href="https://proboy.vercel.app">proboy.vercel.app</a></p>
+          <p><i class="mdi mdi-cellphone"></i> <a href="https://wa.me/923261684315" class="contact-link" data-tooltip="Click to chat on WhatsApp">+92 326 1684315</a></p>
+          <p><i class="mdi mdi-email"></i> <a href="mailto:luciferkiller315@gmail.com" class="contact-link" data-tooltip="Send me an email">luciferkiller315@gmail.com</a></p>
+          <p><i class="mdi mdi-map-marker"></i> <a href="https://maps.app.goo.gl/gi6HndSEMv5SPf8t9" class="contact-link" data-tooltip="View my location">Burewala, Vehari, Punjab, Pakistan</a></p>
+          <p><i class="mdi mdi-web"></i> <a href="https://proboy.vercel.app" class="contact-link" data-tooltip="Visit my website">proboy.vercel.app</a></p>
         </div>
         
         <div class="socials">
-          <a href="https://www.tiktok.com/@itx_proboy"><i class="mdi mdi-tiktok"></i> @itx_proboy</a>
-          <a href="https://www.instagram.com/itx__proboy"><i class="mdi mdi-instagram"></i> @itx__proboy</a>
+          <a href="https://www.tiktok.com/@itx_proboy" class="social-link" target="_blank" data-tooltip="Follow me on TikTok"><i class="mdi mdi-tiktok"></i> @itx_proboy</a>
+          <a href="https://www.instagram.com/itx__proboy" class="social-link" target="_blank" data-tooltip="Follow me on Instagram"><i class="mdi mdi-instagram"></i> @itx__proboy</a>
+        </div>
+        
+        <!-- Skills Progress Bars -->
+        <div class="skills-section">
+          <h3>My Skills</h3>
+          <div class="skill">
+            <span>Web Development</span>
+            <div class="progress-bar">
+              <div class="progress" style="width: 85%"></div>
+            </div>
+          </div>
+          <div class="skill">
+            <span>UI/UX Design</span>
+            <div class="progress-bar">
+              <div class="progress" style="width: 75%"></div>
+            </div>
+          </div>
+          <div class="skill">
+            <span>Cyber Security</span>
+            <div class="progress-bar">
+              <div class="progress" style="width: 80%"></div>
+            </div>
+          </div>
         </div>
         
         <!-- Know More Button -->
         <a href="about.html" class="know-more-btn">Access Full Profile <i class="fas fa-arrow-right"></i></a>
         
-        <img class="signature-img" src="assets/sign.svg" alt="Signature">
+        <img class="signature-img" src="assets/sign.svg" alt="Signature" id="signature">
+        
+        <!-- Visitor Counter -->
+        <div class="visitor-counter">
+          <i class="fas fa-users"></i>
+          <span>Visitors: <span id="visitorCount">0</span></span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Projects Showcase (Hidden by default) -->
+    <div class="projects-section" id="projectsSection">
+      <h2 class="section-title">My Projects</h2>
+      <div class="projects-grid">
+        <div class="project-card">
+          <div class="project-image">
+            <img src="assets/project1.jpg" alt="Project 1">
+          </div>
+          <div class="project-info">
+            <h3>Portfolio Website</h3>
+            <p>A responsive portfolio website built with HTML, CSS, and JavaScript.</p>
+            <div class="project-tags">
+              <span>HTML</span>
+              <span>CSS</span>
+              <span>JS</span>
+            </div>
+            <a href="#" class="project-link">View Project</a>
+          </div>
+        </div>
+        <div class="project-card">
+          <div class="project-image">
+            <img src="assets/project2.jpg" alt="Project 2">
+          </div>
+          <div class="project-info">
+            <h3>E-commerce App</h3>
+            <p>Full-stack e-commerce application with React and Node.js.</p>
+            <div class="project-tags">
+              <span>React</span>
+              <span>Node.js</span>
+              <span>MongoDB</span>
+            </div>
+            <a href="#" class="project-link">View Project</a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -89,11 +185,28 @@
         <div class="input-group">
           <i class="fas fa-key"></i>
           <input type="password" id="password" placeholder="Password" required autocomplete="current-password">
+          <span class="show-password" id="showLoginPassword"><i class="fas fa-eye"></i></span>
+        </div>
+        
+        <div class="remember-forgot">
+          <label>
+            <input type="checkbox" id="rememberMe"> Remember me
+          </label>
+          <a href="#" id="forgotPassword">Forgot password?</a>
         </div>
         
         <button type="submit" class="btn">
           <i class="fas fa-sign-in-alt"></i> Authenticate
         </button>
+        
+        <div class="social-login">
+          <p>Or sign in with:</p>
+          <div class="social-icons">
+            <button type="button" class="social-btn google"><i class="fab fa-google"></i></button>
+            <button type="button" class="social-btn github"><i class="fab fa-github"></i></button>
+            <button type="button" class="social-btn twitter"><i class="fab fa-twitter"></i></button>
+          </div>
+        </div>
         
         <div id="statusMessage" class="status-message"></div>
       </form>
@@ -106,8 +219,26 @@
         </div>
         
         <div class="input-group">
+          <i class="fas fa-envelope"></i>
+          <input type="email" id="email" placeholder="Email" required>
+        </div>
+        
+        <div class="input-group">
           <i class="fas fa-key"></i>
           <input type="password" id="newPassword" placeholder="Password" required>
+          <span class="show-password" id="showSignupPassword"><i class="fas fa-eye"></i></span>
+        </div>
+        
+        <div class="input-group">
+          <i class="fas fa-key"></i>
+          <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+        </div>
+        
+        <div class="terms">
+          <label>
+            <input type="checkbox" id="agreeTerms" required>
+            I agree to the <a href="#">Terms & Conditions</a>
+          </label>
         </div>
         
         <button type="submit" class="btn">
@@ -117,12 +248,71 @@
     </div>
   </div>
 
+  <!-- Forgot Password Modal -->
+  <div class="modal-overlay" id="forgotModal">
+    <div class="forgot-container">
+      <span class="close-modal" id="closeForgotModal">&times;</span>
+      <div class="forgot-header">
+        <h2>Reset Password</h2>
+        <p>Enter your email to receive a reset link</p>
+      </div>
+      <form id="forgotForm">
+        <div class="input-group">
+          <i class="fas fa-envelope"></i>
+          <input type="email" id="resetEmail" placeholder="Your Email" required>
+        </div>
+        <button type="submit" class="btn">
+          <i class="fas fa-paper-plane"></i> Send Reset Link
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Image Viewer Modal -->
+  <div class="modal-overlay" id="imageViewer">
+    <div class="image-viewer-container">
+      <span class="close-modal" id="closeImageViewer">&times;</span>
+      <img id="fullSizeImage" src="" alt="Full Size Image">
+    </div>
+  </div>
+
   <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="projects.html">Projects</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Connect With Me</h3>
+        <div class="social-icons">
+          <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+          <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+          <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
+          <a href="https://github.com" target="_blank"><i class="fab fa-github"></i></a>
+        </div>
+      </div>
+      <div class="footer-section">
+        <h3>Newsletter</h3>
+        <form id="newsletterForm">
+          <input type="email" placeholder="Your Email" required>
+          <button type="submit">Subscribe</button>
+        </form>
+      </div>
+    </div>
     <div class="copyright">
       мα∂є ву <b>ProBoy</b> &copy; <span id="currentYear"></span> | All rights reserved
     </div>
   </footer>
 
+  <!-- Back to Top Button -->
+  <button id="backToTop" class="back-to-top" title="Go to top"><i class="fas fa-arrow-up"></i></button>
+
   <script src="assets/script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
 </body>
 </html>
