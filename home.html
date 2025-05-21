@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ProBoy | Tools</title>
+  <link rel="icon" type="image/png" href="assets/icon.ico">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.2.96/css/materialdesignicons.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', 'Orbitron', sans-serif;
+    }
+
+    body {
+      background-color: #3D365C;
+      color: #ffffff;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Coding Background */
+    .code-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .code-line {
+      position: absolute;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      white-space: nowrap;
+      opacity: 0.15;
+      text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+      animation: typing 10s linear infinite, fadeInOut 20s infinite;
+    }
+
+    @keyframes typing {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(100vh); }
+    }
+
+    @keyframes fadeInOut {
+      0%, 100% { opacity: 0.1; }
+      50% { opacity: 0.3; }
+    }
+
+    /* Glass Overlay */
+    .glass-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(rgba(61, 54, 92, 0.85), rgba(61, 54, 92, 0.85));
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* Main Container */
+    .dashboard-container {
+      position: relative;
+      z-index: 2;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 6rem 1.5rem 5rem;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      background: linear-gradient(135deg, #F8B55F, #C95792);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      text-shadow: 0 0 10px rgba(248, 181, 95, 0.5);
+      position: relative;
+    }
+
+    .header h1::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #F8B55F, #C95792, transparent);
+      border-radius: 3px;
+    }
+
+    .header p {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 1.1rem;
+      letter-spacing: 1px;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* Tool Cards Grid */
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+      margin-top: 30px;
+    }
+
+    .tool-card {
+      background: rgba(61, 54, 92, 0.7);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(201, 87, 146, 0.4);
+      border-radius: 1.5rem;
+      padding: 2rem;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      text-decoration: none;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .tool-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, 
+        rgba(248, 181, 95, 0.1) 0%, 
+        rgba(201, 87, 146, 0.1) 50%, 
+        rgba(124, 69, 133, 0.1) 100%);
+      z-index: -1;
+      border-radius: 1.6rem;
+      animation: gradientBG 8s ease infinite;
+      background-size: 200% 200%;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .tool-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(248, 181, 95, 0.3);
+      border-color: #F8B55F;
+    }
+
+    .tool-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, #F8B55F, #C95792);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 10px rgba(248, 181, 95, 0.5);
+    }
+
+    .tool-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: #F8B55F;
+      text-shadow: 0 0 5px rgba(248, 181, 95, 0.3);
+    }
+
+    .tool-card p {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    .tool-badge {
+      background: rgba(124, 69, 133, 0.3);
+      padding: 0.5rem 1.5rem;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      border: 1px solid rgba(201, 87, 146, 0.4);
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .tool-card:hover .tool-badge {
+      background: rgba(201, 87, 146, 0.4);
+      border-color: #F8B55F;
+    }
+
+    /* Navigation Buttons */
+    .nav-buttons {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      display: flex;
+      gap: 0.8rem;
+      z-index: 100;
+    }
+
+    .nav-btn {
+      padding: 0.6rem 1.2rem;
+      border-radius: 2rem;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 0.9rem;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(248, 181, 95, 0.3);
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
+      color: white;
+      background: rgba(248, 181, 95, 0.2);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .nav-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    .nav-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: 0.5s;
+    }
+
+    .nav-btn:hover::before {
+      left: 100%;
+    }
+
+    /* Footer */
+    footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: rgba(61, 54, 92, 0.8);
+      backdrop-filter: blur(15px);
+      padding: 1rem 0;
+      text-align: center;
+      z-index: 10;
+      border-top: 1px solid rgba(201, 87, 146, 0.4);
+      box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .copyright {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.8rem;
+      letter-spacing: 1px;
+    }
+
+    .copyright b {
+      background: linear-gradient(135deg, #F8B55F, #C95792);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 10px rgba(248, 181, 95, 0.3);
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .tool-card {
+      animation: fadeIn 0.5s ease forwards;
+      opacity: 0;
+    }
+
+    .tool-card:nth-child(1) { animation-delay: 0.2s; }
+    .tool-card:nth-child(2) { animation-delay: 0.4s; }
+    .tool-card:nth-child(3) { animation-delay: 0.6s; }
+
+    /* Modal Styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .login-container {
+      position: relative;
+      background: rgba(61, 54, 92, 0.9);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(124, 69, 133, 0.4);
+      border-radius: 1.5rem;
+      padding: 2.5rem;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      transform: translateY(20px);
+      transition: all 0.3s ease;
+      opacity: 0;
+    }
+
+    .modal-overlay.active .login-container {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .login-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, 
+        rgba(248, 181, 95, 0.1) 0%, 
+        rgba(201, 87, 146, 0.1) 50%, 
+        rgba(124, 69, 133, 0.1) 100%);
+      z-index: -1;
+      border-radius: 1.6rem;
+      animation: gradientBG 8s ease infinite;
+      background-size: 200% 200%;
+    }
+
+    .login-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .login-header h2 {
+      font-size: 2rem;
+      background: linear-gradient(135deg, #F8B55F, #C95792);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px rgba(248, 181, 95, 0.3);
+    }
+
+    .login-header p {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+    }
+
+    /* Auth Toggle */
+    .auth-toggle {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      gap: 10px;
+    }
+
+    .auth-btn {
+      padding: 8px 20px;
+      background: transparent;
+      border: 1px solid rgba(201, 87, 146, 0.4);
+      border-radius: 50px;
+      color: rgba(255, 255, 255, 0.7);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .auth-btn.active {
+      background: rgba(201, 87, 146, 0.4);
+      color: white;
+      border-color: #F8B55F;
+    }
+
+    .auth-btn:hover {
+      background: rgba(201, 87, 146, 0.3);
+    }
+
+    /* Forms */
+    .login-form, .signup-form {
+      margin-top: 1.5rem;
+      display: none;
+    }
+
+    .login-form.active, .signup-form.active {
+      display: block;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    .input-group i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #C95792;
+      font-size: 1rem;
+      text-shadow: 0 0 10px rgba(201, 87, 146, 0.5);
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 12px 12px 12px 40px;
+      background: rgba(124, 69, 133, 0.2);
+      border: 1px solid rgba(201, 87, 146, 0.4);
+      border-radius: 10px;
+      color: #ffffff;
+      font-size: 1rem;
+      outline: none;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(5px);
+    }
+
+    .input-group input::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .input-group input:focus {
+      border-color: #F8B55F;
+      box-shadow: 0 0 20px rgba(248, 181, 95, 0.3);
+      background: rgba(201, 87, 146, 0.3);
+    }
+
+    .btn {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(45deg, #7C4585, #C95792);
+      border: none;
+      border-radius: 50px;
+      color: white;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      margin-top: 10px;
+    }
+
+    .btn:hover {
+      background: linear-gradient(45deg, #C95792, #F8B55F);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+      transition: 0.5s;
+    }
+
+    .btn:hover::before {
+      left: 100%;
+    }
+
+    .status-message {
+      padding: 12px;
+      border-radius: 10px;
+      margin-top: 1rem;
+      text-align: center;
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .success {
+      background: rgba(0, 255, 127, 0.2);
+      border: 1px solid rgba(0, 255, 127, 0.3);
+      color: #00ff7f;
+      display: block;
+    }
+
+    .error {
+      background: rgba(255, 0, 127, 0.2);
+      border: 1px solid rgba(255, 0, 127, 0.3);
+      color: #ff007f;
+      display: block;
+    }
+
+    .loading {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(61, 54, 92, 0.9);
+      backdrop-filter: blur(5px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 10;
+      border-radius: 1.5rem;
+    }
+
+    .loading-spinner {
+      width: 50px;
+      height: 50px;
+      border: 3px solid transparent;
+      border-top-color: #F8B55F;
+      border-bottom-color: #C95792;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 1rem;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+      color: #ffffff;
+      font-size: 1rem;
+      letter-spacing: 1px;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 11;
+    }
+
+    .close-modal:hover {
+      color: #C95792;
+      transform: rotate(90deg);
+      text-shadow: 0 0 10px rgba(201, 87, 146, 0.5);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .dashboard-container {
+        padding: 5rem 1rem 5rem;
+      }
+      
+      .header h1 {
+        font-size: 2rem;
+      }
+      
+      .tools-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .login-container {
+        padding: 2rem 1.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header h1 {
+        font-size: 1.8rem;
+      }
+      
+      .header p {
+        font-size: 1rem;
+      }
+      
+      .tool-card {
+        padding: 1.5rem;
+      }
+
+      .login-container {
+        padding: 1.5rem 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Coding Background -->
+  <div class="code-background" id="codeBackground"></div>
+  <div class="glass-overlay"></div>
+
+  <!-- Navigation Buttons -->
+  <div class="nav-buttons">
+    <a href="index.html" class="nav-btn"><i class="fas fa-home"></i> Main</a>
+  </div>
+
+  <div class="dashboard-container">
+    <header class="header">
+      <h1>Proboy TOOLS</h1>
+      <p>Premium utilities for your digital needs</p>
+    </header>
+
+    <div class="tools-grid">
+      <a href="sim_database.html" class="tool-card">
+        <div class="tool-icon">
+          <i class="mdi mdi-sim"></i>
+        </div>
+        <h3>SIM Database</h3>
+        <p>Access comprehensive SIM card information and details through our ProBoy database</p>
+        <div class="tool-badge">ACCESS TOOL</div>
+      </a>
+
+      <a href="#" class="tool-card" id="pranksTool">
+        <div class="tool-icon">
+          <i class="mdi mdi-emoticon-devil-outline"></i>
+        </div>
+        <h3>ProBoy Pranks</h3>
+        <p>Collection of digital prank utilities for entertainment purposes</p>
+        <div class="tool-badge">ACCESS TOOL</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Pranks Access Modal -->
+  <div class="modal-overlay" id="pranksModal">
+    <div class="login-container">
+      <span class="close-modal" id="closePranksModal">&times;</span>
+      
+      <div class="loading" id="pranksLoading">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">ProBoy AUTHENTICATION IN PROGRESS</div>
+      </div>
+      
+      <div class="login-header">
+        <h2>PROBOY PRANKS ACCESS</h2>
+        <p>Unlock prank tools collection</p>
+      </div>
+
+      <div class="auth-toggle">
+        <button class="auth-btn active" id="pranksSignInTab">Sign In Access</button>
+        <button class="auth-btn" id="pranksSignUpTab">Sign Up Access</button>
+      </div>
+
+      <!-- Sign In Form -->
+      <form class="login-form active" id="pranksLoginForm">
+        <div class="input-group">
+          <i class="fas fa-user"></i>
+          <input type="text" id="pranksUsername" placeholder="Username" required autocomplete="username">
+        </div>
+        
+        <div class="input-group">
+          <i class="fas fa-key"></i>
+          <input type="password" id="pranksPassword" placeholder="Password" required autocomplete="current-password">
+        </div>
+        
+        <button type="submit" class="btn">
+          <i class="fas fa-sign-in-alt"></i> Authenticate
+        </button>
+        
+        <div id="pranksStatusMessage" class="status-message"></div>
+      </form>
+
+      <!-- Sign Up Form -->
+      <form class="signup-form" id="pranksSignupForm">
+        <div class="input-group">
+          <i class="fas fa-user"></i>
+          <input type="text" id="pranksFullname" placeholder="Full Name" required>
+        </div>
+        
+        <div class="input-group">
+          <i class="fas fa-key"></i>
+          <input type="password" id="pranksNewPassword" placeholder="Password" required>
+        </div>
+        
+        <button type="submit" class="btn">
+          <i class="fas fa-paper-plane"></i> Request Access
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    <div class="copyright">
+      мα∂є ву <b>ProBoy</b> &copy; <span id="currentYear"></span> | All rights reserved
+    </div>
+  </footer>
+
+  <script>
+    // Set current year in footer
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+    // Create code background
+    function createCodeBackground() {
+      const codeBackground = document.getElementById('codeBackground');
+      const codeSnippets = [
+        "function getTools() { ... }",
+        "const tools = new ToolCollection();",
+        "if (user.hasAccess) { showTools(); }",
+        "export default function ToolCard() { ... }",
+        "async function fetchToolData() { ... }",
+        "class Tool { constructor() { ... } }",
+        "document.addEventListener('click', handleToolClick);",
+        "tools.map(tool => renderTool(tool));",
+        "const [selectedTool, setTool] = useState();",
+        "for(let i = 0; i < tools.length; i++) { ... }",
+        "if (tool.available) { ... } else { ... }",
+        "try { loadTool() } catch (error) { ... }",
+        "const response = await fetchTool();",
+        "console.log('Loading tools...');",
+        "localStorage.setItem('lastTool', toolId);",
+        "window.addEventListener('load', initTools);",
+        "const toolRegex = /pattern/;",
+        "const tool = { name: 'value' };",
+        "const toolList = [tool1, tool2];",
+        "const message = `Using ${tool}`;",
+        "function* toolProcess() { yield nextStep; }",
+        "const toolPromise = new Promise();",
+        "const toolElement = document.createElement('div');",
+        "toolElement.classList.add('tool-card');",
+        "const toolData = JSON.parse(response);",
+        "const accessTime = new Date();",
+        "Math.random().toString(36).substring(2);",
+        "setTimeout(() => { checkAccess() }, 1000);",
+        "setInterval(() => { refreshTools() }, 300000);"
+      ];
+
+      // Create 50 code lines
+      for (let i = 0; i < 50; i++) {
+        const codeLine = document.createElement('div');
+        codeLine.className = 'code-line';
+        
+        // Randomly select a code snippet
+        const snippet = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
+        codeLine.textContent = snippet;
+        
+        // Random position and animation delay
+        const left = Math.random() * 100;
+        const delay = Math.random() * -20;
+        const duration = 10 + Math.random() * 20;
+        const color = `hsl(${Math.floor(Math.random() * 60) + 270}, 70%, 70%)`;
+        
+        codeLine.style.left = `${left}%`;
+        codeLine.style.animationDelay = `${delay}s`;
+        codeLine.style.animationDuration = `${duration}s`;
+        codeLine.style.color = color;
+        
+        codeBackground.appendChild(codeLine);
+      }
+    }
+
+    // Call the function to create code background
+    createCodeBackground();
+
+    // Pranks Tool Modal Functionality
+    const pranksTool = document.getElementById('pranksTool');
+    const pranksModal = document.getElementById('pranksModal');
+    const closePranksModal = document.getElementById('closePranksModal');
+    const pranksLoginForm = document.getElementById('pranksLoginForm');
+    const pranksSignupForm = document.getElementById('pranksSignupForm');
+    const pranksStatusMessage = document.getElementById('pranksStatusMessage');
+    const pranksLoading = document.getElementById('pranksLoading');
+    const pranksSignInTab = document.getElementById('pranksSignInTab');
+    const pranksSignUpTab = document.getElementById('pranksSignUpTab');
+
+    // Cache credentials after first fetch
+    let pranksCachedCredentials = null;
+    let pranksLastFetchTime = 0;
+    const CACHE_DURATION = 300000; // 5 minutes cache
+
+    // Path to your pranks_auth.txt file in GitHub repo
+    const pranksAuthFileURL = 'https://raw.githubusercontent.com/proboy315/Source/refs/heads/main/Proboy%20vercel%20app/main/pranks_auth.txt';
+
+    // Prefetch credentials when page loads
+    window.addEventListener('load', () => {
+      fetchPranksCredentials().then(creds => {
+        pranksCachedCredentials = creds;
+        pranksLastFetchTime = Date.now();
+      });
+    });
+
+    async function fetchPranksCredentials() {
+      try {
+        const response = await fetch(pranksAuthFileURL + '?t=' + Date.now()); // Cache busting
+        if (!response.ok) throw new Error('Network error');
+        const authText = await response.text();
+        return authText.split('\n')
+          .map(line => line.trim())
+          .filter(line => line && !line.startsWith('#') && line.includes(':'));
+      } catch (error) {
+        console.error('Failed to fetch pranks credentials:', error);
+        return [];
+      }
+    }
+
+    // Toggle modal
+    pranksTool.addEventListener('click', function(e) {
+      e.preventDefault();
+      pranksModal.classList.add('active');
+      document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+    });
+
+    closePranksModal.addEventListener('click', function() {
+      pranksModal.classList.remove('active');
+      document.body.style.overflow = ''; // Re-enable scrolling
+    });
+
+    // Close modal when clicking outside
+    pranksModal.addEventListener('click', function(e) {
+      if (e.target === pranksModal) {
+        pranksModal.classList.remove('active');
+        document.body.style.overflow = ''; // Re-enable scrolling
+      }
+    });
+
+    // Toggle between sign in and sign up forms
+    pranksSignInTab.addEventListener('click', function() {
+      pranksSignInTab.classList.add('active');
+      pranksSignUpTab.classList.remove('active');
+      pranksLoginForm.classList.add('active');
+      pranksSignupForm.classList.remove('active');
+    });
+
+    pranksSignUpTab.addEventListener('click', function() {
+      pranksSignUpTab.classList.add('active');
+      pranksSignInTab.classList.remove('active');
+      pranksSignupForm.classList.add('active');
+      pranksLoginForm.classList.remove('active');
+    });
+
+    // Login form submission
+    pranksLoginForm.addEventListener('submit', async function(event) {
+      event.preventDefault();
+      const username = document.getElementById('pranksUsername').value.trim();
+      const password = document.getElementById('pranksPassword').value.trim();
+
+      if (!username || !password) {
+        showPranksMessage('Please enter both username and password', 'error');
+        return;
+      }
+
+      pranksLoading.style.display = 'flex';
+      
+      try {
+        // Use cached credentials if recent, otherwise fetch fresh
+        const now = Date.now();
+        let credentials = pranksCachedCredentials;
+        
+        if (!credentials || now - pranksLastFetchTime > CACHE_DURATION) {
+          credentials = await fetchPranksCredentials();
+          pranksCachedCredentials = credentials;
+          pranksLastFetchTime = now;
+        }
+
+        // Check credentials
+        const credentialToCheck = `${username}:${password}`;
+        const isValid = credentials.some(cred => cred === credentialToCheck);
+
+        if (isValid) {
+          showPranksMessage('Authentication successful! Redirecting...', 'success');
+          setTimeout(() => {
+            window.location.href = 'list_of_pranks.html';
+          }, 1000);
+        } else {
+          throw new Error('Invalid credentials');
+        }
+      } catch (error) {
+        showPranksMessage('Invalid username or password', 'error');
+        pranksLoginForm.style.animation = 'shake 0.4s';
+        setTimeout(() => pranksLoginForm.style.animation = '', 400);
+      } finally {
+        pranksLoading.style.display = 'none';
+      }
+    });
+
+    // Signup form submission
+    pranksSignupForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Get form values
+      const formData = {
+        fullname: document.getElementById('pranksFullname').value,
+        password: document.getElementById('pranksNewPassword').value
+      };
+      
+      // Create WhatsApp message
+      const message = `*Pranks Account Request*%0A%0A` +
+                     `*Name:* ${formData.fullname}%0A` +
+                     `*Password:* ${formData.password}%0A%0A` +
+                     `Dear ProBoy sir, I want pranks access 🥺`;
+      
+      // Open WhatsApp with pre-filled message
+      window.location.href = `https://wa.me/923261684315?text=${message}`;
+      
+      // Reset form
+      this.reset();
+    });
+
+    function showPranksMessage(message, type) {
+      pranksStatusMessage.textContent = message;
+      pranksStatusMessage.className = `status-message ${type}`;
+    }
+  </script>
+</body>
+</html>
