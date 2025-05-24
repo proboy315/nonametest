@@ -8,150 +8,102 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.2.96/css/materialdesignicons.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-  <!-- Coding Background -->
-  <div class="code-background" id="codeBackground"></div>
+  <!-- Animated Particle Background -->
+  <div id="particles-js"></div>
   
+  <!-- Terminal Window -->
+  <div class="terminal-window" id="terminal">
+    <div class="terminal-header">
+      <div class="terminal-buttons">
+        <span class="terminal-btn close"></span>
+        <span class="terminal-btn minimize"></span>
+        <span class="terminal-btn maximize"></span>
+      </div>
+      <span class="terminal-title">ProBoy@Terminal</span>
+    </div>
+    <div class="terminal-body" id="terminalContent">
+      <div class="terminal-line">Welcome to ProBoy Digital Portfolio</div>
+      <div class="terminal-line">Type 'help' for available commands</div>
+      <div class="terminal-line"><span class="prompt">user@ProBoy:~$</span> <span class="typed-text"></span><span class="cursor">|</span></div>
+    </div>
+  </div>
+
   <!-- Navigation Buttons -->
   <div class="nav-buttons">
     <a href="#" id="accessBtn" class="nav-btn signin-btn"><i class="fas fa-sign-in-alt"></i> Enter</a>
-    <button id="themeToggle" class="nav-btn theme-btn"><i class="fas fa-moon"></i></button>
-    <button id="musicToggle" class="nav-btn music-btn"><i class="fas fa-music"></i></button>
-    <button id="languageToggle" class="nav-btn language-btn"><i class="fas fa-language"></i></button>
-  </div>
-
-  <!-- Audio Element for Background Music -->
-  <audio id="bgMusic" loop>
-    <source src="assets/background-music.mp3" type="audio/mpeg">
-  </audio>
-
-  <!-- Notification Toast -->
-  <div id="notificationToast" class="toast">
-    <div class="toast-content">
-      <i class="toast-icon"></i>
-      <span class="toast-message"></span>
-    </div>
-    <div class="toast-progress"></div>
-  </div>
-
-  <!-- Quick Access Floating Menu -->
-  <div class="quick-access">
-    <button class="quick-btn" id="quickHome" title="Home"><i class="fas fa-home"></i></button>
-    <button class="quick-btn" id="quickAbout" title="About"><i class="fas fa-user"></i></button>
-    <button class="quick-btn" id="quickProjects" title="Projects"><i class="fas fa-code"></i></button>
-    <button class="quick-btn" id="quickContact" title="Contact"><i class="fas fa-envelope"></i></button>
+    <a href="#" id="themeToggle" class="nav-btn theme-btn"><i class="fas fa-moon"></i> Theme</a>
+    <a href="#" id="terminalToggle" class="nav-btn terminal-btn"><i class="fas fa-terminal"></i> Terminal</a>
   </div>
 
   <div class="portfolio-container">
-    <h1 class="logo">ProBoy</h1>
+    <h1 class="logo glitch" data-text="ProBoy">ProBoy</h1>
     
     <!-- Glass Profile Card -->
     <div class="profile-card hover-grow" id="profileCard">
       <div class="profile-img">
-        <img src="assets/My_Photo.jpg" alt="Profile Image" id="profilePhoto">
-        <div class="online-status" id="onlineStatus"></div>
-        <div class="profile-hover">
-          <button id="viewFullPhoto"><i class="fas fa-expand"></i> View Full</button>
-        </div>
+        <img src="assets/My_Photo.jpg" alt="Profile Image" id="profilePhoto" class="hover-3d">
+        <div class="status-badge online"></div>
       </div>
       <div class="info">
         <div class="logo-container">
           <img src="assets/icon.ico" alt="Logo" class="logo-img hover-rotate">
           <div>
-            <div class="title">ProBoy</div>
+            <div class="title neon-text">ProBoy</div>
             <div class="tagline">The Tech Enthusiast</div>
           </div>
         </div>
         
         <div class="name">Shahan Ali</div>
-        <div class="role">Tech Expert</div>
+        <div class="role">
+          <span class="typewriter" data-text='["Tech Expert", "Developer", "Designer", "Problem Solver"]'></span>
+        </div>
+        
+        <div class="skills-chart">
+          <div class="skill" data-skill="HTML/CSS" data-level="90"></div>
+          <div class="skill" data-skill="JavaScript" data-level="85"></div>
+          <div class="skill" data-skill="UI/UX" data-level="80"></div>
+          <div class="skill" data-skill="Python" data-level="75"></div>
+        </div>
         
         <div class="contact">
-          <p><i class="mdi mdi-cellphone"></i> <a href="https://wa.me/923261684315" class="contact-link" data-tooltip="Click to chat on WhatsApp">+92 326 1684315</a></p>
-          <p><i class="mdi mdi-email"></i> <a href="mailto:luciferkiller315@gmail.com" class="contact-link" data-tooltip="Send me an email">luciferkiller315@gmail.com</a></p>
-          <p><i class="mdi mdi-map-marker"></i> <a href="https://maps.app.goo.gl/gi6HndSEMv5SPf8t9" class="contact-link" data-tooltip="View my location">Burewala, Vehari, Punjab, Pakistan</a></p>
-          <p><i class="mdi mdi-web"></i> <a href="https://proboy.vercel.app" class="contact-link" data-tooltip="Visit my website">proboy.vercel.app</a></p>
+          <p><i class="mdi mdi-cellphone"></i> <a href="https://wa.me/923261684315" class="contact-link">+92 326 1684315</a></p>
+          <p><i class="mdi mdi-email"></i> <a href="mailto:luciferkiller315@gmail.com" class="contact-link">luciferkiller315@gmail.com</a></p>
+          <p><i class="mdi mdi-map-marker"></i> <a href="https://maps.app.goo.gl/gi6HndSEMv5SPf8t9" class="contact-link">Burewala, Vehari, Punjab, Pakistan</a></p>
+          <p><i class="mdi mdi-web"></i> <a href="https://proboy.vercel.app" class="contact-link">proboy.vercel.app</a></p>
         </div>
         
         <div class="socials">
-          <a href="https://www.tiktok.com/@itx_proboy" class="social-link" target="_blank" data-tooltip="Follow me on TikTok"><i class="mdi mdi-tiktok"></i> @itx_proboy</a>
-          <a href="https://www.instagram.com/itx__proboy" class="social-link" target="_blank" data-tooltip="Follow me on Instagram"><i class="mdi mdi-instagram"></i> @itx__proboy</a>
+          <a href="https://www.tiktok.com/@itx_proboy" class="social-btn tiktok"><i class="mdi mdi-tiktok"></i> @itx_proboy</a>
+          <a href="https://www.instagram.com/itx__proboy" class="social-btn instagram"><i class="mdi mdi-instagram"></i> @itx__proboy</a>
+          <a href="https://github.com/itx-proboy" class="social-btn github"><i class="mdi mdi-github"></i> @itx-proboy</a>
         </div>
         
-        <!-- Skills Progress Bars -->
-        <div class="skills-section">
-          <h3>My Skills</h3>
-          <div class="skill">
-            <span>Web Development</span>
-            <div class="progress-bar">
-              <div class="progress" style="width: 85%"></div>
-            </div>
-          </div>
-          <div class="skill">
-            <span>UI/UX Design</span>
-            <div class="progress-bar">
-              <div class="progress" style="width: 75%"></div>
-            </div>
-          </div>
-          <div class="skill">
-            <span>Cyber Security</span>
-            <div class="progress-bar">
-              <div class="progress" style="width: 80%"></div>
-            </div>
-          </div>
+        <!-- Interactive Buttons -->
+        <div class="action-buttons">
+          <a href="about.html" class="know-more-btn pulse">Access Full Profile <i class="fas fa-arrow-right"></i></a>
+          <a href="#" class="hire-me-btn" id="hireMeBtn">Hire Me <i class="fas fa-briefcase"></i></a>
         </div>
         
-        <!-- Know More Button -->
-        <a href="about.html" class="know-more-btn">Access Full Profile <i class="fas fa-arrow-right"></i></a>
-        
-        <img class="signature-img" src="assets/sign.svg" alt="Signature" id="signature">
-        
-        <!-- Visitor Counter -->
-        <div class="visitor-counter">
-          <i class="fas fa-users"></i>
-          <span>Visitors: <span id="visitorCount">0</span></span>
-        </div>
+        <img class="signature-img" src="assets/sign.svg" alt="Signature">
       </div>
     </div>
     
-    <!-- Projects Showcase (Hidden by default) -->
-    <div class="projects-section" id="projectsSection">
-      <h2 class="section-title">My Projects</h2>
-      <div class="projects-grid">
-        <div class="project-card">
-          <div class="project-image">
-            <img src="assets/project1.jpg" alt="Project 1">
-          </div>
-          <div class="project-info">
-            <h3>Portfolio Website</h3>
-            <p>A responsive portfolio website built with HTML, CSS, and JavaScript.</p>
-            <div class="project-tags">
-              <span>HTML</span>
-              <span>CSS</span>
-              <span>JS</span>
-            </div>
-            <a href="#" class="project-link">View Project</a>
-          </div>
-        </div>
-        <div class="project-card">
-          <div class="project-image">
-            <img src="assets/project2.jpg" alt="Project 2">
-          </div>
-          <div class="project-info">
-            <h3>E-commerce App</h3>
-            <p>Full-stack e-commerce application with React and Node.js.</p>
-            <div class="project-tags">
-              <span>React</span>
-              <span>Node.js</span>
-              <span>MongoDB</span>
-            </div>
-            <a href="#" class="project-link">View Project</a>
+    <!-- Projects Showcase (Hidden by default, appears after authentication) -->
+    <div class="projects-grid" id="projectsGrid">
+      <div class="project-card" data-category="web">
+        <div class="project-image">
+          <img src="assets/project1.jpg" alt="Project 1">
+          <div class="project-overlay">
+            <h3>E-Commerce Website</h3>
+            <p>Full-stack e-commerce solution with payment integration</p>
+            <a href="#" class="project-link">View Details</a>
           </div>
         </div>
       </div>
+      <!-- More project cards... -->
     </div>
   </div>
 
@@ -163,16 +115,20 @@
       <div class="loading" id="loading">
         <div class="loading-spinner"></div>
         <div class="loading-text">ProBoy AUTHENTICATION IN PROGRESS</div>
+        <div class="progress-bar">
+          <div class="progress"></div>
+        </div>
       </div>
       
       <div class="login-header">
-        <h2>Proboy ACCESS</h2>
+        <h2 class="neon-text">Proboy ACCESS</h2>
         <p>Access My Digital World</p>
       </div>
 
       <div class="auth-toggle">
         <button class="auth-btn active" id="signInTab">Sign In</button>
         <button class="auth-btn" id="signUpTab">Sign Up</button>
+        <button class="auth-btn" id="guestTab">Continue as Guest</button>
       </div>
 
       <!-- Sign In Form -->
@@ -185,7 +141,7 @@
         <div class="input-group">
           <i class="fas fa-key"></i>
           <input type="password" id="password" placeholder="Password" required autocomplete="current-password">
-          <span class="show-password" id="showLoginPassword"><i class="fas fa-eye"></i></span>
+          <i class="fas fa-eye toggle-password" id="togglePassword"></i>
         </div>
         
         <div class="remember-forgot">
@@ -195,16 +151,16 @@
           <a href="#" id="forgotPassword">Forgot password?</a>
         </div>
         
-        <button type="submit" class="btn">
+        <button type="submit" class="btn pulse">
           <i class="fas fa-sign-in-alt"></i> Authenticate
         </button>
         
         <div class="social-login">
           <p>Or sign in with:</p>
           <div class="social-icons">
-            <button type="button" class="social-btn google"><i class="fab fa-google"></i></button>
-            <button type="button" class="social-btn github"><i class="fab fa-github"></i></button>
-            <button type="button" class="social-btn twitter"><i class="fab fa-twitter"></i></button>
+            <a href="#" class="social-icon google"><i class="fab fa-google"></i></a>
+            <a href="#" class="social-icon github"><i class="fab fa-github"></i></a>
+            <a href="#" class="social-icon twitter"><i class="fab fa-twitter"></i></a>
           </div>
         </div>
         
@@ -226,7 +182,10 @@
         <div class="input-group">
           <i class="fas fa-key"></i>
           <input type="password" id="newPassword" placeholder="Password" required>
-          <span class="show-password" id="showSignupPassword"><i class="fas fa-eye"></i></span>
+          <div class="password-strength">
+            <span class="strength-bar"></span>
+            <span class="strength-text">Weak</span>
+          </div>
         </div>
         
         <div class="input-group">
@@ -234,85 +193,86 @@
           <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
         </div>
         
-        <div class="terms">
-          <label>
-            <input type="checkbox" id="agreeTerms" required>
-            I agree to the <a href="#">Terms & Conditions</a>
-          </label>
-        </div>
-        
-        <button type="submit" class="btn">
+        <button type="submit" class="btn pulse">
           <i class="fas fa-paper-plane"></i> Request Access
         </button>
       </form>
-    </div>
-  </div>
-
-  <!-- Forgot Password Modal -->
-  <div class="modal-overlay" id="forgotModal">
-    <div class="forgot-container">
-      <span class="close-modal" id="closeForgotModal">&times;</span>
-      <div class="forgot-header">
-        <h2>Reset Password</h2>
-        <p>Enter your email to receive a reset link</p>
-      </div>
-      <form id="forgotForm">
+      
+      <!-- Guest Access Form -->
+      <form class="guest-form" id="guestForm">
         <div class="input-group">
-          <i class="fas fa-envelope"></i>
-          <input type="email" id="resetEmail" placeholder="Your Email" required>
+          <i class="fas fa-user-secret"></i>
+          <input type="text" id="guestName" placeholder="Your Name (Optional)">
         </div>
-        <button type="submit" class="btn">
-          <i class="fas fa-paper-plane"></i> Send Reset Link
+        <button type="submit" class="btn pulse">
+          <i class="fas fa-user"></i> Explore Portfolio
         </button>
       </form>
     </div>
   </div>
-
-  <!-- Image Viewer Modal -->
-  <div class="modal-overlay" id="imageViewer">
-    <div class="image-viewer-container">
-      <span class="close-modal" id="closeImageViewer">&times;</span>
-      <img id="fullSizeImage" src="" alt="Full Size Image">
+  
+  <!-- Hire Me Modal -->
+  <div class="modal-overlay" id="hireModal">
+    <div class="hire-container">
+      <span class="close-modal" id="closeHireModal">&times;</span>
+      <h2>Hire ProBoy</h2>
+      <p>Let's work together on your next project</p>
+      
+      <form id="hireForm">
+        <div class="form-group">
+          <label for="hireName">Your Name</label>
+          <input type="text" id="hireName" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="hireEmail">Email</label>
+          <input type="email" id="hireEmail" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="hireBudget">Project Budget ($)</label>
+          <select id="hireBudget">
+            <option value="500-1000">$500 - $1000</option>
+            <option value="1000-5000">$1000 - $5000</option>
+            <option value="5000+">$5000+</option>
+            <option value="undecided">Not sure yet</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="hireType">Project Type</label>
+          <div class="checkbox-group">
+            <label><input type="checkbox" name="hireType" value="web"> Web Development</label>
+            <label><input type="checkbox" name="hireType" value="mobile"> Mobile App</label>
+            <label><input type="checkbox" name="hireType" value="design"> UI/UX Design</label>
+            <label><input type="checkbox" name="hireType" value="other"> Other</label>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="hireDetails">Project Details</label>
+          <textarea id="hireDetails" rows="5" required></textarea>
+        </div>
+        
+        <button type="submit" class="btn pulse">
+          <i class="fas fa-paper-plane"></i> Send Request
+        </button>
+      </form>
     </div>
   </div>
 
   <footer>
-    <div class="footer-content">
-      <div class="footer-section">
-        <h3>Quick Links</h3>
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="projects.html">Projects</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-      </div>
-      <div class="footer-section">
-        <h3>Connect With Me</h3>
-        <div class="social-icons">
-          <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
-          <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
-          <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
-          <a href="https://github.com" target="_blank"><i class="fab fa-github"></i></a>
-        </div>
-      </div>
-      <div class="footer-section">
-        <h3>Newsletter</h3>
-        <form id="newsletterForm">
-          <input type="email" placeholder="Your Email" required>
-          <button type="submit">Subscribe</button>
-        </form>
-      </div>
-    </div>
     <div class="copyright">
-      мα∂є ву <b>ProBoy</b> &copy; <span id="currentYear"></span> | All rights reserved
+      мα∂є ву <b class="neon-text">ProBoy</b> &copy; <span id="currentYear"></span> | All rights reserved
+    </div>
+    <div class="footer-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Sitemap</a>
     </div>
   </footer>
 
-  <!-- Back to Top Button -->
-  <button id="backToTop" class="back-to-top" title="Go to top"><i class="fas fa-arrow-up"></i></button>
-
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
   <script src="assets/script.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
 </body>
 </html>
