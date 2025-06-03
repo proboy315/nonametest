@@ -214,6 +214,8 @@
       <span id="duration">0:00</span>
     </div>
     
+    <div class="visualizer" id="visualizer"></div
+                                              
   </div>
 
   <script>
@@ -234,15 +236,6 @@
       source.connect(analyser);
       analyser.connect(audioContext.destination);
       analyser.fftSize = 64;
-
-      // Create visualizer bars
-      const barCount = 30;
-      for (let i = 0; i < barCount; i++) {
-        const bar = document.createElement('div');
-        bar.className = 'bar';
-        visualizer.appendChild(bar);
-      }
-      const bars = document.querySelectorAll('.bar');
 
       // Create floating particles
       for (let i = 0; i < 50; i++) {
