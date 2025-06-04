@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Live HTML Compiler</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: #0f0;
+    }
+    textarea {
+      flex: 1;
+      background: #222;
+      color: #0f0;
+      border: none;
+      padding: 10px;
+      font-size: 16px;
+      resize: none;
+      outline: none;
+    }
+    iframe {
+      flex: 1;
+      border: 2px solid #0f0;
+      background: white;
+    }
+  </style>
+</head>
+<body>
+  <textarea id="code" placeholder="Yahan HTML code likho..."></textarea>
+  <iframe id="preview"></iframe>
+
+  <script>
+    const codeArea = document.getElementById('code');
+    const previewFrame = document.getElementById('preview');
+
+    codeArea.addEventListener('input', () => {
+      const html = codeArea.value;
+      previewFrame.srcdoc = html;
+    });
+  </script>
+</body>
+</html>
