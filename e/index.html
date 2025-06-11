@@ -1,655 +1,231 @@
-
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/html" lang="en" ng-app="devStack">
+<html lang="en">
 <head>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-76NZRQKMXF"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
+  <meta charset="UTF-8">
+  <title>AES Encrypt / Decrypt</title>
+  <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.min.js"></script>
+  <style>
+    body {
+      background: #0f0f0f;
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
 
-        function gtag() {
-            dataLayer.push(arguments);
-        }
+    h1 {
+      color: crimson;
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
 
-        gtag('js', new Date());
-        gtag('config', 'G-76NZRQKMXF');
-    </script>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" charset="UTF-8"/>
-    <meta content='width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1, maximum-scale=5'
-          name='viewport'/>
-    <title>Encrypt and Decrypt Text or String Online</title>
-    <meta name="robots" content="index follow"/>
-    <meta name="description" content="Encrypt and decrypt any sensitive text or string with this online tool for free. Protect any sensitive string using robust encryption."/>
-    <meta name="author" content="DevGlan"/>
-    <link rel="publisher" href="https://www.linkedin.com/in/dhiraj-ray/"/>
-    <meta property="og:locale" content="en_US"/>
-    <meta property="og:type" content="website"/>
-    <meta property="og:title" content="Encrypt and Decrypt Text or String Online"/>
-    <meta property="og:description" content="Encrypt and decrypt any sensitive text or string with this online tool for free. Protect any sensitive string using robust encryption."/>
-    <meta property="og:site_name" content="devglan"/>
-    <meta property="og:image" content="https://destatic.blob.core.windows.net/images/logo.webp"/>
-    <meta property="article:publisher" content="https://www.facebook.com/devglanjava/"/>
-    <meta property="fb:admins" content="1766542550255713"/>
-    <meta name="twitter:card" content="summary"/>
-    <meta name="twitter:description" content="Encrypt and decrypt any sensitive text or string with this online tool for free. Protect any sensitive string using robust encryption."/>
-    <meta name="twitter:title" content="Encrypt and Decrypt Text or String Online"/>
-    <meta name="twitter:site" content="@devglan"/>
-    <meta name="twitter:image" content="https://destatic.blob.core.windows.net/images/logo.webp"/>
-    <meta name="twitter:creator" content="@only2dhir"/>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com"/>
-    <link rel="preconnect" href="https://www-devglan-com.disqus.com"/>
-    <base href="https://www.devglan.com/"/>
-    <meta name="google-site-verification" content="pcGimoh7HVlCiraucWwIZYVgSleXCl0y8uewA50qq9A"/>
-    <meta name="yandex-verification" content="12970d855513947f" />
-    <link rel="canonical" href="https://www.devglan.com/online-tools/text-encryption-decryption"/>
-    <link rel='shortcut icon' href='destatic/v3/assets/img/favicon/favicon.ico' type='image/x-icon'/>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="destatic/v3/assets/css/style-min.css"/>
-    <style>
-        label {
-            margin-bottom: 0;
-            display: flex;
-            font-weight: 450;
-        }
-        @media only screen and (max-width: 600px) {
-            .yl-blog-details-section {
-                padding: 50px 0;
-            }
-        }
-    </style>
+    .container {
+      width: 90%;
+      max-width: 800px;
+      background: #1e1e1e;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 30px #ff0000aa;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .toggle-container {
+      margin: 15px 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .toggle-label {
+      margin-right: 10px;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 30px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: crimson;
+      transition: .4s;
+      border-radius: 30px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 24px;
+      width: 24px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: seagreen;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(30px);
+    }
+
+    textarea, input {
+      width: 100%;
+      margin: 10px 0;
+      padding: 12px;
+      background: #111;
+      color: #fff;
+      border: 1px solid #444;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    button {
+      margin: 10px 5px;
+      padding: 10px 20px;
+      font-weight: bold;
+      background-color: crimson;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: darkred;
+    }
+
+    .output {
+      background: #111;
+      padding: 10px;
+      word-break: break-word;
+      border: 1px solid #444;
+      border-radius: 5px;
+      margin-top: 10px;
+      width: 100%;
+    }
+  </style>
 </head>
-<body class="yl-home">
-<div class="up">
-    <a href="#" class="scrollup text-center"><i class="fas fa-chevron-up"></i></a>
-</div>
-<header id="yl-header" class="yl-header-main">
-    <div class="yl-header-top clearfix mobile-logo" style="display: none; padding:0px;">
-        <div class="container">
-            <div class="yl-brand-logo float-left ">
-                <a href="https://www.devglan.com/"><img src="https://destatic.blob.core.windows.net/images/logo.webp"
-                                             alt="Devglan Logo"></a>
-            </div>
+<body>
 
-            <div class="yl-mobile-menu-wrap">
-                <div class="yl-mobile_menu position-relative">
-                    <div class="yl-mobile_menu_button yl-open_mobile_menu">
-                        <i class="fas fa-bars"></i>
-                    </div>
-                    <div class="yl-mobile_menu_wrap">
-                        <div class="mobile_menu_overlay yl-open_mobile_menu"></div>
-                        <div class="yl-mobile_menu_content">
-                            <div class="yl-mobile_menu_close yl-open_mobile_menu">
-                                <i class="fas fa-times"></i>
-                            </div>
-                            <div class="m-brand-logo text-center">
-                                <a href="https://www.devglan.com/"><img
-                                        src="https://destatic.blob.core.windows.net/images/logo.webp"
-                                        alt="Devglan Logo"></a>
-                            </div>
-                            <nav class="yl-mobile-main-navigation  clearfix ul-li">
-                                <ul id="m-main-nav" class="navbar-nav text-capitalize clearfix">
-                                    <li>
-                                        <a href="/programming/programming-tutorials">
-                                            Programming
-                                        </a>
-                                        
-                                    </li>
-                                    <li>
-                                        <a href="/testing/testing-tutorials">
-                                            Testing
-                                        </a>
-                                        
-                                    </li>
-                                    <li>
-                                        <a href="/ai/artificial-intelligence-tutorials">
-                                            Artificial Intelligence
-                                        </a>
-                                        
-                                    </li>
-                                    <li>
-                                        <a href="/devops/devops-tutorials">
-                                            Devops
-                                        </a>
-                                        
-                                    </li>
-                                    <li>
-                                        <a href="/datascience/datascience-tutorials">
-                                            Data Science
-                                        </a>
-                                        
-                                    </li>
-                                    <li>
-                                        <a href="/design/design-tutorials">
-                                            Design
-                                        </a>
-                                        
-                                    </li>
-                                    <li>
-                                        <a href="/blogs">
-                                            Tech Blogs
-                                        </a>
-                                        
-                                    </li>
-                                    <li>
-                                        <a href="/feeds/programming-feeds">
-                                            Tech Feed
-                                        </a>
-                                        
-                                    </li>
-                                    <li>
-                                        <a href="auth/login">
-                                            Login
-                                        </a>
-                                        
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <h1 id="pageTitle">🛡 AES Encrypt 🔓</h1>
+
+  <div class="container">
+
+    <div class="toggle-container">
+      <span class="toggle-label" id="modeLabel">Encrypt</span>
+      <label class="switch">
+        <input type="checkbox" id="modeToggle" onchange="toggleMode()">
+        <span class="slider"></span>
+      </label>
     </div>
-    <div class="yl-header-menu-wrap clearfix">
-        <div class="container-fluid ph-20  menu-center-cl">
-            <div class="yl-brand-logo float-left laptop-logo">
-                <a href="https://www.devglan.com/"><img src="https://destatic.blob.core.windows.net/images/logo.webp"
-                                             alt="devglan-logo"></a>
-            </div>
-            <div class="yl-main-nav-wrap float-left">
-                <nav class="yl-main-navigation ul-li">
-                    <ul id="main-nav" class="navbar-nav text-capitalize clearfix">
-                        <li>
-                            <a href="/programming/programming-tutorials">
-                                Programming
-                            </a>
-                            
-                        </li>
-                        <li>
-                            <a href="/testing/testing-tutorials">
-                                Testing
-                            </a>
-                            
-                        </li>
-                        <li>
-                            <a href="/ai/artificial-intelligence-tutorials">
-                                Artificial Intelligence
-                            </a>
-                            
-                        </li>
-                        <li>
-                            <a href="/devops/devops-tutorials">
-                                Devops
-                            </a>
-                            
-                        </li>
-                        <li>
-                            <a href="/datascience/datascience-tutorials">
-                                Data Science
-                            </a>
-                            
-                        </li>
-                        <li>
-                            <a href="/design/design-tutorials">
-                                Design
-                            </a>
-                            
-                        </li>
-                        <li>
-                            <a href="/blogs">
-                                Tech Blogs
-                            </a>
-                            
-                        </li>
-                        <li>
-                            <a href="/feeds/programming-feeds">
-                                Tech Feed
-                            </a>
-                            
-                        </li>
-                        <li>
-                            <a href="auth/login">
-                                Login
-                            </a>
-                            
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-            <div class="yl-course-more-btn yl-headline pera-content mt-0">
-                <a href="https://www.devglan.com/me/add-story">+ Submit</a>
-            </div>
-        </div>
+
+    <label id="inputLabel">Message to Encrypt</label>
+    <textarea id="mainInput" placeholder="Enter message..."></textarea>
+
+    <label>Secret Key</label>
+    <input type="text" id="keyInput" placeholder="Enter secret key...">
+
+    <div>
+      <button id="mainAction" onclick="handleAction()">Encrypt</button>
+      <button onclick="copyText()">Copy Output</button>
     </div>
-</header>
 
-<section id="yl-breadcrumb" class="yl-breadcrumb-section position-relative"
-         data-background="destatic/v3/assets/img/banner/page-header.jpg">
-    <span class="breadcrumb-overlay position-absolute"></span>
-    <div class="container">
-        <div class="yl-breadcrumb-content text-center yl-headline">
-            <h1>Encrypt & Decrypt Text Online</h1>
-            <div class="yl-breadcrumb-item ul-li">
-                <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="https://www.devglan.com/">Home</a></li>
-                    <li class="breadcrumb-item"><a href="https://www.devglan.com/cryptotools/cryptography-tools">Crypto
-                        Tools</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Text Encryption And Decryption</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</section>
-<section id="yl-blog-details" class="yl-blog-details-section" ng-controller="textEncryptionController">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-9">
-                <div class="yl-blog-details-content">
-                    <div class="yl-blog-details-wrap">
-                        <div class="yl-blog-details-text yl-headline">
-                            <article>
-                                <p>This online tool provides encryption and decryption of any text with a random key.
-                                    This tool uses a random key which nobody knows and hence provides the utmost
-                                    security
-                                    of any text that you want to protect.</p>
-                                <p>Also, you can try <a
-                                        href="https://www.devglan.com/online-tools/aes-encryption-decryption">this AES
-                                    encryption</a> if you
-                                    want to encrypt any text with a key of your choice.</p>
-                            </article>
-                            <article>
-                                <div class="row">
-                                    <div class="col-md-6 vertical-line">
-                                        <h2>Text Encryption</h2>
-                                        <label for="inputString">Enter any text to be Encrypted</label>
-                                        <textarea id="inputString" class="form-control input-lg" rows="5"
-                                                  placeholder="Enter plain text to be Encrypted"
-                                                  ng-model="textEncryption.textToEncrypt"
-                                                  name="textToEncrypt"></textarea>
-                                        <div class="d-flex pt-4">
-                                            <input type="checkbox" class="form-check-input m-1"
-                                                   id="encryptSecretKey" name="encryptSecretKey" value="true"
-                                                   ng-mode="encryptSecretKey"
-                                                   ng-click="encryptWithSecretKey()"/>
-                                            <label for="encryptSecretKey">Encrypt with a custom secret key <i
-                                                    class="fa fa-question-circle mark-que"
-                                                    aria-hidden="true"
-                                                    data-bs-toggle="tooltip"
-                                                    data-bs-placement="top"
-                                                    title="It is always recommended to use a strong secret key for encryption to be more secured from brute-force or dictionary attacks."></i></label>
-                                        </div>
-                                        <div class="yl-contact-form-input input-100 pt-4">
-                                            <label for="secretKey">Enter Secret Key <i
-                                                    class="fa fa-question-circle mark-que"
-                                                    aria-hidden="true"
-                                                    data-bs-toggle="tooltip"
-                                                    data-bs-placement="top"
-                                                    title="Remember, the encrypted text can't be decrypted without this secret key"></i></label>
-                                            <input class="form-control input-lg" id="secretKey"
-                                                   ng-model="textEncryption.secretKey"
-                                                   placeholder="Enter secret key" name="ekey"
-                                                   ng-disabled="!encryptSecretKey"/>
-                                        </div>
-                                        <div class="display-inline">
-                                            <div class="yl-course-more-btn Encryp-btn yl-headline pera-content mt-3">
-                                                <button class="text-white" ng-click="encryptText()">Encrypt</button>
-                                            </div>
-                                            <div class="spinner-border text-secondary" role="status"
-                                                 ng-show="showEncryptLoader">
-                                                <span class="visually-hidden">Loading...</span>
-                                            </div>
-                                        </div>
-                                        <div class="yl-contact-form-input input-100 pt-2">
-                                            <label for="outputString">Encrypted Output</label>
-                                            <textarea id="outputString" rows="5"
-                                                      placeholder="Result goes here"
-                                                      ng-model="textEncryption.encryptedText"
-                                                      name="outputString" style="width:100%"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <h2>Text Decryption </h2>
-                                        <label for="dinputString">Enter Encrypted Text to Decrypt</label>
-                                        <textarea id="dinputString" class="form-control input-lg" rows="5"
-                                                  ng-model="textEncryption.textToDecrypt"
-                                                  placeholder="Enter text to be Decrypted"
-                                                  name="textToDecrypt"></textarea>
-                                        <div class="d-flex pt-4">
-                                            <input type="checkbox" class="form-check-input m-1"
-                                                   id="dSecretKeyRequired" name="dSecretKeyRequired" value="true"
-                                                   ng-click="decryptWithSecretKey()"/>
-                                            <label for="dSecretKeyRequired">Decryption requires a custom secret
-                                                key</i></label>
-                                        </div>
-                                        <div class="yl-contact-form-input input-100 pt-4">
-                                            <label for="deSecretKey">Enter Secret Key <i
-                                                    class="fa fa-question-circle mark-que"
-                                                    aria-hidden="true"
-                                                    data-bs-toggle="tooltip"
-                                                    data-bs-placement="top"
-                                                    title="Enter the same secret key that was used during encryption."></i></label>
-                                            <input class="form-control input-lg" id="deSecretKey"
-                                                   placeholder="Enter secret key" name="deSecretKey"
-                                                   ng-model="textEncryption.deSecretKey"
-                                                   ng-disabled="!dSecretKeyRequired"/>
-                                        </div>
-                                        <div class="display-inline">
-                                            <div class="yl-course-more-btn Encryp-btn yl-headline pera-content mt-3">
-                                                <button class="text-white" ng-click="decryptText()">Decrypt</button>
-                                            </div>
-                                            <div class="spinner-border text-secondary" role="status"
-                                                 ng-show="showDecryptLoader">
-                                                <span class="visually-hidden">Loading...</span>
-                                            </div>
-                                        </div>
-                                        <div class="yl-contact-form-input input-100 pt-2">
-                                            <label for="doutputString">Decrypted Text</label>
-                                            <textarea id="doutputString" rows="5"
-                                                      placeholder="Decrypted Text"
-                                                      ng-model="textEncryption.decryptedText"
-                                                      name="outputString" style="width:100%"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </article>
-                            <article>
-                                <p class="mt-5"><strong>Any secret key value that you enter, or we generate
-                                    is not stored on this site, this tool is provided via an HTTPS URL to ensure that
-                                    any
-                                    secret keys cannot be stolen.</strong></p>
-                                <div class="yl-blog-details-wrap box-donate mt-4">
-                                    <h3 class="my-3">If you
-                                        appreciate this tool then you can consider donating.</h3>
-                                    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-                                        <input type="hidden" name="cmd" value="_s-xclick">
-                                        <input type="hidden" name="hosted_button_id" value="FZ7L5864RYNWC">
-                                        <input type="submit" name="submit" value="Donate Now"
-                                               class="btn btn-secondary donate-btn" data-bs-toggle="tooltip"
-                                               data-bs-placement="top">
-                                    </form>
-                                    <article class="mt-3">We are thankful for your never ending support.</article>
-                                </div>
-                            </article>
-                            <article>
-                                <h2>Text Encryption</h2>
-                                <p>
-                                    <a href="https://us.norton.com/blog/privacy/what-is-encryption"
-                                       rel="nofollow">Encryption</a> is the process by which a readable message is
-                                    converted to an unreadable form to prevent
-                                    unauthorized parties from reading it. Decryption is the process of converting an
-                                    encrypted message back
-                                    to its original (readable) format. The original message is called the plaintext
-                                    message.
-                                    The encrypted message is called the ciphertext message.</p>
-                                <h2>Text Decryption</h2>
-                                <p><a href="https://www.techopedia.com/definition/1773/decryption" rel="nofollow">Decryption</a>
-                                    is the process of transforming data that has been rendered unreadable through
-                                    encryption back to its unencrypted form.</p>
-                            </article>
-                            <article>
-                                <p>The best way to encrypt plaintext or passwords depends on several factors, including
-                                    the level of security required and the specific use case. Here are some recommended
-                                    practices:</p>
-                                <ul>
-                                    <li><strong>Use Established Algorithms:</strong>Use well-established encryption
-                                        algorithms such as AES (Advanced Encryption Standard) for symmetric encryption
-                                        and RSA (or ECC) for asymmetric encryption. These algorithms have undergone
-                                        rigorous scrutiny and are considered secure when implemented correctly.
-                                    </li>
-                                    <li><strong>Use Strong Keys:</strong>The strength of encryption largely depends on
-                                        the keys used. Use keys that are sufficiently long (e.g., AES-256 for symmetric
-                                        encryption) and generated using a cryptographically secure random number
-                                        generator.
-                                    </li>
-                                    <li><strong>Hashing for Passwords:</strong> For storing passwords, use a
-                                        cryptographic hash function like bcrypt, Argon2, or PBKDF2. These algorithms are
-                                        specifically designed for securely hashing passwords and include features like
-                                        salting to defend against rainbow table attacks.
-                                    </li>
-                                    <li><strong>Secure Key Management:</strong> Ensure that encryption keys are managed
-                                        securely. Never hardcode keys in your source code or store them alongside
-                                        encrypted data. Use key management services (KMS) provided by cloud providers or
-                                        hardware security modules (HSM) for key storage and management.
-                                    </li>
-                                    <li><strong>Transport Layer Security (TLS):</strong> When transmitting sensitive
-                                        data over a network, use TLS (Transport Layer Security) to encrypt data in
-                                        transit. This ensures data confidentiality and integrity between communicating
-                                        applications.
-                                    </li>
-                                    <li><strong>Secure Implementation:</strong>Implement encryption correctly according
-                                        to established best practices. Small implementation errors can lead to
-                                        vulnerabilities that compromise security.
-                                    </li>
-                                    <li><strong>Regular Updates and Audits: </strong>Regularly update your encryption
-                                        libraries and algorithms to mitigate against newly discovered vulnerabilities.
-                                        Conduct security audits to identify and address potential weaknesses in your
-                                        encryption practices.
-                                    </li>
-                                    <li><strong>Consider Compliance Requirements:</strong>Depending on your industry or
-                                        region, there may be specific compliance requirements (e.g., GDPR, HIPAA) for
-                                        encrypting sensitive data. Ensure your encryption practices comply with these
-                                        standards.
-                                    </li>
-                                    <li><strong>Defense in Depth:</strong>Use encryption as part of a broader
-                                        defense-in-depth strategy that includes access controls, secure coding
-                                        practices, and regular security training for personnel.
-                                    </li>
-                                </ul>
-                                <p>Encrypting plaintext and passwords is essential for protecting sensitive information
-                                    from unauthorized access. By following these best practices, you can enhance the
-                                    security of your data against various threats.</p>
-                            </article>
-                        </div>
-                    </div>
-                    <h3 class="m-3">References</h3>
-                    <ul class="links-further">
-                        <li><a href="https://en.wikipedia.org/wiki/Advanced_Encryption_Standard" target="_blank"
-                               rel="nofollow">AES wiki</a></li>
-                        <li>
-                            <a href="https://learn.microsoft.com/en-us/windows/win32/seccrypto/data-encryption-and-decryption"
-                               target="_blank" rel="nofollow">Data Encryption</a></li>
-                    </ul>
-                </div>
-                <div id="disqus_thread"></div>
-                <script>
-                    var disqus_config = function () {
-                        this.page.url = 'https://www.devglan.com/online-tools/text-encryption-decryption';
-                        this.page.identifier = 'https://www.devglan.com/online-tools/text-encryption-decryption';
-                    };
-                    (function () {
-                        var d = document, s = d.createElement('script');
+    <div class="output" id="outputBox"></div>
+  </div>
 
-                        s.src = '//www-devglan-com.disqus.com/embed.js';
+  <script>
+    let isDecryptMode = false;
 
-                        s.setAttribute('data-timestamp', +new Date());
-                        (d.head || d.body).appendChild(s);
-                    })();
-                </script>
-                <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript"
-                                                                  rel="nofollow">comments
-                    powered by Disqus.</a></noscript>
-            </div>
-            <div class="col-lg-3">
-                <div class="yl-blog-sidebar">
-                    <div class="yl-blog-widget-wrap">
-                        <div class="yl-category-widget yl-headline ul-li-block position-relative">
-                            <h3 class="widget-title">Other Free Tools</h3>
-                            <ul>
-                                <li class="list-group-item justify-content-between align-items-center">
-                                    <a href="online-tools/encrypt-decrypt-image-free">Encrypt Image Online</a>
-                                </li>
-                                <li class="list-group-item justify-content-between align-items-center">
-                                    <a href="online-tools/file-encryption-decryption">Online File Encrypt Decrypt</a>
-                                </li>
-                                <li class="list-group-item justify-content-between align-items-center">
-                                    <a href="online-tools/text-encryption-decryption">Online Text Encrypt Decrypt</a>
-                                </li>
-                                <li class="list-group-item justify-content-between align-items-center">
-                                    <a href="online-tools/bcrypt-hash-generator">Online Bcrypt Hashing</a>
-                                </li>
-                                <li class="list-group-item justify-content-between align-items-center">
-                                    <a href="online-tools/triple-des-encrypt-decrypt">Online DES Encrypt Decrypt</a>
-                                </li>
-                                <li class="list-group-item justify-content-between align-items-center">
-                                    <a href="online-tools/rijndael-encryption-decryption">Rijndael Encryption and Decryption</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="google_ad">
-                        <script async
-                                src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2256439533750580"
-                                crossorigin="anonymous"></script>
-                        <!-- ad-unit-right-new -->
-                        <ins class="adsbygoogle"
-                             style="display:block"
-                             data-ad-client="ca-pub-2256439533750580"
-                             data-ad-slot="1729185848"
-                             data-ad-format="auto"
-                             data-full-width-responsive="true"></ins>
-                        <script>
-                            (adsbygoogle = window.adsbygoogle || []).push({});
-                        </script>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+    function getAESKey(rawKey) {
+      const sha1 = CryptoJS.SHA1(CryptoJS.enc.Utf8.parse(rawKey));
+      const keyBytes = CryptoJS.enc.Hex.parse(sha1.toString().substring(0, 32));
+      return CryptoJS.enc.Hex.stringify(keyBytes);
+    }
 
-<footer id="yl-footer" class="yl-footer-section" data-background="destatic/v3/assets/img/f-bg.jpg">
-    <div class="container">
-        <div class="yl-footer-content-wrap">
-            <div class="row">
+    function handleAction() {
+      const input = document.getElementById('mainInput').value;
+      const key = document.getElementById('keyInput').value;
+      const keyBytes = CryptoJS.enc.Hex.parse(getAESKey(key));
 
-                <div class="col-lg-4 col-md-6">
-                    <div class="yl-footer-widget">
-                        <div class="yl-footer-info-widget ul-li">
-                            <h3 class="widget-title">Contact Us</h3>
-                            <ul class="address">
-                                <li>
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    <a href="/contact-us">30 Commercial Road
-                                        Fratton, Australia</a>
-                                </li>
-                                <li>
-                                    <i class="fas fa-envelope"></i><a href="mailto:#">hello@devglan.com</a>
-                                </li>
-                            </ul>
-                            <div class="yl-footer-social ul-li">
-                                <ul>
-                                    <li><a href="https://www.facebook.com/devglanjava/" aria-label="Devglan Facebook"><i
-                                            class="fab fa-facebook-f"></i></a></li>
-                                    <li><a href="https://twitter.com/devglan" aria-label="Devglan Twitter"><i
-                                            class="fab fa-twitter"></i></a></li>
-                                    <li><a href="https://www.linkedin.com/company/devglan"
-                                           aria-label="Devglan LinkedIn"><i class="fab fa-linkedin"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-6">
-                    <div class="yl-footer-widget">
-                        <div class="yl-footer-newslatter-widget pera-content">
-                            <h3 class="widget-title">Quick Links</h3>
-                            <ul class="footer-links">
-                                <li><a href="https://www.devglan.com/donate-to-devglan" target="_blank">Donate</a>
-                                </li>
-                                <li><a href="https://www.devglan.com/privacy"
-                                       target="_blank">Privacy Policy</a></li>
-                                <li><a href="https://www.devglan.com/about-us"
-                                       target="_blank">About Us</a></li>
-                                <li><a href="https://www.devglan.com/contact-us" target="_blank">
-                                    Contact Us</a></li>
-                            </ul>
+      if (!input || !key) {
+        alert("Message and key are required.");
+        return;
+      }
 
+      let result = "";
+      if (!isDecryptMode) {
+        const encrypted = CryptoJS.AES.encrypt(input, keyBytes, {
+          mode: CryptoJS.mode.ECB,
+          padding: CryptoJS.pad.Pkcs7
+        });
+        result = encrypted.toString();
+      } else {
+        try {
+          const decrypted = CryptoJS.AES.decrypt(input, keyBytes, {
+            mode: CryptoJS.mode.ECB,
+            padding: CryptoJS.pad.Pkcs7
+          });
+          result = decrypted.toString(CryptoJS.enc.Utf8) || "Invalid Key or Encrypted Text.";
+        } catch (e) {
+          result = "Decryption Failed.";
+        }
+      }
 
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-6">
-                    <div class="yl-footer-widget">
-                        <div class="yl-footer-newslatter-widget pera-content">
-                            <h3 class="widget-title newsection" style="visibility: hidden;">Quick Links</h3>
-                            <ul class="footer-links second-f-links">
+      document.getElementById('outputBox').innerText = result;
+    }
 
-                                <li><a href="https://www.devglan.com/datascience/datascience-tutorials" target="_blank">
-                                    Data Science</a></li>
-                                <li><a href="https://www.devglan.com/design/design-tutorials" target="_blank">
-                                    Design</a></li>
-                                <li><a href="https://www.devglan.com/blogs" target="_blank"> Blogs</a></li>
-                                <li><a href="https://www.devglan.com/submission-criteria" target="_blank"> Write For
-                                    us</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="yl-footer-widget">
-                        <div class="yl-footer-newslatter-widget pera-content">
-                            <h3 class="widget-title">Newsletter</h3>
-                            <p>Subscribe to our newsletter to get our
-                                latest update & news
-                            </p>
-                            <form action="#">
-                                <input type="email" placeholder="Your mail address">
-                                <button type="submit" aria-label="submit"><i class="far fa-paper-plane"></i></button>
-                            </form>
+    function copyText() {
+      const text = document.getElementById('outputBox').innerText;
+      navigator.clipboard.writeText(text);
+      alert("Copied to clipboard!");
+    }
 
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="yl-footer-copyright text-center">
-            <span>© 2024 Devglan | All rights reserved.</span>
-        </div>
-    </div>
-</footer>
-<!-- JS library -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.9/angular.min.js"></script>
-<script>var App = angular.module("devStack", []);
-App.controller("textEncryptionController",["$scope","$rootScope","$http","$q",function(t,e,r,n){t.textEncryption={},t.encryptSecretKey=!1,t.dSecretKeyRequired=!1,t.showEncryptLoader=!1,t.showDecryptLoader=!1,t.encryptWithSecretKey=function(){t.encryptSecretKey=!t.encryptSecretKey,t.textEncryption.secretKey=""},t.decryptWithSecretKey=function(){t.dSecretKeyRequired=!t.dSecretKeyRequired,t.textEncryption.deSecretKey=""},t.encryptText=function(){t.textEncryption.textToEncrypt?!t.encryptSecretKey||t.textEncryption.secretKey?(t.showEncryptLoader=!0,r.post("online-tools/text-encryption",t.textEncryption).then((function(e){t.showEncryptLoader=!1,400!=e.data.status?t.textEncryption=e.data:alert(e.data.message)}),(function(e){return t.showEncryptLoader=!1,-1==e.status&&(e.status=408,e.statusText="Server Timeout."),alert(e.status+":"+e.statusText),n.reject(e)}))):alert("Missing secret key"):alert("Missing plain text to be encrypted.")},t.decryptText=function(){t.textEncryption.textToDecrypt?!t.decryptSecretKey||t.textEncryption.deSecretKey?(t.showDecryptLoader=!0,r.post("online-tools/text-decryption",t.textEncryption).then((function(e){t.showDecryptLoader=!1,400!=e.data.status?t.textEncryption=e.data:alert(e.data.message)}),(function(e){return t.showDecryptLoader=!1,-1==e.status&&(e.status=408,e.statusText="Server Timeout."),alert(e.status+":"+e.statusText),n.reject(e)}))):alert("Missing secret key"):alert("Missing encrypted text.")}}]);
-App.config(function ($httpProvider) {
-    $httpProvider.interceptors.push(function ($q) {
-        return {
-            request: function (config) {
-                if (window.localStorage.getItem("devglan-data")) {
-                    try {
-                        config.headers.Authorization = 'Bearer ' + JSON.parse(window.localStorage.getItem("devglan-data")).token;
-                    } catch (err) {
-                        window.location.href = 'https://www.devglan.com/auth/login';
-                        return;
-                    }
-                }
-                return config;
-            },
-            response: function (response) {
-                if (response.data.status === 401) {
-                    window.location.href = 'https://www.devglan.com/auth/login';
-                    return;
-                }
-                return response;
-            },
-            responseError: function (errResponse) {
-                console.log(errResponse);
-                alert(errResponse.statusText);
-                return;
-            }
-        };
-    });
-});
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/js/bootstrap.min.js"></script>
-<script src="destatic/v3/assets/js/custom-min.js" async></script>
-<script>
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl)
-    })
-</script>
+    function toggleMode() {
+      isDecryptMode = document.getElementById('modeToggle').checked;
+
+      document.getElementById('pageTitle').innerText = isDecryptMode
+        ? "🛡 AES Decrypt 🔓"
+        : "🛡 AES Encrypt 🔓";
+
+      document.getElementById('inputLabel').innerText = isDecryptMode
+        ? "Message to Decrypt"
+        : "Message to Encrypt";
+
+      document.getElementById('mainInput').placeholder = isDecryptMode
+        ? "Enter encrypted message..."
+        : "Enter message...";
+
+      document.getElementById('mainAction').innerText = isDecryptMode
+        ? "Decrypt"
+        : "Encrypt";
+
+      document.getElementById('modeLabel').innerText = isDecryptMode
+        ? "Decrypt"
+        : "Encrypt";
+    }
+  </script>
 </body>
 </html>
